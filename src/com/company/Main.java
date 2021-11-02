@@ -8,6 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
+        System.out.println("Cancellatemi");
         CustomerController controller = new CustomerController();
         controller.addView(ViewIdentifier.START);
         controller.addView(ViewIdentifier.HOME);
