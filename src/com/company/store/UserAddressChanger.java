@@ -13,10 +13,9 @@ public class UserAddressChanger implements AddressBehavior {
         return instance;
     }
 
-    //TODO: implements method
     @Override
-    public void changeAddress() {
-
+    public void changeAddress(Shipment shipment, String newAddress) {
+        shipment.setDestinationAddress(newAddress);
     }
 
     private static UserAddressChanger instance = null;

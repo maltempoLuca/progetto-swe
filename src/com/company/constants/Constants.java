@@ -1,6 +1,4 @@
 package com.company.constants;
-import java.util.LinkedList;
-import java.util.List;
 
 public class Constants {
 
@@ -9,10 +7,21 @@ public class Constants {
     public static final int LOW_PRIORITY = 2;
 
     //shipment states
-    //TODO: define all state
-    public static final String INITIAL_STATE = "Shipment created";
-    public static final String ON_GOING_STATE = "On going";
-    public static final List<String> states = List.of(INITIAL_STATE, "On going");
+    public static final ShipmentState DELIVERED = new ShipmentState("Delivered", null);
+    public static final ShipmentState IN_DELIVERY = new ShipmentState("In delivery", DELIVERED);
+    public static final ShipmentState IN_TRANSIT = new ShipmentState("In transit", IN_DELIVERY);
+    public static final ShipmentState SENT = new ShipmentState("Sent", IN_TRANSIT);
+    public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
+
+    //return states
+    public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
+    public static final ShipmentState PICKED_UP = new ShipmentState("Picked up", RETURN_DELIVERED);
+    public static final ShipmentState RETURN_CREATED = new ShipmentState("Return created", PICKED_UP);
+
+    //change address states
+    public static final ShipmentState ADDRESS_UPDATED = new ShipmentState("Address updated", SENT);
+    public static final ShipmentState REQUEST_RECEIVED = new ShipmentState("Request received", ADDRESS_UPDATED);
+
 
     //type of services
     public static final String STANDARD = "Standard";

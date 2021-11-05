@@ -15,8 +15,8 @@ public class UserAddressDenier implements AddressBehavior {
 
     //TODO: implement method
     @Override
-    public void changeAddress() {
-
+    public void changeAddress(Shipment shipment, String newAddress) {
+        //TODO: throw exception
     }
 
     private static UserAddressDenier instance = null;

@@ -1,5 +1,6 @@
 package com.company.store;
 import com.company.constants.Constants;
+import com.company.constants.ShipmentState;
 
 public class Shipment {
 
@@ -12,8 +13,12 @@ public class Shipment {
         this.id = id;
     }
 
-    public void setState(String state) {
+    public void setState(ShipmentState state) {
         this.state = state;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 
     public String getSender() {
@@ -40,7 +45,7 @@ public class Shipment {
         return id;
     }
 
-    public String getState() {
+    public ShipmentState getState() {
         return state;
     }
 
@@ -50,5 +55,5 @@ public class Shipment {
     private String destinationAddress;
     private String contents;
     private String id;
-    private String state = Constants.INITIAL_STATE;
+    private ShipmentState state = Constants.CREATED;
 }

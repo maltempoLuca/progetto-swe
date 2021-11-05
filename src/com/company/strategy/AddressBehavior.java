@@ -1,5 +1,8 @@
 package com.company.strategy;
 
+import com.company.store.Shipment;
+
 public interface AddressBehavior {
-    void changeAddress();
+
+    void changeAddress(Shipment shipment, String newAddress);
 }

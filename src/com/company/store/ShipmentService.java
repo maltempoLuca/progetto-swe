@@ -1,7 +1,7 @@
 package com.company.store;
-import com.company.constants.Constants;
 import com.company.strategy.AddressBehavior;
-import java.util.List;
+import com.company.strategy.CancelBehavior;
+import com.company.strategy.ReturnBehavior;
 
 public abstract class ShipmentService {
 
@@ -11,7 +11,10 @@ public abstract class ShipmentService {
     }
 
     public void updateShipmentState() {
-
+        shipment.setState(shipment.getState().getNextState());
+        changeAddressBehavior();
+        changeCancelBehavior();
+        changeReturnBehavior();
     }
 
     void changeAddress() {
@@ -26,15 +29,48 @@ public abstract class ShipmentService {
 
     }
 
-    void setAddressBehavior() {
-        //TODO: define all cases or change idea
-        if (shipment.getState().equals(Constants.INITIAL_STATE))
-            addressBehavior = UserAddressDenier.getInstance();
-        if (shipment.getState().equals(Constants.ON_GOING_STATE))
-            addressBehavior = UserAddressChanger.getInstance();
+    abstract void changeAddressBehavior();
+
+    abstract void changeCancelBehavior();
+
+    abstract void changeReturnBehavior();
+
+    //TODO: implement method
+    void cancelShipment() {
+
+    }
+
+    public Shipment getShipment() {
+        return shipment;
+    }
+
+    public void setAddressBehavior(AddressBehavior addressBehavior) {
+        this.addressBehavior = addressBehavior;
+    }
+
+    public AddressBehavior getAddressBehavior() {
+        return addressBehavior;
+    }
+
+    public void setCancelBehavior(CancelBehavior cancelBehavior) {
+        this.cancelBehavior = cancelBehavior;
+    }
+
+    public CancelBehavior getCancelBehavior() {
+        return cancelBehavior;
+    }
+
+    public ReturnBehavior getReturnBehavior() {
+        return returnBehavior;
+    }
+
+    public void setReturnBehavior(ReturnBehavior returnBehavior) {
+        this.returnBehavior = returnBehavior;
     }
 
     private final int priority;
     private final Shipment shipment;
-    private AddressBehavior addressBehavior;
+    private AddressBehavior addressBehavior = UserAddressChanger.getInstance();
+    private CancelBehavior cancelBehavior = CancelAllower.getInstance();
+    private ReturnBehavior returnBehavior = ReturnDenier.getInstance();
 }
