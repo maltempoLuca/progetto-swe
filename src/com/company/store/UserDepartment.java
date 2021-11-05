@@ -13,17 +13,19 @@ public class UserDepartment {
     }
 
     public int registerUser(String email, String password) {
-        if (usrLoginInfo.containsKey(email))
+        String lowerCaseEmail = email.toLowerCase();
+        if (usrLoginInfo.containsKey(lowerCaseEmail))
             return 0;
         else {
-            usrLoginInfo.put(email, password);
+            usrLoginInfo.put(lowerCaseEmail, password);
             return 1;
         }
     }
 
     public int loginUser(String email, String password) {
-        if (usrLoginInfo.containsKey(email))
-            if (password.equals(usrLoginInfo.get(email)))
+        String lowerCaseEmail = email.toLowerCase();
+        if (usrLoginInfo.containsKey(lowerCaseEmail))
+            if (password.equals(usrLoginInfo.get(lowerCaseEmail)))
                 return 1;
             else
                 return 0;
