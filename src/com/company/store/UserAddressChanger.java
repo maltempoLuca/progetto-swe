@@ -1,5 +1,4 @@
 package com.company.store;
-import com.company.strategy.AddressBehavior;
 
 public class UserAddressChanger implements AddressBehavior {
 

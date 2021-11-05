@@ -1,7 +1,5 @@
 package com.company.store;
 
-import com.company.strategy.CancelBehavior;
-
 public class CancelDenier implements CancelBehavior {
 
     private CancelDenier() {

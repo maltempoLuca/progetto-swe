@@ -1,5 +1,4 @@
-package com.company.strategy;
-
+package com.company.store;
 import com.company.store.Shipment;
 
 public interface AddressBehavior {

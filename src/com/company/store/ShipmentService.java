@@ -1,7 +1,4 @@
 package com.company.store;
-import com.company.strategy.AddressBehavior;
-import com.company.strategy.CancelBehavior;
-import com.company.strategy.ReturnBehavior;
 
 public abstract class ShipmentService {
 
@@ -11,14 +8,15 @@ public abstract class ShipmentService {
     }
 
     public void updateShipmentState() {
+        //TODO: throw exception if nextState == null
         shipment.setState(shipment.getState().getNextState());
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
     }
 
-    void changeAddress() {
-
+    void changeAddress(String newAddress) {
+        addressBehavior.changeAddress(shipment, newAddress);
     }
 
     void createReturn() {

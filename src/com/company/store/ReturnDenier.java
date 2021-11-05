@@ -1,7 +1,5 @@
 package com.company.store;
 
-import com.company.strategy.ReturnBehavior;
-
 public class ReturnDenier implements ReturnBehavior {
 
     private ReturnDenier() {

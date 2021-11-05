@@ -1,7 +1,5 @@
 package com.company.store;
 
-import com.company.strategy.CancelBehavior;
-
 public class CancelAllower implements CancelBehavior {
 
     private CancelAllower() {
