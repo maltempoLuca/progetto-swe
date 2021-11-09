@@ -1,22 +1,19 @@
 package com.company.ui;
 
-import com.company.constants.ButtonEvent;
+import com.company.events.listener.Event;
+import com.company.events.GlobalEventManager;
 
-public class Button {
+public abstract class Button {
 
-    public Button(ButtonEvent event, String text) {
-        this.event = event;
-        this.text = text;
+    Button(Event thrownEvent) {
+        this.thrownEvent = thrownEvent;
     }
 
-    public final ButtonEvent getEvent() {
-        return event;
+    public void onClick() {
+        GlobalEventManager.getInstance().throwEvent(thrownEvent);
     };
 
-    public final String getText() {
-        return text;
-    };
+    public abstract String getText();
 
-    private final ButtonEvent event;
-    private final String text;
+    Event thrownEvent;
 }

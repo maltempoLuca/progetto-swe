@@ -1,17 +1,18 @@
 package com.company.ui;
-import com.company.constants.ButtonEvent;
-import com.company.constants.ViewIdentifier;
+import com.company.events.listener.Event;
 
 public final class NavigationButton extends Button {
+    //a button associated to a NavigationEvent
 
-    public NavigationButton(String text, ViewIdentifier nextView) {
-        super(ButtonEvent.CHANGE_VIEW, text);
-        this.nextView = nextView;
+    public NavigationButton(Event thrownEvent, String text) {
+        super(thrownEvent);
+        this.text = text;
     }
 
-    public ViewIdentifier getNextView() {
-        return nextView;
+    @Override
+    public String getText() {
+        return text;
     }
 
-    private final ViewIdentifier nextView;
+    private final String text;
 }

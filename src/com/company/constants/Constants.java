@@ -29,9 +29,20 @@ public class Constants {
 
     //button texts
     public static final String BACK_TEXT = "BACK";
+    public static final String REGISTER_TEXT = "REGISTER";
+    public static final String LOGIN_TEXT = "LOGIN";
+    public static final String LOG_OUT_TEXT = "LOG OUT";
     public static final String TO_CATALOG_TEXT = "See Catalog";
 
     //view top texts
     public static final String HOME_TOP_TEXT = "Welcome!\n This is the Home";
     public static final String CATLOG_TOP_TEXT = "Here's the Catalog:";
+
+    //view identifiers
+    public static final String START = "START";
+    public static final String REGISTER = "REGISTER";
+    public static final String LOGIN = "LOGIN";
+    public static final String HOME = "HOME";
+    public static final String CART = "CART";
+    public static final String CATALOG = "CATALOG";
 }

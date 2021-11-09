@@ -1,5 +1,5 @@
 package com.company.constants;
 
-public enum ButtonEvent {
+public enum EventIdentifier {
     CHANGE_VIEW, LOG_OUT, REGISTER, LOGIN, CHANGE_ADDRESS, CANCEL, RETURN
 }

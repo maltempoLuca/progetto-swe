@@ -1,17 +1,18 @@
 package com.company.store;
-import com.company.constants.ButtonEvent;
-import com.company.constants.ViewIdentifier;
+import com.company.constants.Constants;
+import com.company.constants.EventIdentifier;
+import com.company.events.listener.Event;
+import com.company.events.listener.EventListener;
+import com.company.events.GlobalEventManager;
 import com.company.mvc.*;
 import com.company.ui.CustomerView;
-import com.company.ui.Button;
-import com.company.ui.NavigationButton;
 import com.company.ui.ViewFactory;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public final class CustomerController implements Controller {
+public final class CustomerController implements Controller, EventListener {
 
     @Override
     public void getInput() {
@@ -25,7 +26,7 @@ public final class CustomerController implements Controller {
                 String key = scanner.nextLine();
 
                 if (key.equalsIgnoreCase("p")) {
-                    checkButton(currentView.getCurrentButton());
+                    currentView.getCurrentButton().onClick();
                 } else if (key.equalsIgnoreCase("u")) {
                     moveUp();
                 } else if (key.equalsIgnoreCase("d")) {
@@ -41,22 +42,51 @@ public final class CustomerController implements Controller {
         }
     }
 
+    @Override
+    public void handleEvent(Event event) {
+
+        EventIdentifier identifier = event.getIdentifier();
+
+        try {
+
+            switch (identifier) {
+                case CHANGE_VIEW:
+                    selectView(event.getInfo());
+                    break;
+
+                case REGISTER:
+                    scanRegister();
+                    break;
+
+                case LOGIN:
+                    scanLogin();
+                    break;
+
+                case LOG_OUT:
+                    logOut();
+                    break;
+
+                case CHANGE_ADDRESS:
+                    break;
+                default:
+            }
+        } catch (UnsupportedOperationException e) {
+            currentView.setWarning(e.getMessage());
+            currentView.refresh();
+        }
+    }
+
     public void init() {
+        GlobalEventManager.getInstance().subscribe(this, EventIdentifier.values());
         if (currentView != null) {
             currentView.refresh();
             getInput();
         }
     }
 
-    //TODO: test view selection
-    public void selectView(ViewIdentifier identifier) {
-        currentView.clear();
-        currentView = views.get(identifier);
-        currentView.refresh();
-    }
-
+    /*
     public void checkButton(Button button) {
-        ButtonEvent event = button.getEvent();
+        EventIdentifier event = button.getEvent();
 
         switch(event) {
             case CHANGE_VIEW:
@@ -84,6 +114,7 @@ public final class CustomerController implements Controller {
             default:
         }
     }
+    */
 
     private void scanLogin() {
         //LoginView loginView = LoginView.getInstance();
@@ -104,7 +135,7 @@ public final class CustomerController implements Controller {
         //String password = scanner.nextLine();
 
         String password = getText();
-        ViewIdentifier nextView;
+        String nextView;
 
         int success = userDepartment.loginUser(email, password);
         if (success == 0) {
@@ -112,15 +143,15 @@ public final class CustomerController implements Controller {
 
             currentView.setWarning("Email o Password errata, per riprovare premere p.");
             currentView.refreshWarning();
-            nextView = ViewIdentifier.START;
+            nextView = Constants.START;
 
         } else {
 
             currentView.setWarning("Login riuscito, digitare 'p' continuare.");
             currentView.refreshWarning();
             currentUser = email;
-            views.get(ViewIdentifier.HOME).setTopText("Ciao " + currentUser + " benvenuto su Pippo.com");
-            nextView = ViewIdentifier.HOME;
+            views.get(Constants.HOME).setTopText("Ciao " + currentUser + " benvenuto su Pippo.com");
+            nextView = Constants.HOME;
 
             //loginView.accessGranted();
 
@@ -178,7 +209,7 @@ public final class CustomerController implements Controller {
             input = scanner.nextLine();
         }
 
-        ViewIdentifier nextView = ViewIdentifier.START;
+        String nextView = Constants.START;
 
         //nextView(currentView.currentState());
 
@@ -189,7 +220,7 @@ public final class CustomerController implements Controller {
         if (currentUser != null) {
             currentUser = null;
         }
-        selectView(ViewIdentifier.START);
+        selectView(Constants.START);
     }
     
     private String getText() {
@@ -208,22 +239,29 @@ public final class CustomerController implements Controller {
         currentView.refresh();
     }
 
-    public void addView(ViewIdentifier view) {
-        CustomerView newView = (CustomerView) ViewFactory.getInstance().factoryMethod(view);
+    public void addView(String viewIdentifier) {
+        CustomerView newView = (CustomerView) ViewFactory.getInstance().factoryMethod(viewIdentifier);
         if (views.isEmpty()) {
-            views.put(view, newView);
+            views.put(viewIdentifier, newView);
             currentView = newView;
-        } else if (!views.containsKey(view)) {
-           views.put(view, newView);
+        } else if (!views.containsKey(viewIdentifier)) {
+           views.put(viewIdentifier, newView);
         } else {
             //TODO: throw exception
         }
+    }
+
+    //TODO: test view selection
+    public void selectView(String viewIdentifier) {
+        currentView.clear();
+        currentView = views.get(viewIdentifier);
+        currentView.refresh();
     }
 
     private String currentUser = null;
     private final UserDepartment userDepartment = UserDepartment.getInstance();
     private boolean active = true;
     private CustomerView currentView = null;
-    private final Map<ViewIdentifier, CustomerView> views = new HashMap<>();
+    private final Map<String, CustomerView> views = new HashMap<>();
     private final Scanner scanner = new Scanner(System.in);
 }

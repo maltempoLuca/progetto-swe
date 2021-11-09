@@ -20,23 +20,22 @@ public final class ViewFactory implements Factory {
 
     @Override
     public View factoryMethod(Object... params) {
-        //params[0] = ViewIdentifier
+        //params[0] = String -must be a view identifier
 
         View newView = null;
 
-        if (params[0] instanceof ViewIdentifier) {
-            ViewIdentifier requestedView = (ViewIdentifier) params[0];
+        if (params[0] instanceof String requestedView) {
             switch (requestedView) {
 
-                case START:
+                case Constants.START:
                     newView = createStartView();
                     break;
 
-                case HOME:
+                case Constants.HOME:
                     newView = createHomeView();
                     break;
 
-                case CATALOG:
+                case Constants.CATALOG:
                     newView = createCatalogView();
                     break;
 
@@ -65,8 +64,8 @@ public final class ViewFactory implements Factory {
 
     CustomerView createCatalogView() {
         CustomerView newCatalogView = new CustomerView(Constants.CATLOG_TOP_TEXT);
-        newCatalogView.addButton((Button) ButtonFactory.getInstance().factoryMethod(ButtonIdentifier.BACK, ViewIdentifier.HOME));
-        newCatalogView.addButton((Button) ButtonFactory.getInstance().factoryMethod(ButtonIdentifier.CATALOG));
+        newCatalogView.addButton(ButtonFactory.getInstance().factoryMethod(ButtonIdentifier.BACK, Constants.HOME));
+        newCatalogView.addButton(ButtonFactory.getInstance().factoryMethod(ButtonIdentifier.CATALOG));
         return newCatalogView;
     }
 

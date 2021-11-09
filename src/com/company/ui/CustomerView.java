@@ -2,14 +2,14 @@ package com.company.ui;
 
 import com.company.mvc.View;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 
-public final class CustomerView implements View {
+public class CustomerView implements View {
 
-    public CustomerView(String textField) {
-        this.topText = textField;
-        readButtons();
+    public CustomerView(String topText) {
+        this.topText = topText;
     }
 
     @Override
@@ -100,6 +100,9 @@ public final class CustomerView implements View {
         return buttons.get(currentButtonIndex);
     }
 
+    List<Button> getButtons() {
+        return buttons;
+    }
 
     private int currentButtonIndex = -1;
     private final List<Button> buttons = new LinkedList<>();

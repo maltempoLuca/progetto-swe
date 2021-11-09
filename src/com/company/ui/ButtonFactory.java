@@ -1,10 +1,12 @@
 package com.company.ui;
 
-import com.company.constants.ButtonEvent;
+import com.company.constants.EventIdentifier;
 import com.company.constants.ButtonIdentifier;
-import com.company.constants.ViewIdentifier;
+import com.company.events.listener.Event;
+import com.company.events.EventFactory;
 import com.company.factory.Factory;
 import com.company.constants.Constants;
+import com.company.store.Shipment;
 
 public final class ButtonFactory implements Factory {
     private ButtonFactory() {
@@ -20,36 +22,43 @@ public final class ButtonFactory implements Factory {
     @Override
     public Button factoryMethod(Object... params) {
         //params[0] = ButtonIdentifier
-        //paras[1] = ViewIdentifier - for BACK button only
+        //params[1] = String (ViewIdentifier) - for BACK button only
+        //params[1] = Shipment - for shipment button only
 
         Button newButton = null;
 
-        if (params[0] instanceof ButtonIdentifier) {
+        if (params[0] instanceof ButtonIdentifier requestedButton) {
 
-            ButtonIdentifier requestedButton = (ButtonIdentifier) params[0];
             switch (requestedButton) {
                 case BACK:
-                    if (params[1] instanceof ViewIdentifier) {
-                        newButton = createBackButton((ViewIdentifier) params[1]);
+                    if (params[1] instanceof String viewIdentfier) {
+                        newButton = createNavigationButton(Constants.BACK_TEXT, viewIdentfier);
+                    } else {
+                        //TODO: throw exception
+                    }
+                    break;
+                case SHIPMENT:
+                    if(params[1] instanceof Shipment shipment) {
+                        newButton = createShipmentButton(shipment);
                     } else {
                         //TODO: throw exception
                     }
                     break;
 
                 case REGISTER:
-                    newButton = createRegisterButton();
+                    newButton = createSimpleButton(EventIdentifier.REGISTER, Constants.REGISTER_TEXT);
                     break;
 
                 case LOGIN:
-                    newButton = createLoginButton();
+                    newButton = createSimpleButton(EventIdentifier.LOGIN, Constants.LOGIN_TEXT);
                     break;
 
                 case LOG_OUT:
-                    newButton = createLogoutButton();
+                    newButton = createSimpleButton(EventIdentifier.LOG_OUT, Constants.LOG_OUT_TEXT);
                     break;
 
                 case CATALOG:
-                    newButton = createCatalogButton();
+                    newButton = createNavigationButton(Constants.TO_CATALOG_TEXT, Constants.CATALOG);
                     break;
 
                 default:
@@ -62,29 +71,19 @@ public final class ButtonFactory implements Factory {
         return newButton;
     }
 
-    private NavigationButton createBackButton(ViewIdentifier nextView) {
-        NavigationButton newBackButton = new NavigationButton(Constants.BACK_TEXT, nextView);
-        return newBackButton;
+    private SimpleButton createSimpleButton(EventIdentifier thrownEventId, String text) {
+        Event thrownEvent = EventFactory.getInstance().factoryMethod(thrownEventId);
+        return new SimpleButton(thrownEvent, text);
     }
 
-    private Button createLogoutButton() {
-        Button newLogoutButton = new Button(ButtonEvent.LOG_OUT, "LOG OUT");
-        return newLogoutButton;
+    private NavigationButton createNavigationButton(String text, String nextView) {
+        Event thrownEvent = EventFactory.getInstance().factoryMethod(EventIdentifier.CHANGE_VIEW, nextView);
+        return new NavigationButton(thrownEvent, text);
     }
 
-    private NavigationButton createCatalogButton() {
-        NavigationButton newCatalogButton = new NavigationButton(Constants.TO_CATALOG_TEXT, ViewIdentifier.CATALOG);
-        return newCatalogButton;
-    }
-
-    private Button createLoginButton() {
-        Button newLoginButton = new Button(ButtonEvent.LOGIN, "LOGIN");
-        return newLoginButton;
-    }
-
-    private Button createRegisterButton() {
-        Button newRegisterButton = new Button(ButtonEvent.REGISTER, "REGISTER");
-        return newRegisterButton;
+    private ShipmentButton createShipmentButton(Shipment shipment) {
+        Event thrownEvent = EventFactory.getInstance().factoryMethod(EventIdentifier.CHANGE_VIEW, shipment.getId());
+        return new ShipmentButton(thrownEvent, shipment.getId(), shipment.getState().getCurrentState());
     }
 
     private static ButtonFactory instance = null;
