@@ -12,6 +12,8 @@ public class Main {
         controller.addView(ViewIdentifier.START);
         controller.addView(ViewIdentifier.HOME);
         controller.addView(ViewIdentifier.CATALOG);
+        controller.addView(ViewIdentifier.REGISTER);
+        controller.addView(ViewIdentifier.LOGIN);
         controller.init();
     }
 }
