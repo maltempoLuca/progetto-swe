@@ -11,6 +11,10 @@ public class ShipmentState {
         return nextState;
     }
 
-    private static String currentState;
-    private ShipmentState nextState;
+    public String getCurrentState() {
+        return currentState;
+    }
+
+    private final String currentState;
+    private final ShipmentState nextState;
 }
