@@ -21,6 +21,7 @@ public class StandardService extends ShipmentService {
 
     @Override
     void changeReturnBehavior() {
-        //TODO: throw exception
+        if (getShipment().getState() == Constants.DELIVERED)
+            setReturnBehavior(ReturnAllower.getInstance());
     }
 }

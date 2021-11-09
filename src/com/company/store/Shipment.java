@@ -21,6 +21,18 @@ public class Shipment {
         this.destinationAddress = destinationAddress;
     }
 
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setSenderAddress(String senderAddress) {
+        this.senderAddress = senderAddress;
+    }
+
     public String getSender() {
         return sender;
     }

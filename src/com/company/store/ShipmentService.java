@@ -7,20 +7,25 @@ public abstract class ShipmentService {
         this.shipment = shipment;
     }
 
-    public void updateShipmentState() {
-        //TODO: throw exception if nextState == null
+    public void updateShipmentState() throws NullPointerException {
+        if (shipment.getState() == null)
+            throw new NullPointerException("La spedizione è già stata consegnata");
         shipment.setState(shipment.getState().getNextState());
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
     }
 
-    void changeAddress(String newAddress) {
+    void changeAddress(String newAddress) throws ChangeAddressException {
         addressBehavior.changeAddress(shipment, newAddress);
     }
 
-    void createReturn() {
+    void createReturn() throws ReturnException {
+        returnBehavior.createReturn(shipment);
+    }
 
+    void cancelShipment() throws CancelDenierException{
+        cancelBehavior.cancelShipment(shipment);
     }
 
     void requestCourier() {
@@ -32,11 +37,6 @@ public abstract class ShipmentService {
     abstract void changeCancelBehavior();
 
     abstract void changeReturnBehavior();
-
-    //TODO: implement method
-    void cancelShipment() {
-
-    }
 
     public Shipment getShipment() {
         return shipment;

@@ -34,7 +34,7 @@ public final class CustomerController implements Controller {
                     active = false;
                 }
             } else {
-                //TODO: throw exception
+                //TODO: throw exception -> chiudere il programma o non gestita
                 System.out.println("No view");
                 active = false;
             }
@@ -63,7 +63,8 @@ public final class CustomerController implements Controller {
                 if (button instanceof NavigationButton) {
                     selectView(((NavigationButton)button).getNextView());
                 } else {
-                    //TODO: throw exception
+                    //TODO: throw exception -> "evento non gestibile"
+
                 }
                 break;
 
