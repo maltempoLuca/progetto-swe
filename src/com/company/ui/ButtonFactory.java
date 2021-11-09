@@ -52,6 +52,22 @@ public final class ButtonFactory implements Factory {
                     newButton = createCatalogButton();
                     break;
 
+                case INSERTEMAIL:
+                    newButton = createInsertEmailButton();
+                    break;
+
+                case INSERTPASSWORD:
+                    newButton = createInsertPasswordButton();
+                    break;
+
+                case CONFIRM_REGISTRATION:
+                    newButton = createConfirmRegistrationButton();
+                    break;
+
+                case CONFIRM_LOGIN:
+                    newButton = createConfirmLoginButton();
+                    break;
+
                 default:
                     //TODO: throw exception
             }
@@ -78,13 +94,33 @@ public final class ButtonFactory implements Factory {
     }
 
     private Button createLoginButton() {
-        Button newLoginButton = new Button(ButtonEvent.LOGIN, "LOGIN");
+        NavigationButton newLoginButton = new NavigationButton(Constants.TO_LOGIN_NEXT, ViewIdentifier.LOGIN);
         return newLoginButton;
     }
 
     private Button createRegisterButton() {
-        Button newRegisterButton = new Button(ButtonEvent.REGISTER, "REGISTER");
+        NavigationButton newRegisterButton = new NavigationButton(Constants.TO_REGISTER_NEXT, ViewIdentifier.REGISTER);
         return newRegisterButton;
+    }
+
+    private Button createInsertEmailButton() {
+        WritableButton newInsertEmailButton = new WritableButton("Insert Email");
+        return newInsertEmailButton;
+    }
+
+    private Button createInsertPasswordButton() {
+        WritableButton newInsertEmailButton = new WritableButton("Insert Password");
+        return newInsertEmailButton;
+    }
+
+    private Button createConfirmRegistrationButton() {
+        Button newConfirmButton = new ConfirmationButton(ButtonIdentifier.CONFIRM_REGISTRATION);
+        return newConfirmButton;
+    }
+
+    private Button createConfirmLoginButton() {
+        Button newConfirmButton = new ConfirmationButton(ButtonIdentifier.CONFIRM_LOGIN);
+        return newConfirmButton;
     }
 
     private static ButtonFactory instance = null;

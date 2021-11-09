@@ -1,7 +1,9 @@
 package com.company.ui;
 
+import com.company.constants.ButtonEvent;
 import com.company.mvc.View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -9,7 +11,7 @@ public final class CustomerView implements View {
 
     public CustomerView(String textField) {
         this.topText = textField;
-        readButtons();
+        //readButtons();
     }
 
     @Override
@@ -69,8 +71,17 @@ public final class CustomerView implements View {
         }
     }
 
-    private void readButtons() {
+    public ArrayList<String> recoverUserInput() {
+        ArrayList<String> userInput = new ArrayList<>();
+        for (Button button : buttons) {
+            if (button.getEvent() == ButtonEvent.USERSCAN) {
+                userInput.add(((WritableButton) button).getUserText());
+            }
+        }
+        return userInput;
+    }
 
+    private void readButtons() {
         for (int index = 0; index < buttons.size(); index++) {
             if (index == currentButtonIndex) {
                 contents.append("->");

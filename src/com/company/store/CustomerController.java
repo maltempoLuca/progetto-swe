@@ -1,12 +1,14 @@
 package com.company.store;
+
 import com.company.constants.ButtonEvent;
+import com.company.constants.ButtonIdentifier;
+import com.company.constants.Constants;
 import com.company.constants.ViewIdentifier;
 import com.company.mvc.*;
-import com.company.ui.CustomerView;
-import com.company.ui.Button;
-import com.company.ui.NavigationButton;
-import com.company.ui.ViewFactory;
+import com.company.ui.*;
+import com.sun.net.httpserver.Authenticator;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -16,15 +18,11 @@ public final class CustomerController implements Controller {
     @Override
     public void getInput() {
 
-        boolean keyPressed;
-
         while (active) {
-            keyPressed = false;
-
             if (currentView != null) {
                 String key = scanner.nextLine();
 
-                if (key.equalsIgnoreCase("p")) {
+                if (key.equalsIgnoreCase("")) {
                     checkButton(currentView.getCurrentButton());
                 } else if (key.equalsIgnoreCase("u")) {
                     moveUp();
@@ -58,21 +56,30 @@ public final class CustomerController implements Controller {
     public void checkButton(Button button) {
         ButtonEvent event = button.getEvent();
 
-        switch(event) {
+        switch (event) {
             case CHANGE_VIEW:
                 if (button instanceof NavigationButton) {
-                    selectView(((NavigationButton)button).getNextView());
+                    selectView(((NavigationButton) button).getNextView());
                 } else {
                     //TODO: throw exception
                 }
                 break;
-
-            case REGISTER:
-                scanRegister();
+            case USERSCAN:
+                if (button instanceof WritableButton) {
+                    ((WritableButton) button).setUserText(scanUserText());
+                } else {
+                    //TODO: throw exception
+                }
+                currentView.refresh();
                 break;
-
-            case LOGIN:
-                scanLogin();
+            case CONFIRM:
+                if (((ConfirmationButton) button).getLocationOfConfirm() == ButtonIdentifier.CONFIRM_LOGIN)
+                    loginProcedure();
+                else if (((ConfirmationButton) button).getLocationOfConfirm() == ButtonIdentifier.CONFIRM_REGISTRATION)
+                    registerProcedure();
+                else {
+                    //TODO:: THROW EXCEPTION, STO CODICE È UNA MERDA DIO SANTO.
+                }
                 break;
 
             case LOG_OUT:
@@ -85,104 +92,28 @@ public final class CustomerController implements Controller {
         }
     }
 
-    private void scanLogin() {
-        //LoginView loginView = LoginView.getInstance();
-        //loginView.emailView();
-
-        currentView.setWarning("Per effettuare il Login inserire la mail utilizzata durante la registrazione al sito.");
-        currentView.refreshWarning();
-
-        //String email = scanner.nextLine();
-
-        String email = getText();
-
-        //loginView.passwordView();
-
-        currentView.setWarning("Per effettuare il login inserire la password.");
-        currentView.refreshWarning();
-
-        //String password = scanner.nextLine();
-
-        String password = getText();
-        ViewIdentifier nextView;
-
-        int success = userDepartment.loginUser(email, password);
-        if (success == 0) {
-            //loginView.accessDenied();
-
-            currentView.setWarning("Email o Password errata, per riprovare premere p.");
-            currentView.refreshWarning();
-            nextView = ViewIdentifier.START;
-
+    private void loginProcedure() {
+        ArrayList<String> userInput = currentView.recoverUserInput();
+        String result = userDepartment.loginUser(userInput.get(0), userInput.get(1));
+        if (!result.equals(Constants.SUCCESS)) {
+            currentView.setWarning(result);
         } else {
-
-            currentView.setWarning("Login riuscito, digitare 'p' continuare.");
-            currentView.refreshWarning();
-            currentUser = email;
-            views.get(ViewIdentifier.HOME).setTopText("Ciao " + currentUser + " benvenuto su Pippo.com");
-            nextView = ViewIdentifier.HOME;
-
-            //loginView.accessGranted();
-
-            currentUser = email;
+            currentView.setWarning("Login riuscito.");
+            currentView = views.get(ViewIdentifier.HOME);
+            currentUser = userInput.get(0);
         }
-
-        String input = "";
-        while (!input.equalsIgnoreCase("p")) {
-            input = scanner.nextLine();
-        }
-
-        selectView(nextView);
-
-        //nextView(currentView.currentState());
+        currentView.refresh();
     }
 
-    private void scanRegister() {
-        //RegisterView registerView = RegisterView.getInstance();
-
-        //registerView.emailView();
-
-        currentView.setWarning("Inserire una mail: ");
-        currentView.refreshWarning();
-
-        //String email = scanner.nextLine();
-
-        String email = getText();
-
-        //registerView.passwordView();
-
-        currentView.setWarning("Inserire una password: ");
-        currentView.refreshWarning();
-
-        //String password = scanner.nextLine();
-
-        String password = getText();
-
-        int success = userDepartment.registerUser(email, password);
-        if (success == 0) {
-            //registerView.accessDenied();
-
-            currentView.setWarning("Email o Password errata, per riprovare digitare 'p'.");
-            currentView.refreshWarning();
-            //nextView =
-
+    private void registerProcedure() {
+        ArrayList<String> userInput = currentView.recoverUserInput();
+        String result = userDepartment.registerUser(userInput.get(0), userInput.get(1));
+        if (!result.equals(Constants.SUCCESS)) {
+            currentView.setWarning(result);
         } else {
-            //registerView.accessGranted();
-
-            currentView.setWarning("Account creato, digitare 'p' continuare.");
-            currentView.refreshWarning();
+            currentView.setWarning("Account creato, per fare il login tornare sulla home usando BACK.");
         }
-
-        String input = "";
-        while (!input.equalsIgnoreCase("p")) {
-            input = scanner.nextLine();
-        }
-
-        ViewIdentifier nextView = ViewIdentifier.START;
-
-        //nextView(currentView.currentState());
-
-        selectView(nextView);
+        currentView.refresh();
     }
 
     private void logOut() {
@@ -191,9 +122,9 @@ public final class CustomerController implements Controller {
         }
         selectView(ViewIdentifier.START);
     }
-    
-    private String getText() {
-        //get text from user
+
+    private String scanUserText() {
+        System.out.print("Write here: ");
         String text = scanner.nextLine();
         return text;
     }
@@ -214,7 +145,7 @@ public final class CustomerController implements Controller {
             views.put(view, newView);
             currentView = newView;
         } else if (!views.containsKey(view)) {
-           views.put(view, newView);
+            views.put(view, newView);
         } else {
             //TODO: throw exception
         }
