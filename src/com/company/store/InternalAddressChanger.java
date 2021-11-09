@@ -12,10 +12,10 @@ public class InternalAddressChanger implements AddressBehavior {
         return instance;
     }
 
-    //TODO: implement method
     @Override
-    public void changeAddress(Shipment shipment, String newAddress) {
-        //TODO: throw exception
+    public void changeAddress(Shipment shipment, String newAddress) throws ChangeAddressException {
+        //throw new ChangeAddressException("Operazione impossibile da parte dell'utente");
+        throw new UnsupportedOperationException();
     }
 
     private static InternalAddressChanger instance = null;

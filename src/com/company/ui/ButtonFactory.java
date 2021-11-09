@@ -7,6 +7,7 @@ import com.company.factory.Factory;
 import com.company.constants.Constants;
 
 public final class ButtonFactory implements Factory {
+
     private ButtonFactory() {
 
     }

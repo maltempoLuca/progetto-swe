@@ -12,11 +12,9 @@ public class CancelDenier implements CancelBehavior {
         return instance;
     }
 
-    //TODO: implement method
     @Override
-    public boolean cancelShipment(Shipment shipment) {
-        //TODO: throw exception
-        return false;
+    public boolean cancelShipment(Shipment shipment) throws CancelDenierException {
+        throw new CancelDenierException();
     }
 
     private static CancelDenier instance = null;

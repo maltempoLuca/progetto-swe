@@ -31,7 +31,9 @@ public class PremiumServiceTest {
     @Test
     public void successChangeAddressTest() {
         String newAddress = "new address";
-        service.changeAddress(newAddress);
+        try {
+            service.changeAddress(newAddress);
+        } catch (ChangeAddressException e) {};
         Assert.assertEquals(newAddress, shipment.getDestinationAddress());
     }
 
@@ -41,7 +43,9 @@ public class PremiumServiceTest {
         while (shipment.getState() != Constants.IN_DELIVERY) {
             service.updateShipmentState();
         }
-        service.changeAddress(newAddress);
+        try {
+            service.changeAddress(newAddress);
+        } catch (ChangeAddressException e) {};
         Assert.assertEquals("destinationAddress", shipment.getDestinationAddress());
     }
 

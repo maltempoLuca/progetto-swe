@@ -30,7 +30,9 @@ public class StandardServiceTest {
     @Test
     public void successChangeAddressTest() {
         String newAddress = "new address";
-        service.changeAddress(newAddress);
+        try {
+            service.changeAddress(newAddress);
+        } catch (ChangeAddressException e) {};
         Assert.assertEquals(newAddress, shipment.getDestinationAddress());
     }
 
@@ -40,7 +42,9 @@ public class StandardServiceTest {
         while(shipment.getState() != Constants.SENT) {
             service.updateShipmentState();
         }
-        service.changeAddress(newAddress);
+        try {
+            service.changeAddress(newAddress);
+        } catch (ChangeAddressException e) {};
         Assert.assertEquals("destinationAddress", shipment.getDestinationAddress());
     }
 
