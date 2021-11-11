@@ -13,9 +13,8 @@ public class InternalAddressChanger implements AddressBehavior {
     }
 
     @Override
-    public void changeAddress(Shipment shipment, String newAddress) throws ChangeAddressException {
-        //throw new ChangeAddressException("Operazione impossibile da parte dell'utente");
-        throw new UnsupportedOperationException();
+    public boolean changeAddress(Shipment shipment, String newAddress) {
+        return false;
     }
 
     private static InternalAddressChanger instance = null;

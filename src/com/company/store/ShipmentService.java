@@ -1,5 +1,8 @@
 package com.company.store;
 
+import com.company.constants.Constants;
+import com.company.constants.ShipmentState;
+
 public abstract class ShipmentService {
 
     ShipmentService(int priority, Shipment shipment) {
@@ -16,15 +19,16 @@ public abstract class ShipmentService {
         changeReturnBehavior();
     }
 
-    void changeAddress(String newAddress) throws ChangeAddressException {
-        addressBehavior.changeAddress(shipment, newAddress);
+    void changeAddress(String newAddress) {
+        if (addressBehavior.changeAddress(shipment, newAddress))
+            shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
     }
 
-    void createReturn() throws ReturnException {
+    void createReturn() {
         returnBehavior.createReturn(shipment);
     }
 
-    void cancelShipment() throws CancelDenierException{
+    void cancelShipment() {
         cancelBehavior.cancelShipment(shipment);
     }
 

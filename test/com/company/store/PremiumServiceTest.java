@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class PremiumServiceTest {
     private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
-                                             "destinationAddress", "contents", "#000001");
+            "destinationAddress", "contents", "#000001");
 
     private PremiumService service = new PremiumService(shipment);
 
@@ -22,7 +22,7 @@ public class PremiumServiceTest {
         Assert.assertEquals(Constants.IN_TRANSIT, shipment.getState());
 
         service.updateShipmentState();
-        Assert.assertEquals(Constants.IN_DELIVERY, shipment.getState());
+        Assert.assertEquals(Constants.OUT_FOR_DELIVERY, shipment.getState());
 
         service.updateShipmentState();
         Assert.assertEquals(Constants.DELIVERED, shipment.getState());
@@ -31,21 +31,17 @@ public class PremiumServiceTest {
     @Test
     public void successChangeAddressTest() {
         String newAddress = "new address";
-        try {
-            service.changeAddress(newAddress);
-        } catch (ChangeAddressException e) {};
+        service.changeAddress(newAddress);
         Assert.assertEquals(newAddress, shipment.getDestinationAddress());
     }
 
     @Test
     public void failChangeAddressTest() {
         String newAddress = "new address";
-        while (shipment.getState() != Constants.IN_DELIVERY) {
+        while (shipment.getState() != Constants.OUT_FOR_DELIVERY) {
             service.updateShipmentState();
         }
-        try {
-            service.changeAddress(newAddress);
-        } catch (ChangeAddressException e) {};
+        service.changeAddress(newAddress);
         Assert.assertEquals("destinationAddress", shipment.getDestinationAddress());
     }
 

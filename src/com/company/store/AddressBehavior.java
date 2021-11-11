@@ -3,5 +3,5 @@ import com.company.store.Shipment;
 
 public interface AddressBehavior {
 
-    void changeAddress(Shipment shipment, String newAddress) throws ChangeAddressException;
+    boolean changeAddress(Shipment shipment, String newAddress);
 }

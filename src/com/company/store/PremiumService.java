@@ -8,13 +8,13 @@ public class PremiumService extends ShipmentService {
 
     @Override
     void changeAddressBehavior() {
-        if (getShipment().getState() == Constants.IN_DELIVERY)
+        if (getShipment().getState() == Constants.OUT_FOR_DELIVERY)
             setAddressBehavior(UserAddressDenier.getInstance());
     }
 
     @Override
     void changeCancelBehavior() {
-        if (getShipment().getState() == Constants.IN_DELIVERY)
+        if (getShipment().getState() == Constants.OUT_FOR_DELIVERY)
             setCancelBehavior(CancelDenier.getInstance());
     }
 

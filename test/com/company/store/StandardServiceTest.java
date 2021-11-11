@@ -1,11 +1,12 @@
 package com.company.store;
+
 import com.company.constants.Constants;
 import org.junit.Test;
 import org.junit.Assert;
 
 public class StandardServiceTest {
     private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
-                                             "destinationAddress", "contents", "#000001");
+            "destinationAddress", "contents", "#000001");
 
     private StandardService service = new StandardService(shipment);
 
@@ -21,7 +22,7 @@ public class StandardServiceTest {
         Assert.assertEquals(Constants.IN_TRANSIT, shipment.getState());
 
         service.updateShipmentState();
-        Assert.assertEquals(Constants.IN_DELIVERY, shipment.getState());
+        Assert.assertEquals(Constants.OUT_FOR_DELIVERY, shipment.getState());
 
         service.updateShipmentState();
         Assert.assertEquals(Constants.DELIVERED, shipment.getState());
@@ -30,21 +31,17 @@ public class StandardServiceTest {
     @Test
     public void successChangeAddressTest() {
         String newAddress = "new address";
-        try {
-            service.changeAddress(newAddress);
-        } catch (ChangeAddressException e) {};
+        service.changeAddress(newAddress);
         Assert.assertEquals(newAddress, shipment.getDestinationAddress());
     }
 
     @Test
     public void failChangeAddressTest() {
         String newAddress = "new address";
-        while(shipment.getState() != Constants.SENT) {
+        while (shipment.getState() != Constants.SENT) {
             service.updateShipmentState();
         }
-        try {
-            service.changeAddress(newAddress);
-        } catch (ChangeAddressException e) {};
+        service.changeAddress(newAddress);
         Assert.assertEquals("destinationAddress", shipment.getDestinationAddress());
     }
 

@@ -13,8 +13,8 @@ public class ReturnDenier implements ReturnBehavior {
     }
 
     @Override
-    public boolean createReturn(Shipment shipment) throws ReturnException {
-        throw new ReturnException();
+    public boolean createReturn(Shipment shipment) {
+        return false;
     }
 
     private static ReturnDenier instance = null;

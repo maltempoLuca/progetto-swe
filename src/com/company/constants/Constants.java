@@ -6,10 +6,13 @@ public class Constants {
     public static final int HIGH_PRIORITY = 1;
     public static final int LOW_PRIORITY = 2;
 
+    //state names
+    public static final String REQUEST_RECEIVED = "Request received";
+
     //shipment states
     public static final ShipmentState DELIVERED = new ShipmentState("Delivered", null);
-    public static final ShipmentState IN_DELIVERY = new ShipmentState("In delivery", DELIVERED);
-    public static final ShipmentState IN_TRANSIT = new ShipmentState("In transit", IN_DELIVERY);
+    public static final ShipmentState OUT_FOR_DELIVERY = new ShipmentState("Out for delivery", DELIVERED);
+    public static final ShipmentState IN_TRANSIT = new ShipmentState("In transit", OUT_FOR_DELIVERY);
     public static final ShipmentState SENT = new ShipmentState("Sent", IN_TRANSIT);
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
 
@@ -17,11 +20,6 @@ public class Constants {
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
     public static final ShipmentState PICKED_UP = new ShipmentState("Picked up", RETURN_DELIVERED);
     public static final ShipmentState RETURN_CREATED = new ShipmentState("Return created", PICKED_UP);
-
-    //change address states
-    public static final ShipmentState ADDRESS_UPDATED = new ShipmentState("Address updated", SENT);
-    public static final ShipmentState REQUEST_RECEIVED = new ShipmentState("Request received", ADDRESS_UPDATED);
-
 
     //type of services
     public static final String STANDARD = "Standard";
@@ -37,29 +35,4 @@ public class Constants {
             + "Please enter the email address used during the set up of your account.";
     public static final String INVALID_EMAIL = "The email must contain '@'.";
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
-
-    //button texts
-    public static final String BACK_TEXT = "BACK";
-    public static final String REGISTER_TEXT = "REGISTER";
-    public static final String LOGIN_TEXT = "LOGIN";
-    public static final String LOG_OUT_TEXT = "LOG OUT";
-    public static final String TO_CATALOG_TEXT = "See Catalog";
-    public static final String TO_LOGIN_NEXT = "Login";
-    public static final String TO_REGISTER_NEXT = "Register";
-
-    //view top texts
-    public static final String HOME_TOP_TEXT = "Welcome!\n This is the Home";
-    public static final String CATLOG_TOP_TEXT = "Here's the Catalog:";
-    public static final String REGISTER_TOP_TEXT = "Follow the instruction for signing in :D";
-    public static final String LOGIN_TOP_TEXT = "Follow the instruction for logging in :D";
-
-
-    //view identifiers
-    public static final String START = "START";
-    public static final String REGISTER = "REGISTER";
-    public static final String LOGIN = "LOGIN";
-    public static final String HOME = "HOME";
-    public static final String CART = "CART";
-    public static final String CATALOG = "CATALOG";
-    public static final String SHIPMENT = "SHIPMENT";
 }

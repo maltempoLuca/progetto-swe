@@ -13,8 +13,9 @@ public class UserAddressChanger implements AddressBehavior {
     }
 
     @Override
-    public void changeAddress(Shipment shipment, String newAddress) {
+    public boolean changeAddress(Shipment shipment, String newAddress) {
         shipment.setDestinationAddress(newAddress);
+        return true;
     }
 
     private static UserAddressChanger instance = null;

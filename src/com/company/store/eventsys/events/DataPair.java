@@ -5,7 +5,7 @@ public class DataPair {
     //this is only used to simplify StoreEvent constructor and to enforce a specific structure and type to its parameters
     //getters visibility is package because the only class that should be able to access data is StoreEvent
 
-    DataPair(String dataType, String data) {
+    public DataPair(String dataType, String data) {
         this.dataType = dataType;
         this.data = data;
     }

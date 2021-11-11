@@ -2,7 +2,7 @@ package com.company.constants;
 
 public class ShipmentState {
 
-    ShipmentState(String currentState, ShipmentState nextState) {
+    public ShipmentState(String currentState, ShipmentState nextState) {
         this.currentState = currentState;
         this.nextState = nextState;
     }

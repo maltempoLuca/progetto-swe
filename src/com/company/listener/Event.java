@@ -1,9 +1,11 @@
 package com.company.listener;
 
 
+import com.company.store.eventsys.events.EventIdentifier;
+
 public interface Event {
 
-    public String getIdentifier();
+    public EventIdentifier getIdentifier();
     public String getInfo(String infoType);
 
 }

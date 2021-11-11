@@ -1,5 +1,6 @@
 package com.company.store.controller;
 
+import com.company.store.eventsys.events.EventIdentifier;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
 
@@ -10,6 +11,12 @@ public class Controller implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
+
+        EventIdentifier eventIdentifier = event.getIdentifier();
+
+        switch (eventIdentifier) {
+
+        }
 
     }
 

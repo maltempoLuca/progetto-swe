@@ -1,7 +1,6 @@
 package com.company.store.eventsys.events;
 
 import com.company.listener.Event;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +8,7 @@ public class StoreEvent implements Event {
     //an event that carries a variety of information
     //each String of info is associated to a key that signals the type of stored info
 
-    public StoreEvent(String identifier, DataPair... info) {
+    public StoreEvent(EventIdentifier identifier, DataPair... info) {
         //fills Map with info read from DataPair
 
         this.identifier = identifier;
@@ -22,7 +21,7 @@ public class StoreEvent implements Event {
     }
 
     @Override
-    public String getIdentifier() {
+    public EventIdentifier getIdentifier() {
         return identifier;
     }
 
@@ -32,6 +31,6 @@ public class StoreEvent implements Event {
         return info.get(infoType);
     }
 
-    private final String identifier;
+    private final EventIdentifier identifier;
     private final Map<String, String> info = new HashMap<>();
 }

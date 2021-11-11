@@ -22,16 +22,16 @@ public class HistoryView implements View {
         contents.setLength(0);
         readTitle();
         readShipments();
-        readOperations();
+        readLog();
     }
 
     private void readTitle() {
         contents.append(title).append("\n");
     }
 
-    private void readOperations() {
-        for(String operation : log) {
-            contents.append(operation).append("\n");
+    private void readLog() {
+        for(String logEntry : log) {
+            contents.append(logEntry).append("\n");
         }
     }
 
@@ -46,3 +46,26 @@ public class HistoryView implements View {
     private final List<String> log = new ArrayList<>();
     private final StringBuilder contents = new StringBuilder();
 }
+
+/*
+Sistema
+    Log:
+        - [10:22] Utente 1 ha provato a registrarsi ma la password non va bene
+        - [10:23] Utente 2 si è registrato con mail: email, password: password
+-------
+Utente 2
+    Log:
+        - [10:23] Utente 2 si è registrato
+        - [11:00] Utente 2 ha ordinato un paio di scarpe
+        - [12:00] Utente 2 ha cambiato l'indirizzo di consegna
+    Shipments:
+        - #00001 Indrizzo: indirizzo nuovo, Contenuto: paio di scarpe, Stato: spedita
+
+-------
+Utente 3
+
+----
+Corrieri:
+    Log:
+        - Corriere 1 ha aggiornato lo stato sepdizione #00001
+*/

@@ -65,6 +65,7 @@ public class UserDepartment {
         return Constants.INVALID_EMAIL;
     }
 
+    //TODO: implement logged users
     private final HashMap<String, String> usrLoginInfo = new HashMap<String, String>();
     private static UserDepartment instance = null;
 }
