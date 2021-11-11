@@ -1,5 +1,7 @@
 package com.company.store;
 
+import com.company.constants.Constants;
+
 public class ReturnAllower implements ReturnBehavior {
 
     private ReturnAllower() {
@@ -12,10 +14,17 @@ public class ReturnAllower implements ReturnBehavior {
         return instance;
     }
 
-    //TODO: implement method
     @Override
     public boolean createReturn(Shipment shipment) {
         String tempSender = shipment.getSender();
+        shipment.setSender(shipment.getReceiver());
+        shipment.setReceiver(tempSender);
+
+        String tempSenderAddress = shipment.getSenderAddress();
+        shipment.setSenderAddress(shipment.getDestinationAddress());
+        shipment.setDestinationAddress(tempSenderAddress);
+
+        shipment.setState(Constants.RETURN_CREATED);
         return true;
     }
 

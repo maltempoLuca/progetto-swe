@@ -1,4 +1,6 @@
 package com.company.store;
+
+import com.company.constants.Constants;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -6,37 +8,60 @@ public class UserDepartmentTest {
 
     @Test
     public void registerTest() {
-        int result = userDepartment.registerUser("email@diprova.com", "passw0rd");
-        Assert.assertEquals(1, result);
+        String result = userDepartment.registerUser("marcorossi@prova.com", "passw0rd");
+        Assert.assertEquals(Constants.SUCCESS, result);
     }
 
     @Test
     public void alreadyRegisteredTest() {
-        userDepartment.registerUser("email@diprova1.com", "passw0rd");
+        userDepartment.registerUser("giuseppeverdi@prova.com", "passw0rd");
 
-        int result = userDepartment.registerUser("EmaIl@diprOVA1.cOm", "passw0rd2");
-        Assert.assertEquals(0, result);
+        String result = userDepartment.registerUser("GiUsEppEVeRDI@PROVA.cOm", "passw0rd2");
+        Assert.assertEquals(Constants.EMAIL_ALREADY_USED, result);
+    }
+
+    @Test
+    public void passwordIsTooShortTest() {
+        String result = userDepartment.registerUser("francescobianchi@prova.com", "psw3");
+        Assert.assertEquals(Constants.SHORT_PSW, result);
+    }
+    @Test
+    public void passwordMustContainNumbersTest() {
+        String result = userDepartment.registerUser("robertaverdi@prova.com", "password");
+        Assert.assertEquals(Constants.ONLY_LETTERS_PSW, result);
+    }
+
+    @Test
+    public void passwordMustContainLettersTest() {
+        String result = userDepartment.registerUser("gianlucablu@prova.com", "123456");
+        Assert.assertEquals(Constants.ONLY_NUMBERS_PSW, result);
+    }
+
+    @Test
+    public void emailMustContainAtSymbol() {
+        String result = userDepartment.registerUser("gianlucablu.prova.com", "password0");
+        Assert.assertEquals(Constants.INVALID_EMAIL, result);
     }
 
     @Test
     public void correctLoginTest() {
-        userDepartment.registerUser("email@diprova2.com", "passw0rd");
-        int result = userDepartment.loginUser("email@diprova2.com", "passw0rd");
-        Assert.assertEquals(1, result);
+        userDepartment.registerUser("simonerosso@prova.com", "passw0rd");
+        String result = userDepartment.loginUser("simonerosso@prova.com", "passw0rd");
+        Assert.assertEquals(Constants.SUCCESS, result);
     }
 
     @Test
     public void noEmailLoginTest() {
-        userDepartment.registerUser("email@diprova3.com", "passw0rd");
-        int result = userDepartment.loginUser("email@diprova.m", "passw0rd");
-        Assert.assertEquals(0, result);
+        userDepartment.registerUser("marcofirenze@prova.com", "passw0rd");
+        String result = userDepartment.loginUser("marcopistoia@.com", "passw0rd");
+        Assert.assertEquals(Constants.WRONG_EMAIL, result);
     }
 
     @Test
     public void wrongPasswordLoginTest() {
-        userDepartment.registerUser("email@diprova4.com", "passw0rd");
-        int result = userDepartment.loginUser("email@diprova.com", "Passw0rd");
-        Assert.assertEquals(0, result);
+        userDepartment.registerUser("stefanorossi@prova.com", "passw0rd");
+        String result = userDepartment.loginUser("stefanorossi@prova.com", "Passw0rd");
+        Assert.assertEquals(Constants.WRONG_PSW, result);
     }
 
     private final UserDepartment userDepartment = UserDepartment.getInstance();

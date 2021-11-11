@@ -12,11 +12,9 @@ public class ReturnDenier implements ReturnBehavior {
         return instance;
     }
 
-    //TODO: implement method
     @Override
-    public boolean createReturn(Shipment shipment) {
-        //TODO: throw exception
-        return false;
+    public boolean createReturn(Shipment shipment) throws ReturnException {
+        throw new ReturnException();
     }
 
     private static ReturnDenier instance = null;
