@@ -11,11 +11,28 @@ public class Controller implements EventListener {
 
     @Override
     public void handleEvent(Event event) {
+        //manage every type of events that could happen
 
         EventIdentifier eventIdentifier = event.getIdentifier();
 
         switch (eventIdentifier) {
+            case CHANGE_ADDRESS:
+                break;
 
+            case CHANGE_ADDRESS_REFUSED:
+                break;
+
+            case CANCEL:
+                break;
+
+            case CANCEL_REFUSED:
+                break;
+
+            case RETURN:
+                break;
+
+            case RETURN_REFUSED:
+                break;
         }
 
     }

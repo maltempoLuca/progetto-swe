@@ -1,6 +1,10 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.eventsys.events.DataPair;
+import com.company.store.eventsys.events.EventIdentifier;
+import com.company.store.eventsys.events.StoreEvent;
+import com.company.store.eventsys.management.StoreEventManager;
 
 public class ReturnAllower implements ReturnBehavior {
 
@@ -16,6 +20,10 @@ public class ReturnAllower implements ReturnBehavior {
 
     @Override
     public boolean createReturn(Shipment shipment) {
+        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
+        StoreEvent returnEvent = new StoreEvent(EventIdentifier.RETURN, shipmentInfo);
+        StoreEventManager.getInstance().notify(returnEvent);
+
         String tempSender = shipment.getSender();
         shipment.setSender(shipment.getReceiver());
         shipment.setReceiver(tempSender);
