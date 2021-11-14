@@ -3,7 +3,7 @@ package com.company.store;
 import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
 
-public abstract class ShipmentService {
+public abstract class ShipmentService { // METTI PACKAGE.
 
     ShipmentService(int priority, Shipment shipment) {
         this.priority = priority;
@@ -68,6 +68,10 @@ public abstract class ShipmentService {
 
     public void setReturnBehavior(ReturnBehavior returnBehavior) {
         this.returnBehavior = returnBehavior;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     private final int priority;

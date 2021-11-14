@@ -3,9 +3,9 @@ import com.company.constants.Constants;
 
 public class StandardService extends ShipmentService {
 
-    StandardService(Shipment shipment) {
+    public StandardService(Shipment shipment) {
         super(Constants.LOW_PRIORITY, shipment);
-    }
+    } //METTI PACKAGE
 
     @Override
     void changeAddressBehavior() {
