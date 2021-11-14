@@ -4,7 +4,8 @@ import com.company.constants.ShipmentState;
 
 public class Shipment {
 
-    Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
+    //METTI PACKAGE
+    public Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;
         this.receiver = receiver;
         this.senderAddress = senderAddress;

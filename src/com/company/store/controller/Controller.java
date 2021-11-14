@@ -15,9 +15,27 @@ public class Controller implements EventListener {
     @Override
     public void handleEvent(Event event) {
         String logEntry;
+
         EventIdentifier eventIdentifier = event.getIdentifier();
 
         switch (eventIdentifier) {
+            case CHANGE_ADDRESS:
+                break;
+
+            case CHANGE_ADDRESS_REFUSED:
+                break;
+
+            case CANCEL:
+                break;
+
+            case CANCEL_REFUSED:
+                break;
+
+            case RETURN:
+                break;
+
+            case RETURN_REFUSED:
+                break;
             case PURCHASE_COMPLETED:
                 logEntry = buildLogEntry("L'utente " + event.getInfo(Constants.USEREMAIL) + " ha eseguito un ordine");
                 break;

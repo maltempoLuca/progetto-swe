@@ -33,9 +33,17 @@ public class Constants {
     public static final String ONLY_NUMBERS_PSW = "The password must contain numbers.";
     public static final String WRONG_PSW = "Wrong Password, try again.";
     public static final String WRONG_EMAIL = "This email doesn't correspond to any user." + "\n"
-            + "Please enter the email address used during the set up of your account.";
+            + "Please enter the email address used during registration.";
     public static final String INVALID_EMAIL = "The email must contain '@'.";
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
+    public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
+
+    //event data
+    public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
+    public static final String REASON = "Reason"; //TODO: move to info types?
+    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
+    public static final String RETURN_REASON = "perchè è troppo tardi per effettuare il reso";
+    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
 
     //info types
     public static final String USEREMAIL = "USEREMAIL";

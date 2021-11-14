@@ -18,13 +18,13 @@ public class UserDepartment {
     public String registerUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
         String emailFailed = checkEmailValidity(lowerCaseEmail);
-        if (emailFailed.equals(Constants.SUCCESS))  {
+        if (emailFailed.equals(Constants.SUCCESS)) {
             String pswFailed = checkPasswordValidity(password);
             if (pswFailed.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
                     return Constants.EMAIL_ALREADY_USED;
                 } else
-                    usrLoginInfo.put(lowerCaseEmail, password);
+                    usrLoginInfo.put(lowerCaseEmail, new UserData(password));
                 return Constants.SUCCESS;
             } else
                 return pswFailed;
@@ -35,10 +35,23 @@ public class UserDepartment {
     public String loginUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
         if (usrLoginInfo.containsKey(lowerCaseEmail)) {
-            if (password.equals(usrLoginInfo.get(lowerCaseEmail))) {
+            if (password.equals(usrLoginInfo.get(lowerCaseEmail).password)) {
+                usrLoginInfo.get(lowerCaseEmail).userIsLogged = true;
                 return Constants.SUCCESS;
             } else
                 return Constants.WRONG_PSW;
+        } else
+            return Constants.WRONG_EMAIL;
+    }
+
+    public String logOut(String email) {
+        String lowerCaseEmail = email.toLowerCase();
+        if (usrLoginInfo.containsKey(lowerCaseEmail)) {
+            if (usrLoginInfo.get(lowerCaseEmail).userIsLogged) {
+                usrLoginInfo.get(lowerCaseEmail).userIsLogged = false;
+                return Constants.SUCCESS;
+            } else
+                return Constants.ALREADY_LOGGED_OUT;
         } else
             return Constants.WRONG_EMAIL;
     }
@@ -65,7 +78,15 @@ public class UserDepartment {
         return Constants.INVALID_EMAIL;
     }
 
-    //TODO: implement logged users
-    private final HashMap<String, String> usrLoginInfo = new HashMap<String, String>();
+    private static class UserData {  //static -> dentro DataPair non hai accesso agli attributi di userDepartment.
+        private UserData(String password) {
+            this.password = password;
+            this.userIsLogged = false;
+        }
+        private Boolean userIsLogged;
+        private final String password;
+    }
+
+    private final HashMap<String, UserData> usrLoginInfo = new HashMap<>();
     private static UserDepartment instance = null;
 }

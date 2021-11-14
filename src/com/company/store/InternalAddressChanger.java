@@ -14,6 +14,9 @@ public class InternalAddressChanger implements AddressBehavior {
 
     @Override
     public boolean changeAddress(Shipment shipment, String newAddress) {
+        try {
+
+        } catch (UnsupportedOperationException exception) {}
         return false;
     }
 
