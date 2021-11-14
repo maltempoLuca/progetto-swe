@@ -3,6 +3,7 @@ import com.company.factory.Factory;
 import com.company.constants.Constants;
 
 public class ShipmentFactory implements Factory {
+    //TODO: classes that receive an object built this way should make defensive copies and then store the object?!
 
     private ShipmentFactory() {
 
