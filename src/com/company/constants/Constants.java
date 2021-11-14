@@ -36,4 +36,11 @@ public class Constants {
     public static final String INVALID_EMAIL = "The email must contain '@'.";
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
+
+    //event data
+    public static final String ID_SPEDIZIONE = "ID spedizione";
+    public static final String REASON = "Reason";
+    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
+    public static final String RETURN_REASON = "perchè è troppo tardi per effettuare il reso";
+    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
 }
