@@ -1,6 +1,7 @@
 package com.company.constants;
 
 public class Constants {
+    //TODO: make class uninstantiable (add private default constructor)
 
     //shipment priorities
     public static final int HIGH_PRIORITY = 1;
@@ -35,4 +36,12 @@ public class Constants {
             + "Please enter the email address used during the set up of your account.";
     public static final String INVALID_EMAIL = "The email must contain '@'.";
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
+
+    //info types
+    public static final String USEREMAIL = "USEREMAIL";
+    public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
+    public static final String SHIPMENT_SERVICE = "SHIPMENT_SERVICE";
+    public static final String CONTENTS = "CONTENTS";
+    public static final String PRICE = "PRICE";
+
 }
