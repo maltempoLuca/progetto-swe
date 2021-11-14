@@ -1,6 +1,7 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
+import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
 import com.company.store.eventsys.events.EventIdentifier;
@@ -21,14 +22,14 @@ public class PurchasingDepartmentTest {
         PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail);
         PurchasingDepartment.getInstance().addToCart(CatalogUtility.LAPTOP_ID, 1, userEmail);
 
-        int totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
+        double totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
 
         PurchasingDepartment.getInstance().purchase(userEmail);
 
         Assert.assertTrue(eventTester.eventReceived());
         Assert.assertEquals("indirizzo",eventTester.getAddress()); //TODO: remove placeholder
         Assert.assertNotNull(eventTester.getContents());
-        Assert.assertEquals(String.valueOf(totalPrice),eventTester.getTotal());
+        Assert.assertEquals(Utility.twoDecimalsFormatter.format(totalPrice),eventTester.getTotal());
         Assert.assertEquals(Constants.STANDARD ,eventTester.getService()); //TODO: remove placeholder
         Assert.assertEquals(userEmail ,eventTester.getUserEmail());
 

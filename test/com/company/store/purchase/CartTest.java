@@ -10,8 +10,8 @@ public class CartTest {
     String productId = "id";
     String productId2 = "id2";
     String productId3 = "id3";
-    Product product = new Product(productId, "name", 100);
-    Product product2 = new Product(productId2, "name", 50);
+    Product product = new Product(productId, "name", 100.5);
+    Product product2 = new Product(productId2, "name", 50.99);
     Product product3 = new Product(productId3, "name", 20);
 
     @Test
@@ -79,7 +79,7 @@ public class CartTest {
         tested.increaseProduct(product, 4);
         tested.increaseProduct(product2, 2);
 
-        Assert.assertEquals(500, tested.getTotal());
+        Assert.assertEquals(503.98, tested.getTotal(), 0.0001);
     }
 
     @Test

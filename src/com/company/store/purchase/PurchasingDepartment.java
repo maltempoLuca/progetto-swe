@@ -1,6 +1,7 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
+import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.store.eventsys.events.DataPair;
 import com.company.store.eventsys.events.EventIdentifier;
@@ -52,10 +53,10 @@ public final class PurchasingDepartment {
 
         if (userCart != null) {
             if (!userCart.isEmpty()) {
-                int total = userCart.getTotal();
+                double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                createPurchaseEvent(userEmailLowerCase, "indirizzo", Constants.STANDARD, cartContentsString, String.valueOf(total));
+                createPurchaseEvent(userEmailLowerCase, "indirizzo", Constants.STANDARD, cartContentsString, Utility.twoDecimalsFormatter.format(total));
 
                 userCart.clear();
             } //TODO: decide what to do when cart is empty

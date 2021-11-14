@@ -36,7 +36,7 @@ public final class CartEntry {
         return product.getName();
     }
 
-    int getPrice() {
+    double getPrice() {
         return product.getPrice() * quantity;
     }
 
