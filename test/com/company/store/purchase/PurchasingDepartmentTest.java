@@ -66,11 +66,11 @@ class PurchaseEventTester implements EventListener {
 
         if (eventIdentifier.equals(EventIdentifier.PURCHASE_COMPLETED)) {
             this.received = true;
-            this.userEmail = event.getInfo(Constants.USEREMAIL);
-            this.address = event.getInfo(Constants.DESTINATION_ADDRESS);
-            this.service = event.getInfo(Constants.SHIPMENT_SERVICE);
-            this.contents = event.getInfo(Constants.CONTENTS);
-            this.total = event.getInfo(Constants.PRICE);
+            this.userEmail = event.getTextInfo(Constants.USEREMAIL);
+            this.address = event.getTextInfo(Constants.DESTINATION_ADDRESS);
+            this.service = event.getTextInfo(Constants.SHIPMENT_SERVICE);
+            this.contents = event.getTextInfo(Constants.CONTENTS);
+            this.total = event.getTextInfo(Constants.PRICE);
         }
     }
 
