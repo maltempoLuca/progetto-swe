@@ -8,11 +8,12 @@ public class StoreEvent implements Event {
     //an event that carries a variety of information
     //each String of info is associated to a key that signals the type of stored info
 
-    //TODO: delete this (and make constructore package-private?)
+    //TODO: delete this (and make constructor package-private?)
     public StoreEvent(EventIdentifier identifier, DataPair... textInfo) {
         //fills Map with info read from DataPair
-
         this.identifier = identifier;
+        this.textInfo = new HashMap<>();
+        this.numericInfo = new HashMap<>();
 
         for(DataPair entry : textInfo) {
             String infoType = entry.getDataType();
@@ -23,17 +24,16 @@ public class StoreEvent implements Event {
 
     public StoreEvent(EventIdentifier identifier, Map<String, String> textInfo, Map<String, Double> numericInfo) {
         this.identifier = identifier;
+        this.textInfo = copyTextInfo(textInfo);
+        this.numericInfo = copyNumericInfo(numericInfo);
+    }
 
-        if(textInfo != null) {
-            for(Map.Entry<String, String> textEntry : textInfo.entrySet())
-            this.textInfo.put(textEntry.getKey(), textEntry.getValue());
-        }
+    public StoreEvent(StoreEvent storeEvent) {
+        //copy constructor
 
-        if (numericInfo != null) {
-            for(Map.Entry<String, Double> numericEntry : numericInfo.entrySet()) {
-                this.numericInfo.put(numericEntry.getKey(), numericEntry.getValue());
-            }
-        }
+        this.identifier = storeEvent.identifier;
+        this.textInfo = copyTextInfo(storeEvent.textInfo);
+        this.numericInfo = copyNumericInfo(storeEvent.numericInfo);
     }
 
     @Override
@@ -52,7 +52,30 @@ public class StoreEvent implements Event {
         return numericInfo.get(infoType);
     }
 
+    private Map<String, String> copyTextInfo(Map<String, String> textInfo) {
+        Map<String, String> infoCopy = new HashMap<>();
+
+        if(textInfo != null) {
+            for(Map.Entry<String, String> textEntry : textInfo.entrySet())
+                infoCopy.put(textEntry.getKey(), textEntry.getValue());
+        }
+
+        return infoCopy;
+    }
+
+    private Map<String, Double> copyNumericInfo(Map<String, Double> numericInfo) {
+        Map<String, Double> infoCopy = new HashMap<>();
+
+        if (numericInfo != null) {
+            for(Map.Entry<String, Double> numericEntry : numericInfo.entrySet()) {
+                infoCopy.put(numericEntry.getKey(), numericEntry.getValue());
+            }
+        }
+
+        return infoCopy;
+    }
+
     private final EventIdentifier identifier;
-    private final Map<String, String> textInfo = new HashMap<>();
-    private final Map<String, Double> numericInfo = new HashMap<>();
+    private final Map<String, String> textInfo;
+    private final Map<String, Double> numericInfo;
 }

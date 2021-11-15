@@ -76,10 +76,11 @@ public class CartTest {
 
     @Test
     public  void getTotalTest() {
+        double errorDelta = 0.0001;
         tested.increaseProduct(product, 4);
         tested.increaseProduct(product2, 2);
 
-        Assert.assertEquals(503.98, tested.getTotal(), 0.0001);
+        Assert.assertEquals(503.98, tested.getTotal(), errorDelta);
     }
 
     @Test

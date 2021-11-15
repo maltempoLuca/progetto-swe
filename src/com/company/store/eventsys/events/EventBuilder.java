@@ -24,7 +24,14 @@ public class EventBuilder {
     }
 
     public StoreEvent withIdentifier(EventIdentifier identifier) {
-        return new StoreEvent(identifier, textData, numericData);
+        StoreEvent result = new StoreEvent(identifier, textData, numericData);
+        this.reset();
+        return result;
+    }
+
+    private void reset() {
+        textData.clear();
+        numericData.clear();
     }
 
     private static EventBuilder instance = null;
