@@ -44,11 +44,21 @@ public class StoreEvent implements Event {
     @Override
     public String getTextInfo(String infoType) {
         //encapsulates Map get() method
+        String result = textInfo.get(infoType);
+        if(result == null) {
+            //TODO: throw exception
+        }
+
         return textInfo.get(infoType);
     }
 
     @Override
-    public double getNumericInfo(String infoType) {
+    public Double getNumericInfo(String infoType) {
+        Double result = numericInfo.get(infoType);
+        if (result == null) {
+            //TODO: throw exception
+        }
+
         return numericInfo.get(infoType);
     }
 
