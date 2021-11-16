@@ -3,7 +3,7 @@ package com.company.store;
 import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
 
-public abstract class ShipmentService { // METTI PACKAGE.
+public abstract class ShipmentService { //TODO: costruttore da mettere a package.
 
     ShipmentService(int priority, Shipment shipment) {
         this.priority = priority;

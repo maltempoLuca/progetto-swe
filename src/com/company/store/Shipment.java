@@ -4,7 +4,7 @@ import com.company.constants.ShipmentState;
 
 public class Shipment {
 
-    //METTI PACKAGE
+    //TODO: costruttore da mettere a package.
     public Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;
         this.receiver = receiver;

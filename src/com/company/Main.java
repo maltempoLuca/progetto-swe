@@ -34,12 +34,18 @@ public class Main {
 
         CourierAgency courierAgency = CourierAgency.getInstance();
         Thread t = new Thread(courierAgency);
+        t.start();
         for (int i = 0; i < 22; i++) {
             Shipment shipment = new Shipment("a", "a", "", "", "", "i");
             ShipmentService shipmentService = new StandardService(shipment);
             courierAgency.requestCourier(shipmentService);
         }
-        t.start();
-    }
 
+        courierAgency.setProgramFinished(); // METTERE A TRUE SOLO QUANDO HAI FINITO TUTTI GLI ACQUISTI DA SIMULARE.
+    }
 }
+
+
+
+
+

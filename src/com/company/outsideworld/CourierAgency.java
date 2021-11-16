@@ -7,12 +7,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
-//requestCourier() dovrebbe averlo shipping department secondo me.
-public class CourierAgency extends Thread {
 
+public class CourierAgency extends Thread {
     private CourierAgency() {
-        for (int i = 0; i < 10; i++)
-            couriers.add(new Courier());
+        for (int i = 0; i < 10; i++) {
+            Courier courier = new Courier();
+            couriers.add(courier);
+            couriersThread.add(new Thread(courier));
+        }
     }
 
     public static CourierAgency getInstance() {
@@ -23,74 +25,137 @@ public class CourierAgency extends Thread {
 
     @Override
     public void run() {
-        int interrompiThread = 10;
-        while (interrompiThread > 0) {
+        while (!programFinished) {
             try {
                 handleCouriers();
+                //sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            interrompiThread--;
         }
         System.out.println("Ho spedito " + pacchiGestiti + " pacchi");
     }
 
     private void handleCouriers() throws InterruptedException {
-        mutexShipmentServices.acquire();
         try {
-            while (!shipmentServices.isEmpty()) {
-                mutexCouriers.acquire();
-                try {
-                    for (Courier c : couriers) {
-                        if (!c.isWorking()) {
-                            c.assignShipmentService(shipmentServices.poll()); // accedi a shippmentServices tramite semaforo!
-                            pacchiGestiti++;
-                            Thread t = new Thread(c);
-                            t.start();
-                        }
-                    }
-                } finally {
-                    mutexCouriers.release();
-                }
-            }
-        } finally {
-            mutexShipmentServices.release();
-        }
-    }
-
-    public Boolean isAnAvailableCourier() throws InterruptedException {
-        mutexCouriers.acquire();
-        try {
-            for (Courier c : couriers) {
-                if (!c.isWorking()) {
-                    mutexShipmentServices.acquire();
-                    try {
-                        if (shipmentServices.isEmpty()) return true;  // accedi a shippmentServices tramite semaforo!
-                    } finally {
-                        mutexShipmentServices.release();
+            couriersWriters.acquire();
+            try {
+                acquire_nShipmentServiceReaders();
+                for (int i = 0; i < couriers.size(); i++) {
+                    if (!shipmentServices.isEmpty() && !couriers.get(i).isWorking()) {
+                        couriers.get(i).assignShipmentService(shipmentServices.poll());
+                        couriersThread.set(i, new Thread(couriers.get(i)));
+                        couriersThread.get(i).start();
+                        System.out.println("assegnato");
+                        pacchiGestiti++;
                     }
                 }
+            } finally {
+                release_nShipmentServiceReaders();
             }
-            return false;
         } finally {
-            mutexCouriers.release();
+            couriersWriters.release();
         }
     }
 
     public void requestCourier(ShipmentService shipmentService) throws InterruptedException {
-        mutexShipmentServices.acquire();
+        shipmentServicesWriters.acquire();
         try {
-            shipmentServices.add(shipmentService);
+            if (!programFinished)
+                shipmentServices.add(shipmentService);
         } finally {
-            mutexShipmentServices.release();
+            shipmentServicesWriters.release();
         }
     }
 
+    public boolean isProgramFinished() {
+        return programFinished;
+    }
+
+    public void setProgramFinished() throws InterruptedException {
+        try {
+            acquire_nShipmentServiceReaders();
+            do {
+                acquire_nCouriers();
+                for (Thread t : couriersThread)
+                    t.join();
+                release_nCouriers();
+            }
+            while (!shipmentServices.isEmpty());
+            programFinished = true;
+        } finally {
+            release_nShipmentServiceReaders();
+        }
+    }
+
+    public Boolean isAnAvailableCourier() throws InterruptedException {
+        boolean courierAvailable = false;
+        try {
+            acquire_nCouriers();
+            try {
+                acquire_nShipmentServiceReaders();
+                for (Courier c : couriers)
+                    if (!c.isWorking())
+                        if (shipmentServices.isEmpty())
+                            courierAvailable = true;
+            } finally {
+                release_nShipmentServiceReaders();
+            }
+        } finally {
+            release_nCouriers();
+        }
+        return courierAvailable;
+    }
+
+
+    private void acquire_nShipmentServiceReaders() throws InterruptedException {
+        shipmentServicesReaders.acquire();
+        nShipmentServiceReaders++;
+        if (nShipmentServiceReaders == 1)
+            shipmentServicesWriters.acquire();
+        shipmentServicesReaders.release();
+    }
+
+    private void release_nShipmentServiceReaders() throws InterruptedException {
+        shipmentServicesReaders.acquire();
+        nShipmentServiceReaders--;
+        if (nShipmentServiceReaders == 0)
+            shipmentServicesWriters.release();
+        shipmentServicesReaders.release();
+    }
+
+    private void acquire_nCouriers() throws InterruptedException {
+        couriersReaders.acquire();
+        nCouriersReaders++;
+        if (nCouriersReaders == 1) {
+            couriersWriters.acquire();
+        }
+        couriersReaders.release();
+    }
+
+    private void release_nCouriers() throws InterruptedException {
+        couriersReaders.acquire();
+        nCouriersReaders--;
+        if (nCouriersReaders == 0) {
+            couriersWriters.release();
+        }
+        couriersReaders.release();
+    }
+
+
     private static CourierAgency instance = null;
+    private boolean programFinished = false;
     private static int pacchiGestiti = 0;
-    Semaphore mutexCouriers = new Semaphore(1);
-    Semaphore mutexShipmentServices = new Semaphore(1);
+
+    Semaphore shipmentServicesReaders = new Semaphore(1);
+    Semaphore shipmentServicesWriters = new Semaphore(1);
+    private int nShipmentServiceReaders = 0;
+
+    Semaphore couriersReaders = new Semaphore(1);
+    Semaphore couriersWriters = new Semaphore(1);
+    private int nCouriersReaders = 0;
+
     private final ArrayList<Courier> couriers = new ArrayList<>();
-    private final Queue<ShipmentService> shipmentServices = new LinkedList<>(); // adesso se cancello un ordine lo
-    // devo cancellare pure da qui, bella merda.
+    private final ArrayList<Thread> couriersThread = new ArrayList<>();
+    private final Queue<ShipmentService> shipmentServices = new LinkedList<>(); //TODO: adesso se cancello un ordine devo cancellarlo pure da qui.
 }
