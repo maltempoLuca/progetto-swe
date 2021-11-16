@@ -3,6 +3,7 @@ package com.company.store;
 import com.company.constants.Constants;
 import org.junit.Test;
 import org.junit.Assert;
+import org.junit.function.ThrowingRunnable;
 
 public class StandardServiceTest {
     private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
@@ -10,8 +11,7 @@ public class StandardServiceTest {
 
     private StandardService service = new StandardService(shipment);
 
-    //TODO: test exception if nextState == null
-    @Test
+    @Test(expected = NullPointerException.class)
     public void updateStateTest() {
         Assert.assertEquals(Constants.CREATED, shipment.getState());
 
@@ -26,6 +26,8 @@ public class StandardServiceTest {
 
         service.updateShipmentState();
         Assert.assertEquals(Constants.DELIVERED, shipment.getState());
+
+        service.updateShipmentState();
     }
 
     @Test

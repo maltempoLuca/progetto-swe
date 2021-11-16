@@ -1,6 +1,7 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
+import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
 import com.company.store.eventsys.events.EventIdentifier;
@@ -17,18 +18,19 @@ public class PurchasingDepartmentTest {
     @Test
     public void purchaseTest() {
         //only check if contents in event is not null because format could change
+        double errorDelta = 0.0001;
         PurchasingDepartment.getInstance().addUserCart(userEmailUpperCase);
         PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail);
         PurchasingDepartment.getInstance().addToCart(CatalogUtility.LAPTOP_ID, 1, userEmail);
 
-        int totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
+        double totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
 
         PurchasingDepartment.getInstance().purchase(userEmail);
 
         Assert.assertTrue(eventTester.eventReceived());
         Assert.assertEquals("indirizzo",eventTester.getAddress()); //TODO: remove placeholder
         Assert.assertNotNull(eventTester.getContents());
-        Assert.assertEquals(String.valueOf(totalPrice),eventTester.getTotal());
+        Assert.assertEquals(totalPrice, eventTester.getTotal(), errorDelta);
         Assert.assertEquals(Constants.STANDARD ,eventTester.getService()); //TODO: remove placeholder
         Assert.assertEquals(userEmail ,eventTester.getUserEmail());
 
@@ -65,11 +67,11 @@ class PurchaseEventTester implements EventListener {
 
         if (eventIdentifier.equals(EventIdentifier.PURCHASE_COMPLETED)) {
             this.received = true;
-            this.userEmail = event.getInfo(Constants.USEREMAIL);
-            this.address = event.getInfo(Constants.DESTINATION_ADDRESS);
-            this.service = event.getInfo(Constants.SHIPMENT_SERVICE);
-            this.contents = event.getInfo(Constants.CONTENTS);
-            this.total = event.getInfo(Constants.PRICE);
+            this.userEmail = event.getTextInfo(Constants.USEREMAIL);
+            this.address = event.getTextInfo(Constants.DESTINATION_ADDRESS);
+            this.service = event.getTextInfo(Constants.SHIPMENT_SERVICE);
+            this.contents = event.getTextInfo(Constants.CONTENTS);
+            this.total = event.getNumericInfo(Constants.PRICE);
         }
     }
 
@@ -93,7 +95,7 @@ class PurchaseEventTester implements EventListener {
         return contents;
     }
 
-    public String getTotal() {
+    public double getTotal() {
         return total;
     }
 
@@ -102,6 +104,6 @@ class PurchaseEventTester implements EventListener {
     private String address;
     private String service;
     private String contents;
-    private String total;
+    private double total;
 
 }

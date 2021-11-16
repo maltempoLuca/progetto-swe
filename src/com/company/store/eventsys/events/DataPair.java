@@ -1,6 +1,7 @@
 package com.company.store.eventsys.events;
 
 public class DataPair {
+    //TODO: delete this
     //a struct to hold data before storing them into a StoreEvent
     //this is only used to simplify StoreEvent constructor and to enforce a specific structure and type to its parameters
     //getters visibility is package because the only class that should be able to access data is StoreEvent

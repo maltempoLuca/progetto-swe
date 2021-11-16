@@ -36,8 +36,9 @@ public class Controller implements EventListener {
 
             case RETURN_REFUSED:
                 break;
+
             case PURCHASE_COMPLETED:
-                logEntry = buildLogEntry("L'utente " + event.getInfo(Constants.USEREMAIL) + " ha eseguito un ordine");
+                logEntry = buildLogEntry("L'utente " + event.getTextInfo(Constants.USEREMAIL) + " ha eseguito un ordine");
                 break;
         }
 

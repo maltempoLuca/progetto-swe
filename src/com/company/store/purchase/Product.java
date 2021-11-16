@@ -2,7 +2,7 @@ package com.company.store.purchase;
 
 public final class Product {
 
-    Product(String id, String name, int price) {
+    Product(String id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -24,11 +24,11 @@ public final class Product {
         return name;
     }
 
-    int getPrice() {
+    double getPrice() {
         return price;
     }
 
     private final String id;
     private final String name;
-    private final int price;
+    private final double price;
 }

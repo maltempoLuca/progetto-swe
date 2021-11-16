@@ -17,11 +17,11 @@ public final class CatalogUtility {
 
     static final String SHOES_ID = "00001";
     static final String SHOES_NAME = "Paio di scarpe";
-    static final int SHOES_PRICE = 120;
+    static final double SHOES_PRICE = 120.99;
 
     static final String LAPTOP_ID = "02310";
     static final String LAPTOP_NAME = "Laptop";
-    static final int LAPTOP_PRICE = 799;
+    static final double LAPTOP_PRICE = 799;
 
 
 }

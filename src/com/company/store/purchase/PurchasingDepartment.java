@@ -1,8 +1,10 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
+import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.store.eventsys.events.DataPair;
+import com.company.store.eventsys.events.EventBuilder;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.events.StoreEvent;
 import com.company.store.eventsys.management.StoreEventManager;
@@ -44,6 +46,7 @@ public final class PurchasingDepartment {
     }
 
     public void purchase(String userEmail) {
+        //TODO: add price of selected service?
         //if user cart exists and is not empty generates an event with purchase info
         String userEmailLowerCase = userEmail.toLowerCase();
 
@@ -52,10 +55,10 @@ public final class PurchasingDepartment {
 
         if (userCart != null) {
             if (!userCart.isEmpty()) {
-                int total = userCart.getTotal();
+                double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                createPurchaseEvent(userEmailLowerCase, "indirizzo", Constants.STANDARD, cartContentsString, String.valueOf(total));
+                createPurchaseEvent(userEmailLowerCase, "indirizzo", Constants.STANDARD, cartContentsString, total);
 
                 userCart.clear();
             } //TODO: decide what to do when cart is empty
@@ -69,20 +72,23 @@ public final class PurchasingDepartment {
         StringBuilder contentsToString = new StringBuilder();
 
         for (CartEntry entry : contents) {
-            contentsToString.append("-").append(entry.getName()).append(" x").append(entry.getQuantity()).append("\n");
+            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append("\n");
         }
 
         return contentsToString.toString();
     }
 
-    private void createPurchaseEvent(String userEmail, String address, String service, String contents, String total) {
+    private void createPurchaseEvent(String userEmail, String address, String service, String contents, double total) {
         String userEmailLowerCase = userEmail.toLowerCase();
-        DataPair userData = new DataPair(Constants.USEREMAIL, userEmailLowerCase);
-        DataPair addressData = new DataPair(Constants.DESTINATION_ADDRESS, address);
-        DataPair serviceData = new DataPair(Constants.SHIPMENT_SERVICE, service);
-        DataPair contentsData = new DataPair(Constants.CONTENTS, contents);
-        DataPair totalData = new DataPair(Constants.PRICE, String.valueOf(total));
-        Event purchaseEvent = new StoreEvent(EventIdentifier.PURCHASE_COMPLETED, userData, addressData, serviceData, contentsData, totalData);
+
+        Event purchaseEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                .withInfo(Constants.USEREMAIL, userEmailLowerCase)
+                .withInfo(Constants.DESTINATION_ADDRESS, address)
+                .withInfo(Constants.SHIPMENT_SERVICE, service)
+                .withInfo(Constants.CONTENTS, contents)
+                .withInfo(Constants.PRICE, total)
+                .withIdentifier(EventIdentifier.PURCHASE_COMPLETED));
+
         StoreEventManager.getInstance().notify(purchaseEvent);
     }
 
