@@ -28,13 +28,13 @@ public class ShippingDepartment implements EventListener {
             instance = new ShippingDepartment();
         return instance;
     }
-    //TODO: implement createShipment and modify createService
-    void createService(String service) {
-        ShipmentFactory.getInstance().factoryMethod(service, createShipment());
+
+    void createService(String typeOfService, Shipment shipment) {
+        ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment);
     }
 
-    Shipment createShipment() {
-        return new Shipment("a", "b", "c", "d", "e", "1");
+    Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
+        return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
     void deleteService() {

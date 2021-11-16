@@ -1,6 +1,5 @@
 package com.company.store.purchase;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,17 +31,17 @@ public final class Cart {
 
             if (entry != null) {
                 entry.decrease(quantity);
-                if (entry.getQuantity() <= 0) {
+                if (entry.getQuantity() == 0) {
                     removeProduct(id);
                 }
             }
         }
     }
 
-    int getTotal() {
+    double getTotal() {
         //calculate total price
 
-        int total = 0;
+        double total = 0;
         for (CartEntry entry : contents.values()) {
             total += entry.getPrice();
         }
