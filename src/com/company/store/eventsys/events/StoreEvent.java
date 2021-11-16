@@ -28,12 +28,12 @@ public class StoreEvent implements Event {
         this.numericInfo = copyNumericInfo(numericInfo);
     }
 
-    public StoreEvent(StoreEvent storeEvent) {
+    public StoreEvent(StoreEvent toCopy) {
         //copy constructor
 
-        this.identifier = storeEvent.identifier;
-        this.textInfo = copyTextInfo(storeEvent.textInfo);
-        this.numericInfo = copyNumericInfo(storeEvent.numericInfo);
+        this.identifier = toCopy.identifier;
+        this.textInfo = copyTextInfo(toCopy.textInfo);
+        this.numericInfo = copyNumericInfo(toCopy.numericInfo);
     }
 
     @Override
