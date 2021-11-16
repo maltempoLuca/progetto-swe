@@ -17,14 +17,17 @@ public final class CartEntry {
     }
 
     void increase(int quantityDelta) {
-        if (quantity > 0) {
+        if (quantityDelta > 0) {
             quantity += quantityDelta;
         }
     }
 
     void decrease(int quantityDelta) {
-        if(quantity > 0) {
+        if(quantityDelta > 0) {
             quantity -= quantityDelta;
+            if(quantity < 0) {
+                quantity = 0;
+            }
         }
     }
 

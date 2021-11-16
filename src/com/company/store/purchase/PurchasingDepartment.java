@@ -72,7 +72,7 @@ public final class PurchasingDepartment {
         StringBuilder contentsToString = new StringBuilder();
 
         for (CartEntry entry : contents) {
-            contentsToString.append("-").append(entry.getName()).append(" x").append(entry.getQuantity()).append("\n");
+            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append("\n");
         }
 
         return contentsToString.toString();

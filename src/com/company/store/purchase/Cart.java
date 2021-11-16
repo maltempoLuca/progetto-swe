@@ -31,7 +31,7 @@ public final class Cart {
 
             if (entry != null) {
                 entry.decrease(quantity);
-                if (entry.getQuantity() <= 0) {
+                if (entry.getQuantity() == 0) {
                     removeProduct(id);
                 }
             }
