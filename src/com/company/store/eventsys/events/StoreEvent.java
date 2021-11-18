@@ -6,7 +6,7 @@ import com.company.listener.EventMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StoreEvent implements Event {
+public final class StoreEvent implements Event {
     //an event that carries a variety of information
     //each String of info is associated to a key that signals the type of stored info
 

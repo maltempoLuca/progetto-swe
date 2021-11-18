@@ -5,7 +5,7 @@ import com.company.listener.EventMessage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StoreMessage implements EventMessage {
+public final class StoreMessage implements EventMessage {
 
     StoreMessage(Map<String, String> textInfo, Map<String, Double> numericInfo) {
         this.textInfo = copyTextInfo(textInfo);

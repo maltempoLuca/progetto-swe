@@ -5,7 +5,7 @@ import com.company.store.purchase.PurchasingDepartment;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventBuilder {
+public final class EventBuilder {
 
     public static EventBuilder buildStoreEvent() {
         if (instance == null)
