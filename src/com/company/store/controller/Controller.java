@@ -1,9 +1,11 @@
 package com.company.store.controller;
 
 import com.company.constants.Constants;
+import com.company.listener.EventMessage;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
+import com.company.store.eventsys.events.StoreMessage;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +19,7 @@ public class Controller implements EventListener {
         String logEntry;
 
         EventIdentifier eventIdentifier = event.getIdentifier();
+        EventMessage message = event.getMessage();
 
         switch (eventIdentifier) {
             case CHANGE_ADDRESS:
@@ -38,7 +41,7 @@ public class Controller implements EventListener {
                 break;
 
             case PURCHASE_COMPLETED:
-                logEntry = buildLogEntry("L'utente " + event.getTextInfo(Constants.USEREMAIL) + " ha eseguito un ordine");
+                logEntry = buildLogEntry("L'utente " + message.getTextInfo(Constants.USEREMAIL) + " ha eseguito un ordine");
                 break;
         }
 

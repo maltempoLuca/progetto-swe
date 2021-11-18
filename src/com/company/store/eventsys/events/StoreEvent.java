@@ -1,6 +1,8 @@
 package com.company.store.eventsys.events;
 
 import com.company.listener.Event;
+import com.company.listener.EventMessage;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,28 +14,27 @@ public class StoreEvent implements Event {
     public StoreEvent(EventIdentifier identifier, DataPair... textInfo) {
         //fills Map with info read from DataPair
         this.identifier = identifier;
-        this.textInfo = new HashMap<>();
-        this.numericInfo = new HashMap<>();
+        Map<String, String> textInfoMap = new HashMap<>();
 
         for(DataPair entry : textInfo) {
             String infoType = entry.getDataType();
             String infoData = entry.getData();
-            this.textInfo.put(infoType, infoData);
+            textInfoMap.put(infoType, infoData);
         }
+
+        this.message = new StoreMessage(textInfoMap, null);
     }
 
     public StoreEvent(EventIdentifier identifier, Map<String, String> textInfo, Map<String, Double> numericInfo) {
         this.identifier = identifier;
-        this.textInfo = copyTextInfo(textInfo);
-        this.numericInfo = copyNumericInfo(numericInfo);
+        this.message = new StoreMessage(textInfo, numericInfo);
     }
 
     public StoreEvent(StoreEvent toCopy) {
         //copy constructor
 
         this.identifier = toCopy.identifier;
-        this.textInfo = copyTextInfo(toCopy.textInfo);
-        this.numericInfo = copyNumericInfo(toCopy.numericInfo);
+        this.message = new StoreMessage(toCopy.message);
     }
 
     @Override
@@ -42,50 +43,10 @@ public class StoreEvent implements Event {
     }
 
     @Override
-    public String getTextInfo(String infoType) {
-        //encapsulates Map get() method
-        String result = textInfo.get(infoType);
-        if(result == null) {
-            //TODO: throw exception
-        }
-
-        return textInfo.get(infoType);
-    }
-
-    @Override
-    public Double getNumericInfo(String infoType) {
-        Double result = numericInfo.get(infoType);
-        if (result == null) {
-            //TODO: throw exception
-        }
-
-        return numericInfo.get(infoType);
-    }
-
-    private Map<String, String> copyTextInfo(Map<String, String> textInfo) {
-        Map<String, String> infoCopy = new HashMap<>();
-
-        if(textInfo != null) {
-            for(Map.Entry<String, String> textEntry : textInfo.entrySet())
-                infoCopy.put(textEntry.getKey(), textEntry.getValue());
-        }
-
-        return infoCopy;
-    }
-
-    private Map<String, Double> copyNumericInfo(Map<String, Double> numericInfo) {
-        Map<String, Double> infoCopy = new HashMap<>();
-
-        if (numericInfo != null) {
-            for(Map.Entry<String, Double> numericEntry : numericInfo.entrySet()) {
-                infoCopy.put(numericEntry.getKey(), numericEntry.getValue());
-            }
-        }
-
-        return infoCopy;
+    public EventMessage getMessage() {
+        return new StoreMessage(message);
     }
 
     private final EventIdentifier identifier;
-    private final Map<String, String> textInfo;
-    private final Map<String, Double> numericInfo;
+    private final StoreMessage message;
 }
