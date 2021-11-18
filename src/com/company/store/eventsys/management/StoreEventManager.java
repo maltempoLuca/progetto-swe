@@ -21,12 +21,19 @@ public final class StoreEventManager implements EventManager {
 
         for(EventIdentifier eventIdentifier : targetEvents) {
             List<EventListener> subscribers = listeners.get(eventIdentifier);
+            boolean valid = false;
 
             if (subscribers == null) {
                 listeners.put(eventIdentifier, new ArrayList<>());
                 subscribers = listeners.get(eventIdentifier);
+                valid = true;
+            } else if(!subscribers.contains(listener)) {
+                valid = true;
             }
-            subscribers.add(listener);
+
+            if(valid) {
+                subscribers.add(listener);
+            }
         }
     }
 
