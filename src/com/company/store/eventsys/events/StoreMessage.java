@@ -43,10 +43,10 @@ public final class StoreMessage implements EventMessage {
         Map<String, String> infoCopy = new HashMap<>();
 
         if(textInfo != null) {
-            //TODO: infoCopy.putAll()
-            for(Map.Entry<String, String> textEntry : textInfo.entrySet())
-                infoCopy.put(textEntry.getKey(), textEntry.getValue());
+            infoCopy.putAll(textInfo);
         }
+
+
 
         return infoCopy;
     }
@@ -55,10 +55,7 @@ public final class StoreMessage implements EventMessage {
         Map<String, Double> infoCopy = new HashMap<>();
 
         if (numericInfo != null) {
-            //TODO: infoCopy.putAll()
-            for(Map.Entry<String, Double> numericEntry : numericInfo.entrySet()) {
-                infoCopy.put(numericEntry.getKey(), numericEntry.getValue());
-            }
+            infoCopy.putAll(numericInfo);
         }
 
         return infoCopy;
