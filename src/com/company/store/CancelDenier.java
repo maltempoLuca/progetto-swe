@@ -2,6 +2,7 @@ package com.company.store;
 
 import com.company.constants.Constants;
 import com.company.store.eventsys.events.DataPair;
+import com.company.store.eventsys.events.EventBuilder;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.events.StoreEvent;
 import com.company.store.eventsys.management.StoreEventManager;
@@ -20,10 +21,17 @@ public class CancelDenier implements CancelBehavior {
 
     @Override
     public boolean cancelShipment(Shipment shipment) {
-        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
-        DataPair reason = new DataPair(Constants.REASON, Constants.CANCEL_REASON);
-        StoreEvent cancelEvent = new StoreEvent(EventIdentifier.CANCEL_REFUSED, shipmentInfo, reason);
+
+        StoreEvent cancelEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
+                .withInfo(Constants.REASON, Constants.CANCEL_REASON)
+                .withIdentifier(EventIdentifier.CANCEL_REFUSED));
         StoreEventManager.getInstance().notify(cancelEvent);
+
+//        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
+//        DataPair reason = new DataPair(Constants.REASON, Constants.CANCEL_REASON);
+//        StoreEvent cancelEvent = new StoreEvent(EventIdentifier.CANCEL_REFUSED, shipmentInfo, reason);
+//        StoreEventManager.getInstance().notify(cancelEvent);
 
         return false;
     }

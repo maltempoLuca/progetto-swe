@@ -49,6 +49,7 @@ public final class StoreEventManager implements EventManager {
     @Override
     public void notify(Event event) {
 
+
         for(EventListener listener : listeners.get(event.getIdentifier())) {
             listener.handleEvent(event);
         }

@@ -28,6 +28,16 @@ public class Constants {
 
     //type of errors
     public static final String SUCCESS = "SUCCESS";
+
+    //event data
+    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
+    public static final String RETURN_REASON = "perchè è troppo tardi per effettuare il reso";
+    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
+    public static final String INTERNAL_ADDRESS_REASON = "non è possibile modificare l'indirizzo di un reso.";
+
+    public static final String REGISTRATION_SUCCESS = "Signin done.";
+    public static final String LOGIN_SUCCESS = "Login done.";
+    public static final String LOGOUT_SUCCESS = "Logout done.";
     public static final String SHORT_PSW = "Password has to be at least 6 characters long.";
     public static final String ONLY_LETTERS_PSW = "The password must contains letters.";
     public static final String ONLY_NUMBERS_PSW = "The password must contain numbers.";
@@ -38,18 +48,17 @@ public class Constants {
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
 
-    //event data
+    //info types
     public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
     public static final String REASON = "Reason"; //TODO: move to info types?
-    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
-    public static final String RETURN_REASON = "perchè è troppo tardi per effettuare il reso";
-    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
-
-    //info types
-    public static final String USEREMAIL = "USEREMAIL";
+    public static final String USER_EMAIL = "USER_EMAIL";
+    public static final String USER_PSW = "USER_PSW";
     public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
     public static final String SHIPMENT_SERVICE = "SHIPMENT_SERVICE";
     public static final String CONTENTS = "CONTENTS";
     public static final String PRICE = "PRICE";
+    public static final String REGISTRATION_RESULT = "REGISTRATION_RESULT" ;
+    public static final String LOGIN_RESULT = "LOGIN_RESULT" ;
+    public static final String LOGOUT_RESULT = "LOGOUT_RESULT" ;
 
 }

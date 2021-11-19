@@ -49,7 +49,7 @@ public class StoreEvent implements Event {
             //TODO: throw exception
         }
 
-        return textInfo.get(infoType);
+        return result;
     }
 
     @Override
@@ -59,16 +59,17 @@ public class StoreEvent implements Event {
             //TODO: throw exception
         }
 
-        return numericInfo.get(infoType);
+        return numericInfo.get(infoType);  //TODO:: stessa cosa anche qui.
     }
 
     private Map<String, String> copyTextInfo(Map<String, String> textInfo) {
         Map<String, String> infoCopy = new HashMap<>();
 
         if(textInfo != null) {
-            for(Map.Entry<String, String> textEntry : textInfo.entrySet())
-                infoCopy.put(textEntry.getKey(), textEntry.getValue());
+            infoCopy.putAll(textInfo);
         }
+//        infoCopy.putAll(textInfo);   //TODO:: guarda pietro, l'ide mi suggerisce questa istruzione che è piu chiara.
+
 
         return infoCopy;
     }
@@ -81,6 +82,7 @@ public class StoreEvent implements Event {
                 infoCopy.put(numericEntry.getKey(), numericEntry.getValue());
             }
         }
+//        infoCopy.putAll(textInfo);   //TODO:: guarda pietro, l'ide mi suggerisce questa istruzione che è piu chiara.
 
         return infoCopy;
     }
