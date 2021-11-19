@@ -26,7 +26,7 @@ public final class StoreMessage implements EventMessage {
             //TODO: throw exception
         }
 
-        return textInfo.get(infoType);
+        return result;
     }
 
     @Override
@@ -36,13 +36,14 @@ public final class StoreMessage implements EventMessage {
             //TODO: throw exception
         }
 
-        return numericInfo.get(infoType);
+        return result;
     }
 
     private Map<String, String> copyTextInfo(Map<String, String> textInfo) {
         Map<String, String> infoCopy = new HashMap<>();
 
         if(textInfo != null) {
+            //TODO: infoCopy.putAll()
             for(Map.Entry<String, String> textEntry : textInfo.entrySet())
                 infoCopy.put(textEntry.getKey(), textEntry.getValue());
         }
@@ -54,6 +55,7 @@ public final class StoreMessage implements EventMessage {
         Map<String, Double> infoCopy = new HashMap<>();
 
         if (numericInfo != null) {
+            //TODO: infoCopy.putAll()
             for(Map.Entry<String, Double> numericEntry : numericInfo.entrySet()) {
                 infoCopy.put(numericEntry.getKey(), numericEntry.getValue());
             }
