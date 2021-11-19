@@ -1,6 +1,10 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.eventsys.events.EventBuilder;
+import com.company.store.eventsys.events.EventIdentifier;
+import com.company.store.eventsys.events.StoreEvent;
+import com.company.store.eventsys.management.StoreEventManager;
 
 import java.util.HashMap;
 
@@ -22,14 +26,33 @@ public class UserDepartment {
             String pswFailed = checkPasswordValidity(password);
             if (pswFailed.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
+                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                            .withInfo(Constants.REGISTRATION_RESULT, Constants.EMAIL_ALREADY_USED)
+                            .withIdentifier(EventIdentifier.REGISTRATION_REFUSED));
+                    StoreEventManager.getInstance().notify(registerEvent);
                     return Constants.EMAIL_ALREADY_USED;
-                } else
+                } else {
                     usrLoginInfo.put(lowerCaseEmail, new UserData(password));
-                return Constants.SUCCESS;
-            } else
+                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                            .withInfo(Constants.REGISTRATION_RESULT, Constants.REGISTRATION_SUCCESS)
+                            .withIdentifier(EventIdentifier.REGISTRATION_ACCEPTED));
+                    StoreEventManager.getInstance().notify(registerEvent);
+                    return Constants.SUCCESS;
+                }
+            } else {
+                StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                        .withInfo(Constants.REGISTRATION_RESULT, pswFailed)
+                        .withIdentifier(EventIdentifier.REGISTRATION_REFUSED));
+                StoreEventManager.getInstance().notify(registerEvent);
                 return pswFailed;
-        } else
+            }
+        } else {
+            StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                    .withInfo(Constants.REGISTRATION_RESULT, emailFailed)
+                    .withIdentifier(EventIdentifier.REGISTRATION_REFUSED));
+            StoreEventManager.getInstance().notify(registerEvent);
             return emailFailed;
+        }
     }
 
     public String loginUser(String email, String password) {
@@ -37,11 +60,25 @@ public class UserDepartment {
         if (usrLoginInfo.containsKey(lowerCaseEmail)) {
             if (password.equals(usrLoginInfo.get(lowerCaseEmail).password)) {
                 usrLoginInfo.get(lowerCaseEmail).userIsLogged = true;
+                StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                        .withInfo(Constants.LOGIN_RESULT, Constants.LOGIN_SUCCESS)
+                        .withIdentifier(EventIdentifier.LOGIN_ACCEPTED));
+                StoreEventManager.getInstance().notify(loginEvent);
                 return Constants.SUCCESS;
-            } else
+            } else {
+                StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                        .withInfo(Constants.LOGIN_RESULT, Constants.WRONG_PSW)
+                        .withIdentifier(EventIdentifier.LOGIN_REFUSED));
+                StoreEventManager.getInstance().notify(loginEvent);
                 return Constants.WRONG_PSW;
-        } else
+            }
+        } else {
+            StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                    .withInfo(Constants.LOGIN_RESULT, Constants.WRONG_EMAIL)
+                    .withIdentifier(EventIdentifier.LOGIN_REFUSED));
+            StoreEventManager.getInstance().notify(loginEvent);
             return Constants.WRONG_EMAIL;
+        }
     }
 
     public String logOut(String email) {
@@ -49,11 +86,25 @@ public class UserDepartment {
         if (usrLoginInfo.containsKey(lowerCaseEmail)) {
             if (usrLoginInfo.get(lowerCaseEmail).userIsLogged) {
                 usrLoginInfo.get(lowerCaseEmail).userIsLogged = false;
+                StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                        .withInfo(Constants.LOGOUT_RESULT, Constants.LOGOUT_SUCCESS)
+                        .withIdentifier(EventIdentifier.LOGOUT_ACCEPTED));
+                StoreEventManager.getInstance().notify(logoutEvent);
                 return Constants.SUCCESS;
-            } else
+            } else {
+                StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                        .withInfo(Constants.LOGOUT_RESULT, Constants.ALREADY_LOGGED_OUT)
+                        .withIdentifier(EventIdentifier.LOGOUT_REFUSED));
+                StoreEventManager.getInstance().notify(logoutEvent);
                 return Constants.ALREADY_LOGGED_OUT;
-        } else
+            }
+        } else {
+            StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
+                    .withInfo(Constants.LOGOUT_RESULT, Constants.WRONG_EMAIL)
+                    .withIdentifier(EventIdentifier.LOGOUT_REFUSED));
+            StoreEventManager.getInstance().notify(logoutEvent);
             return Constants.WRONG_EMAIL;
+        }
     }
 
     private String checkPasswordValidity(String password) {
@@ -83,6 +134,7 @@ public class UserDepartment {
             this.password = password;
             this.userIsLogged = false;
         }
+
         private Boolean userIsLogged;
         private final String password;
     }

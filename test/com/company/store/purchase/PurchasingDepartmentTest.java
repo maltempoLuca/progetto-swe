@@ -1,7 +1,6 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
-import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
 import com.company.listener.EventMessage;
@@ -69,7 +68,7 @@ class PurchaseEventTester implements EventListener {
         if (eventIdentifier.equals(EventIdentifier.PURCHASE_COMPLETED)) {
             this.received = true;
             EventMessage message = event.getMessage();
-            this.userEmail = message.getTextInfo(Constants.USEREMAIL);
+            this.userEmail = message.getTextInfo(Constants.USER_EMAIL);
             this.address = message.getTextInfo(Constants.DESTINATION_ADDRESS);
             this.service = message.getTextInfo(Constants.SHIPMENT_SERVICE);
             this.contents = message.getTextInfo(Constants.CONTENTS);

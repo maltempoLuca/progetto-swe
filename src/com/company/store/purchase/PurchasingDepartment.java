@@ -1,9 +1,7 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
-import com.company.constants.Utility;
 import com.company.listener.Event;
-import com.company.store.eventsys.events.DataPair;
 import com.company.store.eventsys.events.EventBuilder;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.events.StoreEvent;
@@ -82,7 +80,7 @@ public final class PurchasingDepartment {
         String userEmailLowerCase = userEmail.toLowerCase();
 
         Event purchaseEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USEREMAIL, userEmailLowerCase)
+                .withInfo(Constants.USER_EMAIL, userEmailLowerCase)
                 .withInfo(Constants.DESTINATION_ADDRESS, address)
                 .withInfo(Constants.SHIPMENT_SERVICE, service)
                 .withInfo(Constants.CONTENTS, contents)

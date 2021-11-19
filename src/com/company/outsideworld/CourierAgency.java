@@ -74,7 +74,7 @@ public class CourierAgency extends Thread {
         return programFinished;
     }
 
-    public void setProgramFinished() throws InterruptedException {
+    public void setProgramFinished() throws InterruptedException {   //TODO:: fa busy waiting, è necessario?
         try {
             acquire_nShipmentServiceReaders();
             do {

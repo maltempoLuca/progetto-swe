@@ -23,8 +23,7 @@ public class CancelAllower implements CancelBehavior {
     public boolean cancelShipment(Shipment shipment) {
         StoreEvent cancelEvent = new StoreEvent(EventBuilder.buildStoreEvent()
                 .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
-                .withIdentifier(EventIdentifier.CANCEL));
-
+                .withIdentifier(EventIdentifier.CANCEL_SUCCESS));
         StoreEventManager.getInstance().notify(cancelEvent);
 
         shipment = null;
