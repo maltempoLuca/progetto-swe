@@ -16,7 +16,7 @@ public class ShipmentFactory implements Factory {
     }
 
     @Override
-    public Object factoryMethod(Object ... params) {
+    public ShipmentService factoryMethod(Object ... params) {
         //params[0] = type of service
         //params[1] = shipment
         //TODO: how to throw exception?
@@ -25,7 +25,9 @@ public class ShipmentFactory implements Factory {
         if (service.equals(Constants.STANDARD))
             return new StandardService(shipment);
         if(service.equals(Constants.PREMIUM))
-            return  new PremiumService(shipment);
+            return new PremiumService(shipment);
+        if(service.equals(Constants.RETURN))
+            return new ReturnService(shipment);
         return null;
     }
 

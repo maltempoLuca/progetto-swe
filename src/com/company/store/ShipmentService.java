@@ -10,6 +10,8 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         this.shipment = shipment;
     }
 
+    abstract ShipmentService copy();
+
     public void updateShipmentState() throws NullPointerException {
         if (shipment.getState().getNextState() == null)
             throw new NullPointerException("La spedizione è già stata consegnata");

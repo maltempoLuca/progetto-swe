@@ -5,7 +5,12 @@ public class StandardService extends ShipmentService {
 
     public StandardService(Shipment shipment) {
         super(Constants.LOW_PRIORITY, shipment);
-    } //METTI PACKAGE
+    } //TODO: METTI PACKAGE
+
+    @Override
+    ShipmentService copy() {
+        return new StandardService(new Shipment(super.getShipment()));
+    }
 
     @Override
     void changeAddressBehavior() {
