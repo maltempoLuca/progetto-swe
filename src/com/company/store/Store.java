@@ -36,26 +36,15 @@ public class Store {
     }
 
     public void registerUser(String email, String password) {
-        StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withInfo(Constants.USER_PSW, password)
-                .withIdentifier(EventIdentifier.REGISTER_REQUEST));
-        StoreEventManager.getInstance().notify(registerEvent);
+        UserDepartment.getInstance().registerUser(email, password);
     }
 
     public void loginUser(String email, String password) {
-        StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withInfo(Constants.USER_PSW, password)
-                .withIdentifier(EventIdentifier.LOGIN_REQUEST));
-        StoreEventManager.getInstance().notify(loginEvent);
+        UserDepartment.getInstance().loginUser(email, password);
     }
 
     public void logoutUser(String email) {
-        StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withIdentifier(EventIdentifier.LOGOUT_REQUEST));
-        StoreEventManager.getInstance().notify(logoutEvent);
+        UserDepartment.getInstance().logOut(email);
     }
 
     private static Store instance = null;

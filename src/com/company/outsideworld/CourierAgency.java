@@ -9,18 +9,12 @@ import java.util.concurrent.Semaphore;
 
 
 public class CourierAgency extends Thread {
-    private CourierAgency() {
+    public CourierAgency() {
         for (int i = 0; i < 10; i++) {
             Courier courier = new Courier();
             couriers.add(courier);
             couriersThread.add(null);
         }
-    }
-
-    public static CourierAgency getInstance() {
-        if (instance == null)
-            instance = new CourierAgency();
-        return instance;
     }
 
     @Override
@@ -149,12 +143,12 @@ public class CourierAgency extends Thread {
     private boolean programFinished = false;
     private static int pacchiGestiti = 0;
 
-    Semaphore shipmentServicesReaders = new Semaphore(1);
-    Semaphore shipmentServicesWriters = new Semaphore(1);
+    private Semaphore shipmentServicesReaders = new Semaphore(1);
+    private Semaphore shipmentServicesWriters = new Semaphore(1);
     private int nShipmentServiceReaders = 0;
 
-    Semaphore couriersReaders = new Semaphore(1);
-    Semaphore couriersWriters = new Semaphore(1);
+    private Semaphore couriersReaders = new Semaphore(1);
+    private Semaphore couriersWriters = new Semaphore(1);
     private int nCouriersReaders = 0;
 
     private final ArrayList<Courier> couriers = new ArrayList<>();

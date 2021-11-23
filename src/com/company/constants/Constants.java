@@ -60,5 +60,5 @@ public class Constants {
     public static final String REGISTRATION_RESULT = "REGISTRATION_RESULT" ;
     public static final String LOGIN_RESULT = "LOGIN_RESULT" ;
     public static final String LOGOUT_RESULT = "LOGOUT_RESULT" ;
-
+    public static final String OPERATION_RESULT = "OPERATION_RESULT";
 }

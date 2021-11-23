@@ -1,6 +1,7 @@
 package com.company.store.controller;
 
 import com.company.constants.Constants;
+import com.company.store.Store;
 import com.company.store.UserDepartment;
 import com.company.listener.EventMessage;
 import com.company.store.eventsys.events.EventIdentifier;
@@ -49,60 +50,29 @@ public class Controller implements EventListener {
             case REGISTER_REQUEST: {
                 String email = message.getTextInfo(Constants.USER_EMAIL);
                 String psw = message.getTextInfo(Constants.USER_PSW);
-                String result = UserDepartment.getInstance().registerUser(email, psw);
+                Store.getInstance().registerUser(email, psw);
                 break;
             }
 
             case LOGIN_REQUEST: {
                 String email = message.getTextInfo(Constants.USER_EMAIL);
                 String psw = message.getTextInfo(Constants.USER_PSW);
-                String result = UserDepartment.getInstance().loginUser(email, psw);
+                Store.getInstance().loginUser(email, psw);
                 break;
             }
 
             case LOGOUT_REQUEST: {
                 String email = message.getTextInfo(Constants.USER_EMAIL);
-                String result = UserDepartment.getInstance().logOut(email);
+                Store.getInstance().logoutUser(email);
                 break;
             }
 
-            case LOGOUT_ACCEPTED: {
-                String result = message.getTextInfo(Constants.LOGOUT_RESULT);
-                System.out.println(result);   // usa la vista per stampare e non Syste.Out.println()
-                break;
-            }
-
-            case LOGOUT_REFUSED: {
-                String result = message.getTextInfo(Constants.LOGOUT_RESULT);
-                System.out.println(result);
-                break;
-            }
-
-            case LOGIN_ACCEPTED: {
-                String result = message.getTextInfo(Constants.LOGIN_RESULT);
-                System.out.println(result);
-                break;
-            }
-
-            case LOGIN_REFUSED: {
-                String result = message.getTextInfo(Constants.LOGIN_RESULT);
-                System.out.println(result);
-                break;
-            }
-
-            case REGISTRATION_ACCEPTED: {
-                String result = message.getTextInfo(Constants.REGISTRATION_RESULT);
-                System.out.println(result);
-                break;
-            }
-
-            case REGISTRATION_REFUSED: {
-                String result = message.getTextInfo(Constants.REGISTRATION_RESULT);
+            case OPERATION_COMPLETED: {
+                String result = message.getTextInfo(Constants.OPERATION_RESULT);
                 System.out.println(result);
                 break;
             }
         }
-
     }
 
     private void clearViews() {
