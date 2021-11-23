@@ -4,7 +4,7 @@ import com.company.store.ShipmentService;
 
 import java.util.Random;
 
-public class Courier extends Thread {
+public class Courier implements Runnable {
     public Courier() {
         working = false;
     }

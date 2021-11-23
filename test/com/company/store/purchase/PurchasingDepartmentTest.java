@@ -1,9 +1,9 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
-import com.company.constants.Utility;
 import com.company.listener.Event;
 import com.company.listener.EventListener;
+import com.company.listener.EventMessage;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.management.StoreEventManager;
 import org.junit.Assert;
@@ -67,11 +67,12 @@ class PurchaseEventTester implements EventListener {
 
         if (eventIdentifier.equals(EventIdentifier.PURCHASE_COMPLETED)) {
             this.received = true;
-            this.userEmail = event.getTextInfo(Constants.USEREMAIL);
-            this.address = event.getTextInfo(Constants.DESTINATION_ADDRESS);
-            this.service = event.getTextInfo(Constants.SHIPMENT_SERVICE);
-            this.contents = event.getTextInfo(Constants.CONTENTS);
-            this.total = event.getNumericInfo(Constants.PRICE);
+            EventMessage message = event.getMessage();
+            this.userEmail = message.getTextInfo(Constants.USER_EMAIL);
+            this.address = message.getTextInfo(Constants.DESTINATION_ADDRESS);
+            this.service = message.getTextInfo(Constants.SHIPMENT_SERVICE);
+            this.contents = message.getTextInfo(Constants.CONTENTS);
+            this.total = message.getNumericInfo(Constants.PRICE);
         }
     }
 

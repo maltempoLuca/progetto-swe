@@ -13,7 +13,7 @@ public class CourierAgency extends Thread {
         for (int i = 0; i < 10; i++) {
             Courier courier = new Courier();
             couriers.add(courier);
-            couriersThread.add(new Thread(courier));
+            couriersThread.add(null);
         }
     }
 
@@ -42,10 +42,12 @@ public class CourierAgency extends Thread {
             try {
                 acquire_nShipmentServiceReaders();
                 for (int i = 0; i < couriers.size(); i++) {
-                    if (!shipmentServices.isEmpty() && !couriers.get(i).isWorking()) {
-                        couriers.get(i).assignShipmentService(shipmentServices.poll());
-                        couriersThread.set(i, new Thread(couriers.get(i)));
-                        couriersThread.get(i).start();
+                    Courier currentCourier = couriers.get(i);
+                    if (!shipmentServices.isEmpty() && !currentCourier.isWorking()) {
+                        currentCourier.assignShipmentService(shipmentServices.poll());
+                        Thread courierThread = new Thread(currentCourier);
+                        couriersThread.set(i, courierThread);
+                        courierThread.start();
                         System.out.println("assegnato");
                         pacchiGestiti++;
                     }
@@ -72,7 +74,7 @@ public class CourierAgency extends Thread {
         return programFinished;
     }
 
-    public void setProgramFinished() throws InterruptedException {
+    public void setProgramFinished() throws InterruptedException {   //TODO:: fa busy waiting, è necessario?
         try {
             acquire_nShipmentServiceReaders();
             do {
@@ -157,5 +159,6 @@ public class CourierAgency extends Thread {
 
     private final ArrayList<Courier> couriers = new ArrayList<>();
     private final ArrayList<Thread> couriersThread = new ArrayList<>();
-    private final Queue<ShipmentService> shipmentServices = new LinkedList<>(); //TODO: adesso se cancello un ordine devo cancellarlo pure da qui.
+    private final Queue<ShipmentService> shipmentServices = new LinkedList<>();//TODO: adesso se cancello un ordine devo cancellarlo pure da qui.
+    private final LinkedList<ShipmentService> test = new LinkedList<>();
 }
