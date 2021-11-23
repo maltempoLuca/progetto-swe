@@ -1,10 +1,8 @@
 package com.company.store;
 
-import com.company.constants.Constants;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEvent;
+import com.company.store.events.shipments.ShipmentEventManager;
 
 public class UserAddressChanger implements AddressBehavior {
 
@@ -19,19 +17,11 @@ public class UserAddressChanger implements AddressBehavior {
     }
 
     @Override
-    public boolean changeAddress(Shipment shipment, String newAddress) {
-
-        StoreEvent addressEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
-                .withIdentifier(EventIdentifier.CHANGE_ADDRESS_ACCEPTED));
-        StoreEventManager.getInstance().notify(addressEvent);
-//
-//        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
-//        StoreEvent addressEvent = new StoreEvent(EventIdentifier.CHANGE_ADDRESS, shipmentInfo);
-//        StoreEventManager.getInstance().notify(addressEvent);
-
+    public OperationResult changeAddress(Shipment shipment, String newAddress) {
         shipment.setDestinationAddress(newAddress);
-        return true;
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment))); //TODO: deep copy shipment
+
+        return new OperationResult("Destination address of shipment " + shipment.getId() + " changed to: " + newAddress,true);
     }
 
     private static UserAddressChanger instance = null;

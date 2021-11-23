@@ -22,7 +22,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
     }
 
     void changeAddress(String newAddress) {
-        if (addressBehavior.changeAddress(shipment, newAddress))
+        if (addressBehavior.changeAddress(shipment, newAddress).isSuccessful())
             shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
     }
 

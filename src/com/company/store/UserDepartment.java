@@ -1,10 +1,6 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
 
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
@@ -20,82 +16,66 @@ public class UserDepartment {
         return instance;
     }
 
-    public void registerUser(String email, String password) {
+    public OperationResult registerUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
         String emailFailed = checkEmailValidity(lowerCaseEmail);
+        String message;
+        boolean successful = false;
         if (emailFailed.equals(Constants.SUCCESS)) {
             String pswFailed = checkPasswordValidity(password);
             if (pswFailed.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
-                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                            .withInfo(Constants.OPERATION_RESULT, Constants.EMAIL_ALREADY_USED)
-                            .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                    StoreEventManager.getInstance().notify(registerEvent);
+                    message = Constants.EMAIL_ALREADY_USED;
                 } else {
                     usrLoginInfo.put(lowerCaseEmail, new UserData(password));
-                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                            .withInfo(Constants.OPERATION_RESULT, Constants.REGISTRATION_SUCCESS)
-                            .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                    StoreEventManager.getInstance().notify(registerEvent);
+                    successful = true;
+                    message = Constants.REGISTRATION_SUCCESS;
                 }
             } else {
-                StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, pswFailed)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(registerEvent);
+                message = pswFailed;
             }
         } else {
-            StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                    .withInfo(Constants.OPERATION_RESULT, emailFailed)
-                    .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-            StoreEventManager.getInstance().notify(registerEvent);
+            message = emailFailed;
         }
+
+        return new OperationResult(message, successful);
     }
 
-    public void loginUser(String email, String password) {
+    public OperationResult loginUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
+        String message;
+        boolean successful = false;
         if (usrLoginInfo.containsKey(lowerCaseEmail)) {
             if (password.equals(usrLoginInfo.get(lowerCaseEmail).password)) {
                 usrLoginInfo.get(lowerCaseEmail).userIsLogged = true;
-                StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, Constants.LOGIN_SUCCESS)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(loginEvent);
+                successful = true;
+                message = Constants.LOGIN_SUCCESS;
             } else {
-                StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, Constants.WRONG_PSW)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(loginEvent);
+                message = Constants.WRONG_PSW;
             }
         } else {
-            StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                    .withInfo(Constants.OPERATION_RESULT, Constants.WRONG_EMAIL)
-                    .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-            StoreEventManager.getInstance().notify(loginEvent);
+            message = Constants.WRONG_EMAIL;
         }
+        return new OperationResult(message, successful);
     }
 
-    public void logOut(String email) {
+    public OperationResult logOut(String email) {
         String lowerCaseEmail = email.toLowerCase();
+        String message;
+        boolean successful = false;
         if (usrLoginInfo.containsKey(lowerCaseEmail)) {
             if (usrLoginInfo.get(lowerCaseEmail).userIsLogged) {
                 usrLoginInfo.get(lowerCaseEmail).userIsLogged = false;
-                StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, Constants.LOGOUT_SUCCESS)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(logoutEvent);
+                successful = true;
+                message = Constants.LOGOUT_SUCCESS;
             } else {
-                StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, Constants.ALREADY_LOGGED_OUT)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(logoutEvent);
+                message = Constants.ALREADY_LOGGED_OUT;
             }
         } else {
-            StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                    .withInfo(Constants.OPERATION_RESULT, Constants.WRONG_EMAIL)
-                    .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-            StoreEventManager.getInstance().notify(logoutEvent);
+            message = Constants.WRONG_EMAIL;
         }
+
+        return new OperationResult(message, successful);
     }
 
     private String checkPasswordValidity(String password) {

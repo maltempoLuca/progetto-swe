@@ -1,4 +1,4 @@
-package com.company.store.eventsys.events.requests;
+package com.company.store.events.requests;
 
 import com.company.store.controller.Loggable;
 

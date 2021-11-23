@@ -1,4 +1,4 @@
-package com.company.store.eventsys.events.shipments;
+package com.company.store.events.shipments;
 
 import com.company.constants.Utility;
 import com.company.store.Shipment;

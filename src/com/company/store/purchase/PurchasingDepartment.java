@@ -1,11 +1,8 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
-import com.company.listener.Event;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
+import com.company.store.OperationResult;
+import com.company.store.ShippingDepartment;
 
 import java.util.*;
 
@@ -26,8 +23,10 @@ public final class PurchasingDepartment {
         carts.put(userEmail.toLowerCase(), new Cart());
     }
 
-    public void addToCart(String productId, int quantity, String userEmail) {
+    public OperationResult addToCart(String productId, int quantity, String userEmail) {
         String userEmailLowerCase = userEmail.toLowerCase();
+        boolean successful = false;
+        String operationMessage;
 
         Cart userCart = carts.get(userEmailLowerCase);
 
@@ -35,18 +34,26 @@ public final class PurchasingDepartment {
             Product product = catalog.get(productId);
             if (product != null) {
                 userCart.increaseProduct(product, quantity);
+                operationMessage = product.getName() + " x" + quantity + " addedd to cart";
+                successful = true;
             } else {
-                //TODO: throw exception
+                //TODO: throw exception?
+                operationMessage = "Product does not exist";
             }
         } else {
-            //TODO: throw exception
+            //TODO: throw exception!!
+            operationMessage = "No such user found";
         }
+
+        return new OperationResult(operationMessage, successful);
     }
 
-    public void purchase(String userEmail) {
+    public OperationResult purchase(String userEmail) {
         //TODO: add price of selected service?
         //if user cart exists and is not empty generates an event with purchase info
         String userEmailLowerCase = userEmail.toLowerCase();
+        boolean successful = false;
+        String operationMessage;
 
         //TODO: simulate user input?
         Cart userCart = carts.get(userEmailLowerCase);
@@ -56,12 +63,22 @@ public final class PurchasingDepartment {
                 double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                createPurchaseEvent(userEmailLowerCase, "indirizzo", Constants.STANDARD, cartContentsString, total);
+                ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, Constants.STANDARD, "indirizzo", "destinatario", cartContentsString);
 
                 userCart.clear();
-            } //TODO: decide what to do when cart is empty
+                operationMessage = "User " + userEmailLowerCase + " has purchased: " + cartContentsString + "with service: "; //TODO: add service
+                successful = true;
+            } else {
+                //TODO: decide what to do when cart is empty
+                operationMessage = "Purchase failed, cart is empty";
+            }
 
-        } //TODO: throw exception
+        }  else {
+            //TODO: throw exception?
+            operationMessage = "Purchase failed, no user corresponding to " + userEmailLowerCase;
+        }
+
+        return new OperationResult(operationMessage, successful);
     }
 
     private String readCartContents(Cart cart) {
@@ -74,20 +91,6 @@ public final class PurchasingDepartment {
         }
 
         return contentsToString.toString();
-    }
-
-    private void createPurchaseEvent(String userEmail, String address, String service, String contents, double total) {
-        String userEmailLowerCase = userEmail.toLowerCase();
-
-        Event purchaseEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, userEmailLowerCase)
-                .withInfo(Constants.DESTINATION_ADDRESS, address)
-                .withInfo(Constants.SHIPMENT_SERVICE, service)
-                .withInfo(Constants.CONTENTS, contents)
-                .withInfo(Constants.PRICE, total)
-                .withIdentifier(EventIdentifier.PURCHASE_COMPLETED));
-
-        StoreEventManager.getInstance().notify(purchaseEvent);
     }
 
     private HashMap<String, Product> initCatalog() {

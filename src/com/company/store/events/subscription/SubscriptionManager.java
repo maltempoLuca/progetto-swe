@@ -1,4 +1,4 @@
-package com.company.store.eventsys.events.subscription;
+package com.company.store.events.subscription;
 
 import java.util.ArrayList;
 import java.util.HashMap;

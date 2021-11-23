@@ -1,11 +1,9 @@
 package com.company;
 
 import com.company.constants.Constants;
-import com.company.store.UserDepartment;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
+import com.company.store.events.requests.RequestEvent;
+import com.company.store.events.requests.RequestIdentifier;
+import com.company.store.events.requests.RequestManager;
 
 public class Buttons {
 
@@ -19,26 +17,20 @@ public class Buttons {
     }
 
     public void registerUser(String email, String password) {
-        StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withInfo(Constants.USER_PSW, password)
-                .withIdentifier(EventIdentifier.REGISTER_REQUEST));
-        StoreEventManager.getInstance().notify(registerEvent);
+        RequestEvent request = new RequestEvent(RequestIdentifier.REGISTER_REQUEST);
+        request.addInput(Constants.USER_EMAIL, email).addInput(Constants.USER_PSW, password);
+        RequestManager.getInstance().notify(request);
     }
 
     public void loginUser(String email, String password) {
-        StoreEvent loginEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withInfo(Constants.USER_PSW, password)
-                .withIdentifier(EventIdentifier.LOGIN_REQUEST));
-        StoreEventManager.getInstance().notify(loginEvent);
+        RequestEvent request = new RequestEvent(RequestIdentifier.LOGIN_REQUEST);
+        request.addInput(Constants.USER_EMAIL, email).addInput(Constants.USER_PSW, password);
+        RequestManager.getInstance().notify(request);
     }
 
     public void logoutUser(String email) {
-        StoreEvent logoutEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withIdentifier(EventIdentifier.LOGOUT_REQUEST));
-        StoreEventManager.getInstance().notify(logoutEvent);
+        RequestEvent request = new RequestEvent(RequestIdentifier.LOGOUT_REQUEST, email);
+        RequestManager.getInstance().notify(request);
     }
 
     private static Buttons instance = null;

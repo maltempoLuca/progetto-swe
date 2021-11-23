@@ -1,11 +1,6 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.store.eventsys.events.DataPair;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
 
 public class UserAddressDenier implements AddressBehavior {
 
@@ -21,20 +16,8 @@ public class UserAddressDenier implements AddressBehavior {
 
     //TODO: implement method
     @Override
-    public boolean changeAddress(Shipment shipment, String newAddress) {
-
-        StoreEvent addressEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
-                .withInfo(Constants.REASON, Constants.CHANGE_ADDRESS_REASON)
-                .withIdentifier(EventIdentifier.CHANGE_ADDRESS_REFUSED));
-        StoreEventManager.getInstance().notify(addressEvent);
-//
-//        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
-//        DataPair reason = new DataPair(Constants.REASON, Constants.CHANGE_ADDRESS_REASON);
-//        StoreEvent addressEvent = new StoreEvent(EventIdentifier.CHANGE_ADDRESS_REFUSED, shipmentInfo, reason);
-//        StoreEventManager.getInstance().notify(addressEvent);
-
-        return false;
+    public OperationResult changeAddress(Shipment shipment, String newAddress) {
+        return new OperationResult("Destinadion address of shipment " + shipment.getId() + "cannot be changed " + Constants.CHANGE_ADDRESS_REASON, false);
     }
 
     private static UserAddressDenier instance = null;

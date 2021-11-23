@@ -1,4 +1,4 @@
-package com.company.store.eventsys.events.shipments;
+package com.company.store.events.shipments;
 
 public interface ShipmentEventListener {
     void handleEvent(ShipmentEvent event);
