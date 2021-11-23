@@ -29,8 +29,14 @@ public class ShippingDepartment implements EventListener {
         return instance;
     }
 
-    void createService(String typeOfService, Shipment shipment) {
-        ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment);
+    public void addUserServices(String email) {
+        if (!activeServices.containsKey(email))
+            activeServices.put(email, new HashMap<>());
+    }
+
+    void createService(String typeOfService, Shipment shipment, String email) {
+        ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment).copy();
+        activeServices.get(email).put(shipment.getId(), newService);
     }
 
     Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
@@ -48,7 +54,7 @@ public class ShippingDepartment implements EventListener {
     }
 
     private static ShippingDepartment instance = null;
-    private final Map<String, ShipmentService> activeServices = new HashMap<String, ShipmentService>();
+    private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
 
 }

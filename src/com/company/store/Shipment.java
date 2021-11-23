@@ -14,6 +14,18 @@ public class Shipment {
         this.id = id;
     }
 
+    public Shipment(Shipment toCopy) {
+        //copy constructor
+
+        this.sender = toCopy.sender;
+        this.receiver = toCopy.receiver;
+        this.senderAddress = toCopy.senderAddress;
+        this.destinationAddress = toCopy.destinationAddress;
+        this.contents = toCopy.contents;
+        this.id = toCopy.id;
+        this.state = toCopy.state;
+    }
+
     public void setState(ShipmentState state) {
         this.state = state;
     }

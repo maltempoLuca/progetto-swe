@@ -25,6 +25,7 @@ public class Constants {
     //type of services
     public static final String STANDARD = "Standard";
     public static final String PREMIUM = "Premium";
+    public static final String RETURN = "Return";
 
     //type of errors
     public static final String SUCCESS = "SUCCESS";
