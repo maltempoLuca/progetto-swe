@@ -38,7 +38,7 @@ public class PurchasingDepartmentTest {
 
     @Test
     public void absentProductPurchase() {
-        //TODO: shpuld test for exception?
+        //TODO: should test for exception?
         PurchasingDepartment.getInstance().addUserCart(userEmail2);
         PurchasingDepartment.getInstance().addToCart("non existent id", 2, userEmail2);
         PurchasingDepartment.getInstance().purchase(userEmail2);
