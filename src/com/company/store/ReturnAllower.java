@@ -1,10 +1,9 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEvent;
+import com.company.store.events.shipments.ShipmentEventManager;
 
 public class ReturnAllower implements ReturnBehavior {
 
@@ -19,17 +18,9 @@ public class ReturnAllower implements ReturnBehavior {
     }
 
     @Override
-    public boolean createReturn(Shipment shipment) {
+    public OperationResult createReturn(Shipment shipment) {
 
-        StoreEvent returnEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
-                .withIdentifier(EventIdentifier.RETURN_ACCEPTED));
-        StoreEventManager.getInstance().notify(returnEvent);
-        //TODO:: la creazione ed il lancio dell'evento dovrebbero essere alla fine del metodo penso.
-//
-//        DataPair shipmentInfo = new DataPair(Constants.ID_SPEDIZIONE, shipment.getId());
-//        StoreEvent returnEvent = new StoreEvent(EventIdentifier.RETURN, shipmentInfo);
-//        StoreEventManager.getInstance().notify(returnEvent);
+        //TODO: ora queste operazioni le fa shipping department?
 
         String tempSender = shipment.getSender();
         shipment.setSender(shipment.getReceiver());
@@ -40,7 +31,9 @@ public class ReturnAllower implements ReturnBehavior {
         shipment.setDestinationAddress(tempSenderAddress);
 
         shipment.setState(Constants.RETURN_CREATED);
-        return true;
+
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment)));
+        return new OperationResult("Shipment: " + shipment.getId() + "return accepted", true);
     }
 
     private static ReturnAllower instance = null;

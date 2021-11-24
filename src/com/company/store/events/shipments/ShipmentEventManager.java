@@ -1,6 +1,6 @@
-package com.company.store.eventsys.events.shipments;
+package com.company.store.events.shipments;
 
-import com.company.store.eventsys.events.subscription.SubscriptionManager;
+import com.company.store.events.subscription.SubscriptionManager;
 
 import java.util.Collection;
 
