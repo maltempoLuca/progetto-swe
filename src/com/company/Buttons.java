@@ -5,6 +5,9 @@ import com.company.store.UserDepartment;
 import com.company.store.eventsys.events.EventBuilder;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.events.StoreEvent;
+import com.company.store.eventsys.events.requests.RequestEvent;
+import com.company.store.eventsys.events.requests.RequestIdentifier;
+import com.company.store.eventsys.events.requests.RequestManager;
 import com.company.store.eventsys.management.StoreEventManager;
 
 public class Buttons {
@@ -19,11 +22,9 @@ public class Buttons {
     }
 
     public void registerUser(String email, String password) {
-        StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.USER_EMAIL, email)
-                .withInfo(Constants.USER_PSW, password)
-                .withIdentifier(EventIdentifier.REGISTER_REQUEST));
-        StoreEventManager.getInstance().notify(registerEvent);
+        RequestEvent requestEvent = new RequestEvent(RequestIdentifier.REGISTER_REQUEST)
+                .addInput(Constants.USER_EMAIL, email).addInput(Constants.USER_PSW, password);
+        RequestManager.getInstance().notify(requestEvent);
     }
 
     public void loginUser(String email, String password) {

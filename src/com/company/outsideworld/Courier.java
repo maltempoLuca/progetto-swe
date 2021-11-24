@@ -17,7 +17,8 @@ public class Courier implements Runnable {
     @Override
     public void run() {
         int tmpPriority = shipmentService.getPriority();
-        try {
+        try {//fino a che spedizione cancellata è falsa continua il while,
+            // aggiungi metodo a shipmentService con semaforo per conoscere stato di shipment
             shipmentService.updateShipmentState(); // adesso è SENT
             Thread.sleep(generateRandom(500, 1500 + tmpPriority * 500));
             shipmentService.updateShipmentState(); // adesso è IN_TRANSIT

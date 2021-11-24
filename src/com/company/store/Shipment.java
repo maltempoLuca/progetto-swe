@@ -5,6 +5,8 @@ import com.company.constants.ShipmentState;
 public class Shipment {
 
     //TODO: costruttore da mettere a package.
+    // aggiungi metodo a shipmentService con semaforo per conoscere stato di shipment
+
     public Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;
         this.receiver = receiver;

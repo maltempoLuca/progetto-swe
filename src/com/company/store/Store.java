@@ -19,6 +19,7 @@ public class Store {
         return instance;
     }
 
+
     public void requestCancel() {
 
     }
@@ -35,8 +36,8 @@ public class Store {
 
     }
 
-    public void registerUser(String email, String password) {
-        UserDepartment.getInstance().registerUser(email, password);
+    public OperationResult registerUser(String email, String password) {
+        return UserDepartment.getInstance().registerUser(email, password);
     }
 
     public void loginUser(String email, String password) {

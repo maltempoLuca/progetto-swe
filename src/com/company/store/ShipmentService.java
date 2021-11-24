@@ -12,7 +12,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
 
     abstract ShipmentService copy();
 
-    public void updateShipmentState() throws NullPointerException {
+    public void updateShipmentState() throws NullPointerException { //qui SEMAFORI
         if (shipment.getState().getNextState() == null)
             throw new NullPointerException("La spedizione è già stata consegnata");
         shipment.setState(shipment.getState().getNextState());
@@ -21,18 +21,18 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         changeReturnBehavior();
     }
 
-    void changeAddress(String newAddress) {
+    void changeAddress(String newAddress) { // qui
         if (addressBehavior.changeAddress(shipment, newAddress))
             shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
     }
 
     void createReturn() {
         returnBehavior.createReturn(shipment);
-    }
+    } // qui
 
     void cancelShipment() {
         cancelBehavior.cancelShipment(shipment);
-    }
+    } // qui
 
     void requestCourier() {
 

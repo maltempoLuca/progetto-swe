@@ -5,6 +5,9 @@ import com.company.store.eventsys.events.DataPair;
 import com.company.store.eventsys.events.EventBuilder;
 import com.company.store.eventsys.events.EventIdentifier;
 import com.company.store.eventsys.events.StoreEvent;
+import com.company.store.eventsys.events.shipments.ShipEventIdentifier;
+import com.company.store.eventsys.events.shipments.ShipmentEvent;
+import com.company.store.eventsys.events.shipments.ShipmentEventManager;
 import com.company.store.eventsys.management.StoreEventManager;
 
 public class CancelAllower implements CancelBehavior {
@@ -21,12 +24,9 @@ public class CancelAllower implements CancelBehavior {
 
     @Override
     public boolean cancelShipment(Shipment shipment) {
-        StoreEvent cancelEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                .withInfo(Constants.ID_SPEDIZIONE, shipment.getId())
-                .withIdentifier(EventIdentifier.CANCEL_SUCCESS));
-        StoreEventManager.getInstance().notify(cancelEvent);
-
-        shipment = null;
+        //TODO:: aggiungere stato "CANCELLATA"
+        ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment));
+        ShipmentEventManager.getInstance().notify(shipmentEvent);
         return true;
     }
 

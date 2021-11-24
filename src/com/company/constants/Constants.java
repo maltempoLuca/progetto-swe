@@ -16,6 +16,7 @@ public class Constants {
     public static final ShipmentState IN_TRANSIT = new ShipmentState("In transit", OUT_FOR_DELIVERY);
     public static final ShipmentState SENT = new ShipmentState("Sent", IN_TRANSIT);
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
+    public static final ShipmentState CANCELLED = new ShipmentState("Cancelled", null);
 
     //return states
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);

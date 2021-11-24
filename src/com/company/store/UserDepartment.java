@@ -20,36 +20,28 @@ public class UserDepartment {
         return instance;
     }
 
-    public void registerUser(String email, String password) {
+    public OperationResult registerUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
         String emailFailed = checkEmailValidity(lowerCaseEmail);
+        String message;
+        boolean successful = false;
         if (emailFailed.equals(Constants.SUCCESS)) {
             String pswFailed = checkPasswordValidity(password);
             if (pswFailed.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
-                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                            .withInfo(Constants.OPERATION_RESULT, Constants.EMAIL_ALREADY_USED)
-                            .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                    StoreEventManager.getInstance().notify(registerEvent);
+                    message = Constants.EMAIL_ALREADY_USED;
                 } else {
                     usrLoginInfo.put(lowerCaseEmail, new UserData(password));
-                    StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                            .withInfo(Constants.OPERATION_RESULT, Constants.REGISTRATION_SUCCESS)
-                            .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                    StoreEventManager.getInstance().notify(registerEvent);
+                    successful = true;
+                    message = Constants.REGISTRATION_SUCCESS;
                 }
             } else {
-                StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                        .withInfo(Constants.OPERATION_RESULT, pswFailed)
-                        .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-                StoreEventManager.getInstance().notify(registerEvent);
+                message = pswFailed;
             }
         } else {
-            StoreEvent registerEvent = new StoreEvent(EventBuilder.buildStoreEvent()
-                    .withInfo(Constants.OPERATION_RESULT, emailFailed)
-                    .withIdentifier(EventIdentifier.OPERATION_COMPLETED));
-            StoreEventManager.getInstance().notify(registerEvent);
+            message = emailFailed;
         }
+        return new OperationResult(message, successful);
     }
 
     public void loginUser(String email, String password) {
@@ -105,23 +97,23 @@ public class UserDepartment {
         if (password.length() >= 6) {
             if (password.matches(numbers)) {
                 if (password.matches(letters)) {
-                    result =  Constants.SUCCESS;
+                    result = Constants.SUCCESS;
                 } else
                     result = Constants.ONLY_NUMBERS_PSW;
             } else
                 result = Constants.ONLY_LETTERS_PSW;
         } else
             result = Constants.SHORT_PSW;
-        return  result;
+        return result;
     }
 
     private String checkEmailValidity(String email) {
         String atSymbol = ".*[@].*";
         String result;
         if (email.matches(atSymbol))
-            result =  Constants.SUCCESS;
+            result = Constants.SUCCESS;
         else
-            result =  Constants.INVALID_EMAIL;
+            result = Constants.INVALID_EMAIL;
         return result;
     }
 
