@@ -43,6 +43,10 @@ public class ShippingDepartment implements EventListener {
         return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
+    void createReturn(ShipmentService shipmentService) {
+        shipmentService.getReturnBehavior().createReturn(shipmentService.getShipment());
+    }
+
     void deleteService() {
 
     }

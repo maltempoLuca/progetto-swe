@@ -26,10 +26,6 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
     }
 
-    void createReturn() {
-        returnBehavior.createReturn(shipment);
-    }
-
     void cancelShipment() {
         cancelBehavior.cancelShipment(shipment);
     }
