@@ -1,5 +1,6 @@
 package com.company.store;
 
+import com.company.outsideworld.CourierAgency;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
@@ -39,14 +40,23 @@ public class ShippingDepartment implements ShipmentEventListener {
     void createService(String typeOfService, Shipment shipment, String email) {
         ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment).copy();
         activeServices.get(email).put(shipment.getId(), newService);
+        requestCourier(newService); // deve stare qui o in handlePurchase?
     }
 
-    Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
+    private Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
-    void deleteService() {
+    public OperationResult deleteService(String email, String shipmentID) {
+        return activeServices.get(email).get(shipmentID).cancelShipment();
+    }
 
+    public OperationResult changeAddress(String email, String shipmentID, String newAddress) {
+        return activeServices.get(email).get(shipmentID).changeAddress(newAddress);
+    }
+
+    public OperationResult requestReturn(String email, String shipmentID) {
+        return activeServices.get(email).get(shipmentID).createReturn();
     }
 
     private String generateId() {
@@ -55,7 +65,15 @@ public class ShippingDepartment implements ShipmentEventListener {
         return currentString;
     }
 
+    private void requestCourier(ShipmentService shipmentService) {
+        courierAgency.requestCourier(shipmentService);
+    }
+
+
     private static ShippingDepartment instance = null;
+    private final CourierAgency courierAgency = new CourierAgency();
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
+
+
 }

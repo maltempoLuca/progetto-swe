@@ -19,7 +19,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
     public void handleRequest(RequestEvent request) {
         RequestIdentifier requestId = request.getId();
         OperationResult result = null;
-        switch(requestId) {
+        switch (requestId) {
             case REGISTER_REQUEST: {
                 String email = request.getUserInput(Constants.USER_EMAIL);
                 String psw = request.getUserInput(Constants.USER_PSW);
@@ -38,6 +38,40 @@ public class Controller implements RequestListener, ShipmentEventListener {
                 result = Store.getInstance().logoutUser(request.getUserId());
                 break;
             }
+
+            case CANCEL_REQUEST: {
+                result = Store.getInstance().requestCancel(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE));
+                break;
+            }
+
+            case CHANGE_ADDRESS_REQUEST: {
+                result = Store.getInstance().requestAddressChange(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE),
+                        request.getUserInput(Constants.DESTINATION_ADDRESS));
+                break;
+            }
+
+            case RETURN_REQUEST: {
+                result = Store.getInstance().requestReturn(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE));
+                break;
+            }
+
+            case PURCHASE_REQUEST: {
+                result = Store.getInstance().requestPurchase(request.getUserId());
+                break;
+            }
+
+            case ADD_TO_CART_REQUEST: {
+                try {
+                    result = Store.getInstance().addToCartRequest(request.getUserId(),
+                            request.getUserInput(Constants.ITEM_ID),
+                            request.parseInput(Constants.QUANTITY));
+                } catch (NumberFormatException e) {
+                    result = new OperationResult(Constants.INVALID_QUANTITY, false);
+                }
+            }
         }
         System.out.println(result.getMessage());
     }
@@ -45,7 +79,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
     @Override
     public void handleEvent(ShipmentEvent event) {
         ShipEventIdentifier id = event.getId();
-        switch(id) {
+        switch (id) {
             case UPDATED:
                 break;
             case CREATED:

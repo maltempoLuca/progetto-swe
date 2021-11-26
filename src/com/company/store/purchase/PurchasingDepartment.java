@@ -68,6 +68,7 @@ public final class PurchasingDepartment {
                 userCart.clear();
                 operationMessage = "User " + userEmailLowerCase + " has purchased: " + cartContentsString + "with service: "; //TODO: add service
                 successful = true;
+
             } else {
                 //TODO: decide what to do when cart is empty
                 operationMessage = "Purchase failed, cart is empty";

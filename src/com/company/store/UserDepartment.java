@@ -78,6 +78,11 @@ public class UserDepartment {
         return new OperationResult(message, successful);
     }
 
+    public boolean isLogged(String email) {
+        String lowerCaseEmail = email.toLowerCase();
+        return usrLoginInfo.get(lowerCaseEmail).userIsLogged;
+    }
+
     private String checkPasswordValidity(String password) {
         String numbers = ".*[0-9].*";
         String letters = ".*[a-zA-Z].*";
@@ -104,6 +109,7 @@ public class UserDepartment {
             result =  Constants.INVALID_EMAIL;
         return result;
     }
+
 
     private static class UserData {  //static -> dentro DataPair non hai accesso agli attributi di userDepartment.
         private UserData(String password) {

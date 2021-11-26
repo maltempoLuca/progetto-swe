@@ -1,5 +1,8 @@
 package com.company.store;
 
+import com.company.constants.Constants;
+import com.company.store.purchase.PurchasingDepartment;
+
 public class Store {
 
     //TODO: crea store con getInstance()?
@@ -13,22 +16,6 @@ public class Store {
         return instance;
     }
 
-    public OperationResult requestCancel() {
-        return null;
-    }
-
-    public OperationResult requestAddressChange() {
-        return null;
-    }
-
-    public OperationResult requestReturn() {
-        return null;
-    }
-
-    public OperationResult requestPurchase() {
-        return null;
-    }
-
     public OperationResult registerUser(String email, String password) {
         return UserDepartment.getInstance().registerUser(email, password);
     }
@@ -38,10 +25,46 @@ public class Store {
     }
 
     public OperationResult logoutUser(String email) {
-       return UserDepartment.getInstance().logOut(email);
+        return UserDepartment.getInstance().logOut(email);
     }
 
-    private static Store instance = null;
+    public OperationResult requestCancel(String email, String shipmentID) {
+        OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
+        if (UserDepartment.getInstance().isLogged(email))
+            operationResult = ShippingDepartment.getInstance().deleteService(email, shipmentID);
+        return operationResult;
+    }
 
+    public OperationResult requestAddressChange(String email, String shipmentID, String newAddress) {
+        OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
+        if (UserDepartment.getInstance().isLogged(email))
+            operationResult = ShippingDepartment.getInstance().changeAddress(email, shipmentID, newAddress);
+        return operationResult;
+    }
+
+    public OperationResult requestReturn(String email, String shipmentID) {
+        OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
+        if (UserDepartment.getInstance().isLogged(email))
+            operationResult = ShippingDepartment.getInstance().requestReturn(email, shipmentID);
+        return operationResult;
+    }
+
+    public OperationResult requestPurchase(String email) {
+        OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
+        if (UserDepartment.getInstance().isLogged(email))
+            operationResult = PurchasingDepartment.getInstance().purchase(email);
+        return operationResult;
+    }
+
+    public OperationResult addToCartRequest(String email, String itemId, int quantity) {
+        OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
+        if (UserDepartment.getInstance().isLogged(email))
+            operationResult = PurchasingDepartment.getInstance().addToCart(itemId, quantity, email);
+
+        return operationResult;
+    }
+
+
+    private static Store instance = null;
 
 }

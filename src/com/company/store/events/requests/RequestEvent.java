@@ -1,6 +1,9 @@
 package com.company.store.events.requests;
 
+import com.company.constants.Constants;
+import com.company.store.OperationResult;
 import com.company.store.controller.Loggable;
+import com.company.store.purchase.PurchasingDepartment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,10 +26,10 @@ public class RequestEvent implements Loggable {
         StringBuilder logMessageBuilder = new StringBuilder();
         logMessageBuilder.append(userId).append(" has requested ").append(id.name());
 
-        if(!userInput.isEmpty()) {
+        if (!userInput.isEmpty()) {
             logMessageBuilder.append(" with input ");
 
-            for(Map.Entry<String, String> input : userInput.entrySet()) {
+            for (Map.Entry<String, String> input : userInput.entrySet()) {
                 logMessageBuilder.append("[").append(input.getKey()).append(": ").append(input.getValue()).append("]");
             }
         }
@@ -39,6 +42,11 @@ public class RequestEvent implements Loggable {
         return this;
     }
 
+    public int parseInput(String inputKey) {
+        String stringLiteral = userInput.get(inputKey);
+        return Integer.parseInt(stringLiteral);
+    }
+
     public RequestIdentifier getId() {
         return id;
     }
@@ -49,12 +57,11 @@ public class RequestEvent implements Loggable {
 
     public String getUserInput(String inputKey) {
         String result = userInput.get(inputKey);
-        if(result == null) {
+        if (result == null) {
             //TODO: throw exception
         }
         return result;
     }
-
 
 
     private final RequestIdentifier id;
