@@ -1,13 +1,12 @@
 package com.company;
 
-import com.company.constants.Constants;
 import com.company.outsideworld.CourierAgency;
 import com.company.store.*;
 import com.company.store.controller.Controller;
-import com.company.store.eventsys.events.EventBuilder;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.events.StoreEvent;
-import com.company.store.eventsys.management.StoreEventManager;
+import com.company.store.events.requests.RequestIdentifier;
+import com.company.store.events.requests.RequestManager;
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEventManager;
 import com.company.user.User;
 
 public class Main {
@@ -20,8 +19,10 @@ public class Main {
 
         // creo il controller e gli dico quali eventi deve ascoltare
         Controller controller = new Controller();
-        StoreEventManager.getInstance().subscribe(controller, EventIdentifier.REGISTER_REQUEST,
-                EventIdentifier.LOGIN_REQUEST, EventIdentifier.LOGOUT_REQUEST, EventIdentifier.OPERATION_COMPLETED);
+        RequestManager.getInstance().subscribe(controller, RequestIdentifier.REGISTER_REQUEST,
+                RequestIdentifier.LOGIN_REQUEST, RequestIdentifier.LOGOUT_REQUEST);
+        ShipmentEventManager.getInstance().subscribe(controller, ShipEventIdentifier.CANCELED,
+                ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
 
 
         // provo a vedere se funzionano gli eventi

@@ -1,26 +1,28 @@
 package com.company.store;
-import com.company.listener.Event;
-import com.company.listener.EventListener;
-import com.company.store.eventsys.events.EventIdentifier;
-import com.company.store.eventsys.management.StoreEventManager;
+
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEvent;
+import com.company.store.events.shipments.ShipmentEventListener;
+import com.company.store.events.shipments.ShipmentEventManager;
 
 import java.util.Map;
 import java.util.HashMap;
 
-public class ShippingDepartment implements EventListener {
+public class ShippingDepartment implements ShipmentEventListener {
 
     private ShippingDepartment() {
-        StoreEventManager.getInstance().subscribe(this, EventIdentifier.PURCHASE_COMPLETED);
+        ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.RETURNED);
     }
 
     @Override
-    public void handleEvent(Event event) {
-        EventIdentifier eventIdentifier = event.getIdentifier();
-        switch(eventIdentifier) {
-            case PURCHASE_COMPLETED:
-                //TODO: call createShipment()
-                break;
+    public void handleEvent(ShipmentEvent event) {
+        if (event.getId() == ShipEventIdentifier.RETURNED) {
+
         }
+    }
+
+    public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
+        //TODO: call createShipment
     }
 
     public static ShippingDepartment getInstance() {
@@ -60,5 +62,4 @@ public class ShippingDepartment implements EventListener {
     private static ShippingDepartment instance = null;
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
-
 }

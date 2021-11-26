@@ -14,7 +14,7 @@ public class CancelReturn implements CancelBehavior{
     }
 
     @Override
-    public boolean cancelShipment(Shipment shipment) throws UnsupportedOperationException {
+    public OperationResult cancelShipment(Shipment shipment) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Impossibile effettuare cancellazione di un reso");
     }
 
