@@ -9,7 +9,7 @@ public class StandardServiceTest {
     private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
             "destinationAddress", "contents", "#000001");
 
-    private StandardService service = new StandardService(shipment);
+    private StandardService service = new StandardService(shipment, "luchino@pippo.com");
 
     @Test(expected = NullPointerException.class)
     public void updateStateTest() {

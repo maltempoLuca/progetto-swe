@@ -8,7 +8,7 @@ public class PremiumServiceTest {
     private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
             "destinationAddress", "contents", "#000001");
 
-    private PremiumService service = new PremiumService(shipment);
+    private PremiumService service = new PremiumService(shipment, "luchino@pippo.com");
 
     @Test(expected = NullPointerException.class)
     public void updateStateTest() {

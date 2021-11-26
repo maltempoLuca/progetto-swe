@@ -20,15 +20,15 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipmentMutex.acquire();
             if (shipment.getState().getNextState() != null) {
                 shipment.setState(shipment.getState().getNextState());
-                changeAddressBehavior();
-                changeCancelBehavior();
-                changeReturnBehavior();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             shipmentMutex.release();
         }
+        changeAddressBehavior();
+        changeCancelBehavior();
+        changeReturnBehavior();
     }
 
     OperationResult changeAddress(String newAddress) {
@@ -61,7 +61,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         OperationResult operationResult = new OperationResult("Interrupted Exception", false);
         try {
             shipmentMutex.acquire();
-            operationResult = cancelBehavior.cancelShipment(shipment);
+            operationResult = cancelBehavior.cancelShipment(shipment, userEmail);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

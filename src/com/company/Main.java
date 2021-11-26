@@ -59,7 +59,7 @@ public class Main {
         t.start();
         for (int i = 0; i < 22; i++) {
             Shipment shipment = new Shipment("a", "a", "", "", "", "i");
-            ShipmentService shipmentService = new StandardService(shipment);
+            ShipmentService shipmentService = new StandardService(shipment, "luchino@pippo.com");
             courierAgency.requestCourier(shipmentService);
         }
 

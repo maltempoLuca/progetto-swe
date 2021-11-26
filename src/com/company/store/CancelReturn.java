@@ -2,7 +2,7 @@ package com.company.store;
 
 import com.company.constants.Constants;
 
-public class CancelReturn implements CancelBehavior{
+public class CancelReturn implements CancelBehavior {
 
 
     private CancelReturn() {
@@ -16,12 +16,9 @@ public class CancelReturn implements CancelBehavior{
     }
 
     @Override
-    public OperationResult cancelShipment(Shipment shipment) throws UnsupportedOperationException {
-
+    public OperationResult cancelShipment(Shipment shipment, String userEmail) {
         String message = "Shipment: " + shipment.getId() + " could not be canceled because it is a Return!";
         return new OperationResult(message, false);
-
-        //throw new UnsupportedOperationException("Impossibile effettuare cancellazione di un reso");
     }
 
     private static CancelReturn instance = null;

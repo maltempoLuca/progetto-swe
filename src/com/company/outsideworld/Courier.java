@@ -19,13 +19,13 @@ public class Courier implements Runnable {
     @Override
     public void run() {
         int tmpPriority = shipmentService.getPriority();
-        shipmentService.updateShipmentState(); // adesso è SENT
         try {
+            shipmentService.updateShipmentState(); //DIVENTA SENT
             ShipmentState currentState = shipmentService.getShipment().getState();
             while (currentState.getNextState() != null) {
-                shipmentService.updateShipmentState();
                 Thread.sleep(generateRandom(shipmentTimesMap.get(currentState).minTime,
                         shipmentTimesMap.get(currentState).maxTime + tmpPriority * 500));
+                shipmentService.updateShipmentState();
                 currentState = shipmentService.getShipment().getState();
             }
             shipmentService = null;
