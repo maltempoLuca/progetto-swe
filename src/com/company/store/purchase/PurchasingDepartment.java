@@ -34,7 +34,7 @@ public final class PurchasingDepartment {
             Product product = catalog.get(productId);
             if (product != null) {
                 userCart.increaseProduct(product, quantity);
-                operationMessage = product.getName() + " x" + quantity + " addedd to cart";
+                operationMessage = product.getName() + " x" + quantity + " added to cart";
                 successful = true;
             } else {
                 //TODO: throw exception?
@@ -85,9 +85,19 @@ public final class PurchasingDepartment {
 
         Collection<CartEntry> contents = cart.getContents().values();
         StringBuilder contentsToString = new StringBuilder();
+        //TODO: remove comment?
+        // int lines = 0;
+        // int maxCharactersPerLine = 30;
 
         for (CartEntry entry : contents) {
-            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append("\n");
+            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append(" | ");
+
+            /*
+            if(contentsToString.length() - lines*maxCharactersPerLine >= maxCharactersPerLine) {
+                contentsToString.append("\n");
+                lines++;
+            }
+             */
         }
 
         return contentsToString.toString();

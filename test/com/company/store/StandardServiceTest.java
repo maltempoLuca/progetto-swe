@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.function.ThrowingRunnable;
 
 public class StandardServiceTest {
-    private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
+    private Shipment shipment = new Shipment("userId", "sender", "receiver", "senderAddress",
             "destinationAddress", "contents", "#000001");
 
     private StandardService service = new StandardService(shipment);

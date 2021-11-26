@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class PremiumServiceTest {
-    private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
+    private Shipment shipment = new Shipment("userId", "sender", "receiver", "senderAddress",
             "destinationAddress", "contents", "#000001");
 
     private PremiumService service = new PremiumService(shipment);

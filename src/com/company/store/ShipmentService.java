@@ -2,6 +2,9 @@ package com.company.store;
 
 import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEvent;
+import com.company.store.events.shipments.ShipmentEventManager;
 
 public abstract class ShipmentService { //TODO: costruttore da mettere a package.
 
@@ -19,6 +22,8 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
+        ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment));
+        ShipmentEventManager.getInstance().notify(shipmentEvent);
     }
 
     void changeAddress(String newAddress) {

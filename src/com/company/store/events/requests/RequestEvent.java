@@ -1,5 +1,7 @@
 package com.company.store.events.requests;
 
+import com.company.constants.Constants;
+import com.company.constants.Utility;
 import com.company.store.controller.Loggable;
 
 import java.util.HashMap;
@@ -14,7 +16,7 @@ public class RequestEvent implements Loggable {
 
     public RequestEvent(RequestIdentifier id) {
         this.id = id;
-        this.userId = "unlogged user";
+        this.userId = Constants.UNLOGGED_USER;
     }
 
 
@@ -31,7 +33,7 @@ public class RequestEvent implements Loggable {
             }
         }
 
-        return logMessageBuilder.toString();
+        return Utility.timeToString() + logMessageBuilder;
     }
 
     public RequestEvent addInput(String type, String data) {

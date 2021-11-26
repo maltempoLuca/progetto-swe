@@ -40,8 +40,8 @@ public class Constants {
     public static final String LOGIN_SUCCESS = "Login done.";
     public static final String LOGOUT_SUCCESS = "Logout done.";
     public static final String SHORT_PSW = "Password has to be at least 6 characters long.";
-    public static final String ONLY_LETTERS_PSW = "The password must contains letters.";
-    public static final String ONLY_NUMBERS_PSW = "The password must contain numbers.";
+    public static final String ONLY_LETTERS_PSW = "The password must contains letters.";//TODO: change letters to numbers
+    public static final String ONLY_NUMBERS_PSW = "The password must contain numbers.";//TODO: change numbers to letters
     public static final String WRONG_PSW = "Wrong Password, try again.";
     public static final String WRONG_EMAIL = "This email doesn't correspond to any user." + "\n"
             + "Please enter the email address used during registration.";
@@ -62,4 +62,8 @@ public class Constants {
     public static final String LOGIN_RESULT = "LOGIN_RESULT" ;
     public static final String LOGOUT_RESULT = "LOGOUT_RESULT" ;
     public static final String OPERATION_RESULT = "OPERATION_RESULT";
+
+    //unloged user id
+
+    public static final String UNLOGGED_USER = "unlogged user";
 }

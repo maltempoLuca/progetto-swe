@@ -68,7 +68,9 @@ public class CourierAgency extends Thread {
         return programFinished;
     }
 
-    public void setProgramFinished() throws InterruptedException {   //TODO:: fa busy waiting, è necessario?
+    public void setProgramFinished() throws InterruptedException {
+        //TODO:: fa busy waiting, è necessario?
+        //TODO: IMPORTANTE ha lanciato eccezione NullPointerException durante il join
         try {
             acquire_nShipmentServiceReaders();
             do {

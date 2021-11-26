@@ -1,5 +1,6 @@
 package com.company.store;
 
+import com.company.constants.Utility;
 import com.company.store.controller.Loggable;
 
 public class OperationResult implements Loggable {
@@ -13,13 +14,13 @@ public class OperationResult implements Loggable {
     public String getLogMessage() {
         StringBuilder logMessageBuilder = new StringBuilder();
         if(successful) {
-            logMessageBuilder.append(" operation successful with message: ");
+            logMessageBuilder.append("Operation successful with message: ");
         } else {
-            logMessageBuilder.append(" operation failed with message: ");
+            logMessageBuilder.append("Operation failed with message: ");
         }
 
         logMessageBuilder.append("\"").append(message).append("\"");
-        return logMessageBuilder.toString();
+        return Utility.timeToString() + logMessageBuilder;
     }
 
     public String getMessage() {

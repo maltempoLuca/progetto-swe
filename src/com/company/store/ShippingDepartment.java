@@ -41,8 +41,8 @@ public class ShippingDepartment implements ShipmentEventListener {
         activeServices.get(email).put(shipment.getId(), newService);
     }
 
-    Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
-        return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
+    Shipment createShipment(String userEmail, String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
+        return new Shipment(userEmail, sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
     void deleteService() {
