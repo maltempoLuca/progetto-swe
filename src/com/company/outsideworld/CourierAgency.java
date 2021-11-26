@@ -54,11 +54,13 @@ public class CourierAgency extends Thread {
         }
     }
 
-    public void requestCourier(ShipmentService shipmentService) throws InterruptedException {
-        shipmentServicesWriters.acquire();
+    public void requestCourier(ShipmentService shipmentService) {
         try {
+            shipmentServicesWriters.acquire();
             if (!programFinished)
                 shipmentServices.add(shipmentService);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             shipmentServicesWriters.release();
         }

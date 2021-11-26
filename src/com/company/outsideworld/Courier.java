@@ -1,8 +1,10 @@
 package com.company.outsideworld;
 
+import com.company.constants.Constants;
+import com.company.constants.ShipmentState;
 import com.company.store.ShipmentService;
 
-import java.util.Random;
+import java.util.*;
 
 public class Courier implements Runnable {
     public Courier() {
@@ -17,15 +19,15 @@ public class Courier implements Runnable {
     @Override
     public void run() {
         int tmpPriority = shipmentService.getPriority();
-        try {//fino a che spedizione cancellata è falsa continua il while,
-            // aggiungi metodo a shipmentService con semaforo per conoscere stato di shipment
-            shipmentService.updateShipmentState(); // adesso è SENT
-            Thread.sleep(generateRandom(500, 1500 + tmpPriority * 500));
-            shipmentService.updateShipmentState(); // adesso è IN_TRANSIT
-            Thread.sleep(generateRandom(1000, 2000 + tmpPriority * 500));
-            shipmentService.updateShipmentState();  // adesso è OUT_FOR_DELIVERY
-            Thread.sleep(generateRandom(500, 1000 + tmpPriority * 500));
-            shipmentService.updateShipmentState();  // adesso è DELIVERED
+        shipmentService.updateShipmentState(); // adesso è SENT
+        try {
+            ShipmentState currentState = shipmentService.getShipment().getState();
+            while (currentState.getNextState() != null) {
+                shipmentService.updateShipmentState();
+                Thread.sleep(generateRandom(shipmentTimesMap.get(currentState).minTime,
+                        shipmentTimesMap.get(currentState).maxTime + tmpPriority * 500));
+                currentState = shipmentService.getShipment().getState();
+            }
             shipmentService = null;
             working = false;
             System.out.println("Ho finito.");
@@ -45,7 +47,18 @@ public class Courier implements Runnable {
         return random.nextInt(max - min + 1) + min;
     }
 
+    private record timeStruct(int minTime, int maxTime) {
+
+    }
+
     private boolean working;
     private ShipmentService shipmentService;
+    private final static Map<ShipmentState, timeStruct> shipmentTimesMap = Map.of(
+            Constants.SENT, new timeStruct(500, 1500),
+            Constants.IN_TRANSIT, new timeStruct(1000, 2000),
+            Constants.OUT_FOR_DELIVERY, new timeStruct(500, 1000),
+            Constants.CANCELLED, new timeStruct(100, 500)
+    );
     private final static Random random = new Random();
+
 }
