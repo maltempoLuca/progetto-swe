@@ -2,13 +2,13 @@ package com.company.store;
 import com.company.constants.Constants;
 
 public class PremiumService extends ShipmentService {
-    public PremiumService(Shipment shipment) {
-        super(Constants.HIGH_PRIORITY, shipment);
+    public PremiumService(Shipment shipment, String userEmail) {
+        super(Constants.HIGH_PRIORITY, shipment, userEmail);
     }
 
     @Override
     ShipmentService copy() {
-        return new PremiumService(new Shipment(super.getShipment()));
+        return new PremiumService(new Shipment(getShipment()), getUserEmail());
     }
 
     @Override

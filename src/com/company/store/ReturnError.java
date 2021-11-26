@@ -13,7 +13,7 @@ public class ReturnError implements ReturnBehavior {
     }
 
     @Override
-    public OperationResult createReturn(Shipment shipment) throws UnsupportedOperationException {
+    public OperationResult createReturn(Shipment shipment, String userEmail) throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Impossibile effettuare il reso di un reso");
     }
 

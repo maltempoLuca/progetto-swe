@@ -1,5 +1,6 @@
 package com.company.store;
 
+import com.company.constants.Constants;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
@@ -36,17 +37,23 @@ public class ShippingDepartment implements ShipmentEventListener {
             activeServices.put(email, new HashMap<>());
     }
 
-    void createService(String typeOfService, Shipment shipment, String email) {
+    void createService(String typeOfService, Shipment shipment, String userEmail) {
         ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment).copy();
-        activeServices.get(email).put(shipment.getId(), newService);
+        activeServices.get(userEmail).put(shipment.getId(), newService);
+
+        ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
+        ShipmentEventManager.getInstance().notify(event);
     }
 
     Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
-    void createReturn(ShipmentService shipmentService) {
-        shipmentService.getReturnBehavior().createReturn(shipmentService.getShipment());
+    void createReturn(Shipment shipment, String userEmail) {
+        //TODO: modifica la stringa vuota dell'id qui sotto
+        Shipment newShipment = createShipment(shipment.getReceiver(), shipment.getSender(), shipment.getDestinationAddress(),
+                shipment.getSenderAddress(), shipment.getContents(), "");
+        createService(Constants.RETURN, newShipment, userEmail);
     }
 
     void deleteService() {

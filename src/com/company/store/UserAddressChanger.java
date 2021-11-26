@@ -17,9 +17,9 @@ public class UserAddressChanger implements AddressBehavior {
     }
 
     @Override
-    public OperationResult changeAddress(Shipment shipment, String newAddress) {
+    public OperationResult changeAddress(Shipment shipment, String userEmail, String newAddress) {
         shipment.setDestinationAddress(newAddress);
-        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment))); //TODO: deep copy shipment
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail)); //TODO: deep copy shipment
 
         return new OperationResult("Destination address of shipment " + shipment.getId() + " changed to: " + newAddress,true);
     }

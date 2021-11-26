@@ -18,21 +18,8 @@ public class ReturnAllower implements ReturnBehavior {
     }
 
     @Override
-    public OperationResult createReturn(Shipment shipment) {
-
-        //TODO: ora queste operazioni le fa shipping department?
-
-        String tempSender = shipment.getSender();
-        shipment.setSender(shipment.getReceiver());
-        shipment.setReceiver(tempSender);
-
-        String tempSenderAddress = shipment.getSenderAddress();
-        shipment.setSenderAddress(shipment.getDestinationAddress());
-        shipment.setDestinationAddress(tempSenderAddress);
-
-        shipment.setState(Constants.RETURN_CREATED);
-
-        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment)));
+    public OperationResult createReturn(Shipment shipment, String userEmail) {
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment), userEmail));
         return new OperationResult("Shipment: " + shipment.getId() + "return accepted", true);
     }
 

@@ -4,13 +4,13 @@ import com.company.constants.Constants;
 
 public class ReturnService extends ShipmentService {
 
-    ReturnService(Shipment shipment) {
-        super(Constants.LOW_PRIORITY, shipment);
+    ReturnService(Shipment shipment, String userEmail) {
+        super(Constants.LOW_PRIORITY, shipment, userEmail);
     }
 
     @Override
     ShipmentService copy() {
-        return new ReturnService(new Shipment(super.getShipment()));
+        return new ReturnService(new Shipment(getShipment()), getUserEmail());
     }
 
     @Override

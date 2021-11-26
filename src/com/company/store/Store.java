@@ -1,5 +1,7 @@
 package com.company.store;
 
+import com.company.store.purchase.PurchasingDepartment;
+
 public class Store {
 
     //TODO: crea store con getInstance()?
@@ -29,6 +31,14 @@ public class Store {
         return null;
     }
 
+    public void addUserCart(String userEmail) {
+        PurchasingDepartment.getInstance().addUserCart(userEmail);
+    }
+
+    public void addUserServices(String userEmail) {
+        ShippingDepartment.getInstance().addUserServices(userEmail);
+    }
+
     public OperationResult registerUser(String email, String password) {
         return UserDepartment.getInstance().registerUser(email, password);
     }
@@ -42,6 +52,4 @@ public class Store {
     }
 
     private static Store instance = null;
-
-
 }

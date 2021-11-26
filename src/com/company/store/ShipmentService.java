@@ -5,9 +5,10 @@ import com.company.constants.ShipmentState;
 
 public abstract class ShipmentService { //TODO: costruttore da mettere a package.
 
-    ShipmentService(int priority, Shipment shipment) {
+    ShipmentService(int priority, Shipment shipment, String userEmail) {
         this.priority = priority;
         this.shipment = shipment;
+        this.userEmail = userEmail;
     }
 
     abstract ShipmentService copy();
@@ -22,12 +23,12 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
     }
 
     void changeAddress(String newAddress) {
-        if (addressBehavior.changeAddress(shipment, newAddress).isSuccessful())
+        if (addressBehavior.changeAddress(shipment, userEmail, newAddress).isSuccessful())
             shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
     }
 
     void cancelShipment() {
-        cancelBehavior.cancelShipment(shipment);
+        cancelBehavior.cancelShipment(shipment, userEmail);
     }
 
     void requestCourier() {
@@ -72,8 +73,13 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         return priority;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
     private final int priority;
     private final Shipment shipment;
+    private final String userEmail;
     private AddressBehavior addressBehavior = UserAddressChanger.getInstance();
     private CancelBehavior cancelBehavior = CancelAllower.getInstance();
     private ReturnBehavior returnBehavior = ReturnDenier.getInstance();
