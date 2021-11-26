@@ -1,6 +1,7 @@
 package com.company.store;
 
 import com.company.outsideworld.CourierAgency;
+import com.company.constants.Constants;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
@@ -37,10 +38,13 @@ public class ShippingDepartment implements ShipmentEventListener {
             activeServices.put(email, new HashMap<>());
     }
 
-    void createService(String typeOfService, Shipment shipment, String email) {
+    void createService(String typeOfService, Shipment shipment, String userEmail) {
         ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment).copy();
-        activeServices.get(email).put(shipment.getId(), newService);
         requestCourier(newService); // deve stare qui o in handlePurchase?
+        activeServices.get(userEmail).put(shipment.getId(), newService);
+
+        ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
+        ShipmentEventManager.getInstance().notify(event);
     }
 
     private Shipment createShipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
@@ -49,6 +53,12 @@ public class ShippingDepartment implements ShipmentEventListener {
 
     public OperationResult deleteService(String email, String shipmentID) {
         return activeServices.get(email).get(shipmentID).cancelShipment();
+    }
+    void createReturn(Shipment shipment, String userEmail) {
+        //TODO: modifica la stringa vuota dell'id qui sotto
+        Shipment newShipment = createShipment(shipment.getReceiver(), shipment.getSender(), shipment.getDestinationAddress(),
+                shipment.getSenderAddress(), shipment.getContents(), "");
+        createService(Constants.RETURN, newShipment, userEmail);
     }
 
     public OperationResult changeAddress(String email, String shipmentID, String newAddress) {

@@ -3,6 +3,8 @@ package com.company.store;
 import com.company.constants.Constants;
 import com.company.store.purchase.PurchasingDepartment;
 
+import com.company.store.purchase.PurchasingDepartment;
+
 public class Store {
 
     //TODO: crea store con getInstance()?
@@ -63,6 +65,15 @@ public class Store {
 
         return operationResult;
     }
+
+    public void addUserCart(String userEmail) {
+        PurchasingDepartment.getInstance().addUserCart(userEmail);
+    }
+
+    public void addUserServices(String userEmail) {
+        ShippingDepartment.getInstance().addUserServices(userEmail);
+    }
+
 
 
     private static Store instance = null;

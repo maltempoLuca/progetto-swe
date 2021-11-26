@@ -18,10 +18,12 @@ public class CancelAllower implements CancelBehavior {
     }
 
     @Override
-    public OperationResult cancelShipment(Shipment shipment) {
+    public OperationResult cancelShipment(Shipment shipment, String userEmail) {
+        //TODO: set state to canceled
         String shipmentId = shipment.getId();
         shipment.setState(Constants.CANCELLED);
-        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment)));
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment), userEmail));
+
         return new OperationResult("Shipment: " + shipmentId + "successfully canceled", true);
     }
 

@@ -6,9 +6,10 @@ import com.company.store.controller.Loggable;
 
 public class ShipmentEvent implements Loggable {
 
-    public ShipmentEvent(ShipEventIdentifier id, Shipment shipment) {
+    public ShipmentEvent(ShipEventIdentifier id, Shipment shipment, String userEmail) {
         this.id = id;
         this.shipment = shipment;
+        this.userEmail = userEmail;
     }
 
     @Override
@@ -25,7 +26,11 @@ public class ShipmentEvent implements Loggable {
         return shipment;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
     private final ShipEventIdentifier id;
     private final Shipment shipment;
-
+    private final String userEmail;
 }

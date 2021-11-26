@@ -7,9 +7,10 @@ import java.util.concurrent.Semaphore;
 
 public abstract class ShipmentService { //TODO: costruttore da mettere a package.
 
-    ShipmentService(int priority, Shipment shipment) {
+    ShipmentService(int priority, Shipment shipment, String userEmail) {
         this.priority = priority;
         this.shipment = shipment;
+        this.userEmail = userEmail;
     }
 
     abstract ShipmentService copy();
@@ -34,7 +35,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         OperationResult operationResult= new OperationResult("Interrupted Exception", false);
         try {
             shipmentMutex.acquire();
-            operationResult = addressBehavior.changeAddress(shipment, newAddress);
+            operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -47,7 +48,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         OperationResult operationResult = new OperationResult("Interrupted Exception", false);
         try {
             shipmentMutex.acquire();
-            operationResult = returnBehavior.createReturn(shipment);
+            operationResult = returnBehavior.createReturn(shipment, userEmail);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -115,9 +116,14 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         return priority;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
     private final int priority;
     private final Shipment shipment;
     private Semaphore shipmentMutex = new Semaphore(1);
+    private final String userEmail;
     private AddressBehavior addressBehavior = UserAddressChanger.getInstance();
     private CancelBehavior cancelBehavior = CancelAllower.getInstance();
     private ReturnBehavior returnBehavior = ReturnDenier.getInstance();

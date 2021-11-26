@@ -24,6 +24,10 @@ public class Controller implements RequestListener, ShipmentEventListener {
                 String email = request.getUserInput(Constants.USER_EMAIL);
                 String psw = request.getUserInput(Constants.USER_PSW);
                 result = Store.getInstance().registerUser(email, psw);
+                if (result.isSuccessful()) {
+                    Store.getInstance().addUserCart(email);
+                    Store.getInstance().addUserServices(email);
+                }
                 break;
             }
 
