@@ -3,13 +3,13 @@ import com.company.constants.Constants;
 
 public class StandardService extends ShipmentService {
 
-    public StandardService(Shipment shipment) {
-        super(Constants.LOW_PRIORITY, shipment);
+    public StandardService(Shipment shipment, String userEmail) {
+        super(Constants.LOW_PRIORITY, shipment, userEmail);
     } //TODO: METTI PACKAGE
 
     @Override
     ShipmentService copy() {
-        return new StandardService(new Shipment(super.getShipment()));
+        return new StandardService(new Shipment(getShipment()), getUserEmail());
     }
 
     @Override

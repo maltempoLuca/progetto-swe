@@ -12,6 +12,7 @@ import com.company.store.events.shipments.ShipmentEventListener;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 public class Controller implements RequestListener, ShipmentEventListener {
 
@@ -21,11 +22,15 @@ public class Controller implements RequestListener, ShipmentEventListener {
         RequestIdentifier requestId = request.getId();
         String email = request.getUserId();
         OperationResult result = null;
-        switch(requestId) {
+        switch (requestId) {
             case REGISTER_REQUEST: {
                 email = request.getUserInput(Constants.USER_EMAIL);
                 String psw = request.getUserInput(Constants.USER_PSW);
                 result = Store.getInstance().registerUser(email, psw);
+                if (result.isSuccessful()) {
+                    Store.getInstance().addUserCart(email);
+                    Store.getInstance().addUserServices(email);
+                }
                 break;
             }
 
@@ -39,6 +44,40 @@ public class Controller implements RequestListener, ShipmentEventListener {
             case LOGOUT_REQUEST: {
                 result = Store.getInstance().logoutUser(request.getUserId());
                 break;
+            }
+
+            case CANCEL_REQUEST: {
+                result = Store.getInstance().requestCancel(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE));
+                break;
+            }
+
+            case CHANGE_ADDRESS_REQUEST: {
+                result = Store.getInstance().requestAddressChange(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE),
+                        request.getUserInput(Constants.DESTINATION_ADDRESS));
+                break;
+            }
+
+            case RETURN_REQUEST: {
+                result = Store.getInstance().requestReturn(request.getUserId(),
+                        request.getUserInput(Constants.ID_SPEDIZIONE));
+                break;
+            }
+
+            case PURCHASE_REQUEST: {
+                result = Store.getInstance().requestPurchase(request.getUserId());
+                break;
+            }
+
+            case ADD_TO_CART_REQUEST: {
+                try {
+                    result = Store.getInstance().addToCartRequest(request.getUserId(),
+                            request.getUserInput(Constants.ITEM_ID),
+                            request.parseInput(Constants.QUANTITY));
+                } catch (NumberFormatException e) {
+                    result = new OperationResult(Constants.INVALID_QUANTITY, false);
+                }
             }
         }
         updateView(email, result.getMessage());
@@ -79,7 +118,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
     }
 
     private void renderViews() {
-    logView.draw();
+        logView.draw();
         for (UserView view : userViews.values()) {
             view.draw();
         }
@@ -87,7 +126,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
 
     private void ensureView(String userEmail) {
         //check if there is a view corresponding to specified user, if not create it
-        if(!userViews.containsKey(userEmail)) {
+        if (!userViews.containsKey(userEmail)) {
             userViews.put(userEmail, new UserView(userEmail.toUpperCase()));
         }
     }
@@ -102,7 +141,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
     private void updateView(ShipmentEvent event) {
         //finds user view corresponding to the user who owns the shipment, then updates that view
         Shipment shipment = event.getShipment();
-        String userEmail = shipment.getUserId();
+        String userEmail = event.getUserEmail();
         ensureView(userEmail);
         UserView viewToUpdate = userViews.get(userEmail);
         viewToUpdate.updateShipment(shipment);

@@ -6,6 +6,7 @@ import com.company.store.Shipment;
 import com.company.view.View;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 public class UserView implements View {
 
@@ -15,22 +16,46 @@ public class UserView implements View {
 
     @Override
     public void draw() {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         readContents();
-        System.out.println(contents);
+        //System.out.println(contents);
+        mutex.release();
     }
 
     public void updateShipment(Shipment shipment) {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String id = shipment.getId();
         String data = buildShipmentData(shipment);
         shipmentsData.put(id, data);
+        mutex.release();
     }
 
     public void addMessage(String message) {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         messages.add(message);
+        mutex.release();
     }
 
     public void addOptional(String optional) {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         optionals.add(optional);
+        mutex.release();
     }
 
     private void readContents() {
@@ -75,6 +100,7 @@ public class UserView implements View {
     private final List<String > messages = new ArrayList<>();
     private final List<String> optionals = new ArrayList<>();
     private final StringBuilder contents = new StringBuilder();
+    private final Semaphore mutex = new Semaphore(1);
 }
 
 /*

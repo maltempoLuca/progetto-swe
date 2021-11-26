@@ -1,5 +1,6 @@
 package com.company.store;
 
+import com.company.constants.Constants;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventManager;
@@ -17,10 +18,11 @@ public class CancelAllower implements CancelBehavior {
     }
 
     @Override
-    public OperationResult cancelShipment(Shipment shipment) {
+    public OperationResult cancelShipment(Shipment shipment, String userEmail) {
         //TODO: set state to canceled
         String shipmentId = shipment.getId();
-        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment)));
+        shipment.setState(Constants.CANCELLED);
+        ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.CANCELED, new Shipment(shipment), userEmail));
 
         return new OperationResult("Shipment: " + shipmentId + "successfully canceled", true);
     }

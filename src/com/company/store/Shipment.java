@@ -5,8 +5,9 @@ import com.company.constants.ShipmentState;
 public class Shipment {
 
     //TODO: costruttore da mettere a package.
-    public Shipment(String userId, String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
-        this.userId = userId;
+    // aggiungi metodo a shipmentService con semaforo per conoscere stato di shipment
+
+    public Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;
         this.receiver = receiver;
         this.senderAddress = senderAddress;
@@ -18,7 +19,6 @@ public class Shipment {
     public Shipment(Shipment toCopy) {
         //copy constructor
 
-        this.userId = toCopy.userId;
         this.sender = toCopy.sender;
         this.receiver = toCopy.receiver;
         this.senderAddress = toCopy.senderAddress;
@@ -50,10 +50,6 @@ public class Shipment {
         this.senderAddress = senderAddress;
     }
 
-    public String getUserId() {
-        return this.userId;
-    }
-
     public String getSender() {
         return sender;
     }
@@ -82,7 +78,6 @@ public class Shipment {
         return state;
     }
 
-    private final String userId;
     private String sender;
     private String receiver;
     private String senderAddress;

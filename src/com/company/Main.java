@@ -57,9 +57,9 @@ public class Main {
         CourierAgency courierAgency = new CourierAgency();
         Thread t = new Thread(courierAgency);
         t.start();
-        for (int i = 0; i < 22; i++) {
-            Shipment shipment = new Shipment("luchino@pippo.com", "a", "a", "", "", "", "i");
-            ShipmentService shipmentService = new StandardService(shipment);
+        for (Integer i = 0; i < 22; i++) {
+            Shipment shipment = new Shipment("a", "a", "", "", "", i.toString());
+            ShipmentService shipmentService = new StandardService(shipment, "luchino@pippo.com");
             courierAgency.requestCourier(shipmentService);
         }
 

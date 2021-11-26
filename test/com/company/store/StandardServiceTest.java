@@ -6,10 +6,10 @@ import org.junit.Assert;
 import org.junit.function.ThrowingRunnable;
 
 public class StandardServiceTest {
-    private Shipment shipment = new Shipment("userId", "sender", "receiver", "senderAddress",
+    private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
             "destinationAddress", "contents", "#000001");
 
-    private StandardService service = new StandardService(shipment);
+    private StandardService service = new StandardService(shipment, "luchino@pippo.com");
 
     @Test(expected = NullPointerException.class)
     public void updateStateTest() {

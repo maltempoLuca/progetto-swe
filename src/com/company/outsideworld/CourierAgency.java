@@ -19,46 +19,53 @@ public class CourierAgency extends Thread {
 
     @Override
     public void run() {
-        while (!programFinished) {
-            try {
+        try {
+            while (!programFinished || !emptyShipments()) {
                 handleCouriers();
-                //sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+
+            waitCouriers();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
         System.out.println("Ho spedito " + pacchiGestiti + " pacchi");
     }
+
 
     private void handleCouriers() throws InterruptedException {
         try {
             couriersWriters.acquire();
-            try {
-                acquire_nShipmentServiceReaders();
-                for (int i = 0; i < couriers.size(); i++) {
-                    Courier currentCourier = couriers.get(i);
-                    if (!shipmentServices.isEmpty() && !currentCourier.isWorking()) {
+            for (int i = 0; i < couriers.size(); i++) {
+                Courier currentCourier = couriers.get(i);
+                if (!emptyShipments() && !currentCourier.isWorking()) {
+
+                    try {
+                        acquire_nShipmentServiceReaders();
                         currentCourier.assignShipmentService(shipmentServices.poll());
-                        Thread courierThread = new Thread(currentCourier);
-                        couriersThread.set(i, courierThread);
-                        courierThread.start();
-                        System.out.println("assegnato");
-                        pacchiGestiti++;
+                    } finally {
+                        release_nShipmentServiceReaders();
                     }
+                    Thread courierThread = new Thread(currentCourier);
+                    couriersThread.set(i, courierThread);
+                    courierThread.start();
+                    System.out.println("assegnato");
+                    pacchiGestiti++;
                 }
-            } finally {
-                release_nShipmentServiceReaders();
             }
         } finally {
             couriersWriters.release();
         }
     }
 
-    public void requestCourier(ShipmentService shipmentService) throws InterruptedException {
-        shipmentServicesWriters.acquire();
+    public void requestCourier(ShipmentService shipmentService) {
         try {
+            shipmentServicesWriters.acquire();
             if (!programFinished)
                 shipmentServices.add(shipmentService);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             shipmentServicesWriters.release();
         }
@@ -68,21 +75,18 @@ public class CourierAgency extends Thread {
         return programFinished;
     }
 
-    public void setProgramFinished() throws InterruptedException {
-        //TODO:: fa busy waiting, è necessario?
-        //TODO: IMPORTANTE ha lanciato eccezione NullPointerException durante il join
+    public void setProgramFinished() {
+        programFinished = true;
+    }
+
+    public void waitCouriers() throws InterruptedException {
         try {
-            acquire_nShipmentServiceReaders();
-            do {
-                acquire_nCouriers();
-                for (Thread t : couriersThread)
+            acquire_nCouriers();
+            for (Thread t : couriersThread)
+                if (t != null)
                     t.join();
-                release_nCouriers();
-            }
-            while (!shipmentServices.isEmpty());
-            programFinished = true;
         } finally {
-            release_nShipmentServiceReaders();
+            release_nCouriers();
         }
     }
 
@@ -138,6 +142,14 @@ public class CourierAgency extends Thread {
             couriersWriters.release();
         }
         couriersReaders.release();
+    }
+
+    private boolean emptyShipments() throws InterruptedException {
+        boolean result;
+        acquire_nShipmentServiceReaders();
+        result = shipmentServices.isEmpty();
+        release_nShipmentServiceReaders();
+        return result;
     }
 
 

@@ -1,9 +1,15 @@
 package com.company;
 
 import com.company.constants.Constants;
+import com.company.store.Shipment;
 import com.company.store.events.requests.RequestEvent;
 import com.company.store.events.requests.RequestIdentifier;
 import com.company.store.events.requests.RequestManager;
+import com.company.store.events.shipments.ShipEventIdentifier;
+import com.company.store.events.shipments.ShipmentEvent;
+import com.company.store.events.shipments.ShipmentEventManager;
+
+import java.util.Queue;
 
 public class Buttons {
 
@@ -30,6 +36,35 @@ public class Buttons {
 
     public void logoutUser(String email) {
         RequestEvent request = new RequestEvent(RequestIdentifier.LOGOUT_REQUEST, email);
+        RequestManager.getInstance().notify(request);
+    }
+
+    public void cancelShipment(String email, String shipmentID) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.CANCEL_REQUEST, email);
+        request.addInput(Constants.ID_SPEDIZIONE, shipmentID);
+        RequestManager.getInstance().notify(request);
+    }
+
+    public void changeShipmentAddress(String email, String shipmentID, String newAddress) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.CHANGE_ADDRESS_REQUEST, email);
+        request.addInput(Constants.ID_SPEDIZIONE, shipmentID).addInput(Constants.DESTINATION_ADDRESS, newAddress);
+        RequestManager.getInstance().notify(request);
+    }
+
+    public void returnShipment(String email, String shipmentID) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.RETURN_REQUEST, email);
+        request.addInput(Constants.ID_SPEDIZIONE, shipmentID);
+        RequestManager.getInstance().notify(request);
+    }
+
+    public void purchaseItemsFromCart(String email) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.PURCHASE_REQUEST, email);
+        RequestManager.getInstance().notify(request);
+    }
+
+    public void addToCart(String email, String itemID, String quantity) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.ADD_TO_CART_REQUEST, email);
+        request.addInput(Constants.ITEM_ID, itemID).addInput(Constants.QUANTITY, quantity);
         RequestManager.getInstance().notify(request);
     }
 

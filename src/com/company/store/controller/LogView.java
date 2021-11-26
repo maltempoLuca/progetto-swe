@@ -9,11 +9,14 @@ public class LogView implements View {
 
     @Override
     public void draw() {
+        /*
         System.out.println("LOG:\n");
         for(String logEntry : log) {
             System.out.println(logEntry);
         }
         System.out.println("---------------------");
+
+         */
     }
 
     public void addLogEntry(Loggable loggable) {

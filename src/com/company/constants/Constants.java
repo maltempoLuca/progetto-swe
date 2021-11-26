@@ -16,6 +16,9 @@ public class Constants {
     public static final ShipmentState IN_TRANSIT = new ShipmentState("In transit", OUT_FOR_DELIVERY);
     public static final ShipmentState SENT = new ShipmentState("Sent", IN_TRANSIT);
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
+    public static final ShipmentState CANCELLED = new ShipmentState("Cancelled", null);
+//    public static final ShipmentState CHANGE_ADDRESS = new ShipmentState("Changing Address", SENT);
+
 
     //return states
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
@@ -48,6 +51,7 @@ public class Constants {
     public static final String INVALID_EMAIL = "The email must contain '@'.";
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
+    public static final String LOGGED_OUT = "This User is logged out from the system.";
 
     //info types
     public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
@@ -62,6 +66,9 @@ public class Constants {
     public static final String LOGIN_RESULT = "LOGIN_RESULT" ;
     public static final String LOGOUT_RESULT = "LOGOUT_RESULT" ;
     public static final String OPERATION_RESULT = "OPERATION_RESULT";
+    public static final String ITEM_ID = "ITEM_ID";
+    public static final String QUANTITY = "QUANTITY";
+    public static final String INVALID_QUANTITY = "INVALID_QUANTITY";
 
     //unloged user id
 

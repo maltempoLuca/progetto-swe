@@ -6,42 +6,75 @@ import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventManager;
 
+import java.util.concurrent.Semaphore;
+
 public abstract class ShipmentService { //TODO: costruttore da mettere a package.
 
-    ShipmentService(int priority, Shipment shipment) {
+    ShipmentService(int priority, Shipment shipment, String userEmail) {
         this.priority = priority;
         this.shipment = shipment;
+        this.userEmail = userEmail;
     }
 
     abstract ShipmentService copy();
 
-    public void updateShipmentState() throws NullPointerException {
-        if (shipment.getState().getNextState() == null)
-            throw new NullPointerException("La spedizione è già stata consegnata");
-        shipment.setState(shipment.getState().getNextState());
+    public void updateShipmentState() {
+        try {
+            shipmentMutex.acquire();
+            if (shipment.getState().getNextState() != null) {
+                shipment.setState(shipment.getState().getNextState());
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            shipmentMutex.release();
+        }
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
-        ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment));
+        ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
         ShipmentEventManager.getInstance().notify(shipmentEvent);
     }
 
-    void changeAddress(String newAddress) {
-        if (addressBehavior.changeAddress(shipment, newAddress).isSuccessful())
-            shipment.setState(new ShipmentState(Constants.REQUEST_RECEIVED, shipment.getState()));
+    OperationResult changeAddress(String newAddress) {
+        OperationResult operationResult= new OperationResult("Interrupted Exception", false);
+        try {
+            shipmentMutex.acquire();
+            operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            shipmentMutex.release();
+        }
+        return operationResult;
     }
 
-    void createReturn() {
-        returnBehavior.createReturn(shipment);
+    OperationResult createReturn() {
+        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
+        try {
+            shipmentMutex.acquire();
+            operationResult = returnBehavior.createReturn(shipment, userEmail);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            shipmentMutex.release();
+        }
+        return operationResult;
     }
 
-    void cancelShipment() {
-        cancelBehavior.cancelShipment(shipment);
+    OperationResult cancelShipment() {
+        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
+        try {
+            shipmentMutex.acquire();
+            operationResult = cancelBehavior.cancelShipment(shipment, userEmail);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            shipmentMutex.release();
+        }
+        return operationResult;
     }
 
-    void requestCourier() {
-
-    }
 
     abstract void changeAddressBehavior();
 
@@ -50,6 +83,13 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
     abstract void changeReturnBehavior();
 
     public Shipment getShipment() {
+        try {
+            shipmentMutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            shipmentMutex.release();
+        }
         return shipment;
     }
 
@@ -81,8 +121,14 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         return priority;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
     private final int priority;
     private final Shipment shipment;
+    private Semaphore shipmentMutex = new Semaphore(1);
+    private final String userEmail;
     private AddressBehavior addressBehavior = UserAddressChanger.getInstance();
     private CancelBehavior cancelBehavior = CancelAllower.getInstance();
     private ReturnBehavior returnBehavior = ReturnDenier.getInstance();
