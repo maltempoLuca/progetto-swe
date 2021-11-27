@@ -2,6 +2,7 @@ package com.company.store.controller;
 
 import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
+import com.company.constants.Utility;
 import com.company.store.Shipment;
 import com.company.view.View;
 
@@ -22,7 +23,7 @@ public class UserView implements View {
             e.printStackTrace();
         }
         readContents();
-        //System.out.println(contents);
+        System.out.println(contents);
         mutex.release();
     }
 
@@ -38,16 +39,6 @@ public class UserView implements View {
         mutex.release();
     }
 
-    public void addMessage(String message) {
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        messages.add(message);
-        mutex.release();
-    }
-
     public void addOptional(String optional) {
         try {
             mutex.acquire();
@@ -58,12 +49,23 @@ public class UserView implements View {
         mutex.release();
     }
 
+    public void addLogEntry(Loggable loggable) {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        log.add(Utility.timeToString() + loggable.getLogMessage() + "\n");
+        mutex.release();
+    }
+
     private void readContents() {
         contents.setLength(0);
         readTitle();
+        readAll(log);
+        contents.append("\nSHIPMENTS:\n");
         readAndClear(optionals);
         readAll(shipmentsData.values());
-        readAll(messages);
         contents.append("---------------------");
     }
 
@@ -72,7 +74,7 @@ public class UserView implements View {
     }
 
     private void readAll(Collection<String> stringCollection) {
-        for(String element : stringCollection) {
+        for (String element : stringCollection) {
             contents.append(element).append("\n");
         }
     }
@@ -97,8 +99,8 @@ public class UserView implements View {
 
     private final String title;
     private final Map<String, String> shipmentsData = new LinkedHashMap<>();
-    private final List<String > messages = new ArrayList<>();
     private final List<String> optionals = new ArrayList<>();
+    private final List<String> log = new ArrayList<>();
     private final StringBuilder contents = new StringBuilder();
     private final Semaphore mutex = new Semaphore(1);
 }

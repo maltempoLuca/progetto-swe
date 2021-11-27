@@ -20,7 +20,7 @@ public class OperationResult implements Loggable {
         }
 
         logMessageBuilder.append("\"").append(message).append("\"");
-        return Utility.timeToString() + logMessageBuilder;
+        return logMessageBuilder.toString();
     }
 
     public String getMessage() {

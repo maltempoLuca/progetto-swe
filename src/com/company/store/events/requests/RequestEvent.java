@@ -36,7 +36,7 @@ public class RequestEvent implements Loggable {
             }
         }
 
-        return Utility.timeToString() + logMessageBuilder;
+        return logMessageBuilder.toString();
     }
 
     public RequestEvent addInput(String type, String data) {
