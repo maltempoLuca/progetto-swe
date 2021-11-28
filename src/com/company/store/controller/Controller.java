@@ -25,6 +25,9 @@ public class Controller implements RequestListener, ShipmentEventListener {
         RequestIdentifier requestId = request.getId();
         String email = request.getUserId();
         OperationResult result = null;
+        updateLog(email, request);
+        //result = request.execute();
+
         switch (requestId) {
             case REGISTER_REQUEST: {
                 email = request.getUserInput(Constants.USER_EMAIL);
@@ -45,6 +48,8 @@ public class Controller implements RequestListener, ShipmentEventListener {
                 result = Store.getInstance().loginUser(email, psw);
                 break;
             }
+
+
 
             case LOGOUT_REQUEST: {
                 updateLog(email, request);
@@ -76,7 +81,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
 
             case PURCHASE_REQUEST: {
                 updateLog(email, request);
-                result = Store.getInstance().requestPurchase(request.getUserId());
+                result = Store.getInstance().requestPurchase(request.getUserId()); //servizio, destinazione, destinatario
                 break;
             }
 

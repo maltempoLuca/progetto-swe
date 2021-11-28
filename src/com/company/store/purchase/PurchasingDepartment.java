@@ -55,7 +55,6 @@ public final class PurchasingDepartment {
         boolean successful = false;
         String operationMessage;
 
-        //TODO: simulate user input?
         Cart userCart = carts.get(userEmailLowerCase);
 
         if (userCart != null) {
@@ -63,6 +62,7 @@ public final class PurchasingDepartment {
                 double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
+                //TODO: passare servizio, indirizzo e destinatario dall'esterno come parametri
                 ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, Constants.STANDARD, "indirizzo", "destinatario", cartContentsString);
 
                 userCart.clear();

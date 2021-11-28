@@ -54,9 +54,9 @@ public class Courier implements Runnable {
     private boolean working;
     private ShipmentService shipmentService;
     private final static Map<ShipmentState, timeStruct> shipmentTimesMap = Map.of(
-            Constants.SENT, new timeStruct(500, 1500),
-            Constants.IN_TRANSIT, new timeStruct(1000, 2000),
-            Constants.OUT_FOR_DELIVERY, new timeStruct(500, 1000),
+            Constants.SENT, new timeStruct(2000, 3000),
+            Constants.IN_TRANSIT, new timeStruct(3000, 5000),
+            Constants.OUT_FOR_DELIVERY, new timeStruct(2000, 3000),
             Constants.CANCELLED, new timeStruct(100, 500)
     );
     private final static Random random = new Random();

@@ -24,7 +24,7 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
-        //TODO: call createShipment
+        //TODO: call createShipment and createservice and requestcourier e aggiungi informazioni mittente
     }
 
     public static ShippingDepartment getInstance() {
