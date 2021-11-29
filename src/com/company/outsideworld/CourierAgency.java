@@ -1,6 +1,7 @@
 package com.company.outsideworld;
 
 import com.company.store.ShipmentService;
+import com.company.store.purchase.PurchasingDepartment;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,12 +10,18 @@ import java.util.concurrent.Semaphore;
 
 
 public class CourierAgency extends Thread {
-    public CourierAgency() {
+    private CourierAgency() {
         for (int i = 0; i < 10; i++) {
             Courier courier = new Courier();
             couriers.add(courier);
             couriersThread.add(null);
         }
+    }
+
+    public static CourierAgency getInstance() {
+        if (instance == null)
+            instance = new CourierAgency();
+        return instance;
     }
 
     @Override
@@ -152,8 +159,6 @@ public class CourierAgency extends Thread {
         return result;
     }
 
-
-    private static CourierAgency instance = null;
     private boolean programFinished = false;
     private static int pacchiGestiti = 0;
 
@@ -165,6 +170,7 @@ public class CourierAgency extends Thread {
     private Semaphore couriersWriters = new Semaphore(1);
     private int nCouriersReaders = 0;
 
+    private static CourierAgency instance = null;
     private final ArrayList<Courier> couriers = new ArrayList<>();
     private final ArrayList<Thread> couriersThread = new ArrayList<>();
     private final Queue<ShipmentService> shipmentServices = new LinkedList<>();//TODO: adesso se cancello un ordine devo cancellarlo pure da qui.

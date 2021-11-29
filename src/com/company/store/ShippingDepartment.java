@@ -19,12 +19,17 @@ public class ShippingDepartment implements ShipmentEventListener {
     @Override
     public void handleEvent(ShipmentEvent event) {
         if (event.getId() == ShipEventIdentifier.RETURNED) {
-
+            createReturn(event.getShipment(), event.getUserEmail());
         }
     }
 
+    public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents, String id) {
+        Shipment shipment = createShipment(Constants.STORE_NAME, receiver, Constants.STORE_ADDRESS, destination, contents, id);
+        createService(service, shipment, userEmail);
+    }
+
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
-        //TODO: call createShipment and createservice and requestcourier e aggiungi informazioni mittente
+        handlePurchase(userEmail, service, destination, receiver, contents, generateId());
     }
 
     public static ShippingDepartment getInstance() {
@@ -39,8 +44,8 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     void createService(String typeOfService, Shipment shipment, String userEmail) {
-        ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, shipment).copy();
-        requestCourier(newService); // deve stare qui o in handlePurchase?
+        ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, userEmail, shipment).copy();
+        requestCourier(newService);
         activeServices.get(userEmail).put(shipment.getId(), newService);
 
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
@@ -54,10 +59,10 @@ public class ShippingDepartment implements ShipmentEventListener {
     public OperationResult deleteService(String email, String shipmentID) {
         return activeServices.get(email).get(shipmentID).cancelShipment();
     }
-    void createReturn(Shipment shipment, String userEmail) {
-        //TODO: modifica la stringa vuota dell'id qui sotto
+
+    private void createReturn(Shipment shipment, String userEmail) {
         Shipment newShipment = createShipment(shipment.getReceiver(), shipment.getSender(), shipment.getDestinationAddress(),
-                shipment.getSenderAddress(), shipment.getContents(), "");
+                shipment.getSenderAddress(), shipment.getContents(), generateId());
         createService(Constants.RETURN, newShipment, userEmail);
     }
 
@@ -76,12 +81,11 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     private void requestCourier(ShipmentService shipmentService) {
-        courierAgency.requestCourier(shipmentService);
+        CourierAgency.getInstance().requestCourier(shipmentService);
     }
 
 
     private static ShippingDepartment instance = null;
-    private final CourierAgency courierAgency = new CourierAgency();
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
 

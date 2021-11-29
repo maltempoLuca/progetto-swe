@@ -6,6 +6,7 @@ public class ReturnService extends ShipmentService {
 
     ReturnService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
+        shipment.setState(Constants.RETURN_CREATED);
     }
 
     @Override
@@ -15,19 +16,19 @@ public class ReturnService extends ShipmentService {
 
     @Override
     void changeAddressBehavior() {
-        if (getShipment().getState() == Constants.RETURN_CREATED)
+        if (getShipment().getState().equals(Constants.RETURN_CREATED))
             setAddressBehavior(InternalAddressChanger.getInstance());
     }
 
     @Override
     void changeCancelBehavior() {
-        if (getShipment().getState() == Constants.RETURN_CREATED)
+        if (getShipment().getState().equals(Constants.RETURN_CREATED))
             setCancelBehavior(CancelReturn.getInstance());
     }
 
     @Override
     void changeReturnBehavior() {
-        if (getShipment().getState() == Constants.RETURN_CREATED)
+        if (getShipment().getState().equals(Constants.RETURN_CREATED))
             setReturnBehavior(ReturnError.getInstance());
     }
 }

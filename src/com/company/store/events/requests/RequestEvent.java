@@ -8,6 +8,7 @@ import com.company.store.controller.Loggable;
 import com.company.store.purchase.PurchasingDepartment;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RequestEvent implements Loggable {
@@ -23,7 +24,7 @@ public class RequestEvent implements Loggable {
     }
 
     public OperationResult execute() {
-        return id.execute(this);
+        return null;
     }
 
     @Override
@@ -58,8 +59,8 @@ public class RequestEvent implements Loggable {
 
     public String getUserId() {
         String result = userId;
-        if(userInput.containsKey(Constants.USER_EMAIL))
-            result = userInput.get(Constants.USER_EMAIL);
+        if (userInput.containsKey(Constants.USER_EMAIL))
+            result = userInput.get(Constants.USER_EMAIL).toLowerCase();
         return result;
     }
 

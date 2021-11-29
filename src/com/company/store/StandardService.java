@@ -14,19 +14,19 @@ public class StandardService extends ShipmentService {
 
     @Override
     void changeAddressBehavior() {
-        if (getShipment().getState() == Constants.SENT)
+        if (getShipment().getState().equals(Constants.SENT))
             setAddressBehavior(UserAddressDenier.getInstance());
     }
 
     @Override
     void changeCancelBehavior() {
-        if (getShipment().getState() == Constants.SENT)
+        if (getShipment().getState().equals(Constants.SENT))
             setCancelBehavior(CancelDenier.getInstance());
     }
 
     @Override
     void changeReturnBehavior() {
-        if (getShipment().getState() == Constants.DELIVERED)
+        if (getShipment().getState().equals(Constants.DELIVERED))
             setReturnBehavior(ReturnAllower.getInstance());
     }
 }

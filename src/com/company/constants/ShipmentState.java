@@ -1,5 +1,7 @@
 package com.company.constants;
 
+import com.company.store.PremiumService;
+
 public class ShipmentState {
 
     public ShipmentState(String currentState, ShipmentState nextState) {
@@ -13,6 +15,11 @@ public class ShipmentState {
 
     public String getCurrentState() {
         return currentState;
+    }
+
+    public boolean equals(ShipmentState other) {
+
+        return this.currentState.equals(other.currentState);
     }
 
     private final String currentState;

@@ -71,6 +71,9 @@ public class Constants {
     public static final String INVALID_QUANTITY = "INVALID_QUANTITY";
 
     //unloged user id
-
     public static final String UNLOGGED_USER = "unlogged user";
+
+    //store shipment info
+    public static final String STORE_NAME = "Java Store";
+    public static final String STORE_ADDRESS = "Viale Giovanni Battista Morgagni, 40, Firenze";
 }

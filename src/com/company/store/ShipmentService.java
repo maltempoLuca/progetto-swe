@@ -23,6 +23,8 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipmentMutex.acquire();
             if (shipment.getState().getNextState() != null) {
                 shipment.setState(shipment.getState().getNextState());
+                ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
+                ShipmentEventManager.getInstance().notify(shipmentEvent);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

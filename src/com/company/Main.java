@@ -24,8 +24,7 @@ public class Main {
         Controller controller = new Controller();
         RequestManager.getInstance().subscribe(controller, RequestIdentifier.REGISTER_REQUEST,
                 RequestIdentifier.LOGIN_REQUEST, RequestIdentifier.LOGOUT_REQUEST);
-        ShipmentEventManager.getInstance().subscribe(controller, ShipEventIdentifier.CANCELED,
-                ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
+        ShipmentEventManager.getInstance().subscribe(controller, ShipEventIdentifier.RETURNED);
 
 
         // provo a vedere se funzionano gli eventi
@@ -68,7 +67,7 @@ public class Main {
         //System.out.println("------------------------------------------------------------------------------------");
         //System.out.println("Inizio test thread:");
 
-
+/*
         CourierAgency courierAgency = new CourierAgency();
         Thread t = new Thread(courierAgency);
         t.start();
@@ -83,6 +82,7 @@ public class Main {
         }
 
         courierAgency.setProgramFinished(); // METTERE A TRUE SOLO QUANDO HAI FINITO TUTTI GLI ACQUISTI DA SIMULARE.
+        */
     }
 }
 
