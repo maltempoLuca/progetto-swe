@@ -9,6 +9,9 @@ import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEventManager;
 import com.company.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
@@ -29,26 +32,38 @@ public class Main {
         //System.out.println("---------------------");
         // System.out.println("Sessione di Luca: ");
         buttons.logoutUser(luca.getEmail());
+        Thread.sleep(3000);
         buttons.registerUser(luca.getEmail(), "lucaPassword1");
+        Thread.sleep(3000);
         buttons.logoutUser(luca.getEmail());
+        Thread.sleep(3000);
         buttons.loginUser(luca.getEmail(), "lucaPassword1");
+        Thread.sleep(3000);
         buttons.addToCart(luca.getEmail(), "06060","1");
         buttons.logoutUser(luca.getEmail());
+        Thread.sleep(3000);
 
         //System.out.println("---------------------");
         //System.out.println("Sessione di Sam: ");
         buttons.registerUser(sam.getEmail(), "samPassword");
+        Thread.sleep(3000);
         buttons.registerUser(sam.getEmail(), "samPassword1");
+        Thread.sleep(3000);
         buttons.loginUser(sam.getEmail(), "samPassword1");
+        Thread.sleep(3000);
         buttons.logoutUser(sam.getEmail());
-
+        Thread.sleep(3000);
 
         //System.out.println("---------------------");
         //System.out.println("Sessione di Pie: ");
         buttons.registerUser(pie.getEmail(), "piePassword1");
+        Thread.sleep(3000);
         buttons.loginUser(pie.getEmail(), "piePassword0");
+        Thread.sleep(3000);
         buttons.loginUser(pie.getEmail(), "piePassword1");
+        Thread.sleep(3000);
         buttons.logoutUser(pie.getEmail());
+        Thread.sleep(3000);
 
 
         //System.out.println("------------------------------------------------------------------------------------");
@@ -58,9 +73,13 @@ public class Main {
         CourierAgency courierAgency = new CourierAgency();
         Thread t = new Thread(courierAgency);
         t.start();
+        List<String> users = new ArrayList<>();
+        users.add("luchino@pippo.com");
+        users.add("sam@pippo.com");
+        users.add("pie@pippo.com");
         for (Integer i = 0; i < 22; i++) {
             Shipment shipment = new Shipment("a", "a", "", "", "", i.toString());
-            ShipmentService shipmentService = new StandardService(shipment, "luchino@pippo.com");
+            ShipmentService shipmentService = new StandardService(shipment, users.get(i%3));
             courierAgency.requestCourier(shipmentService);
         }
 

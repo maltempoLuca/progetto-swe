@@ -14,7 +14,7 @@ public class ShipmentEvent implements Loggable {
 
     @Override
     public String getLogMessage() {
-        return Utility.timeToString() + " Shipment event of type: " + id.name() + " on shipment: " + shipment.getId();
+        return " Shipment event of type: " + id.name() + " on shipment: " + shipment.getId();
     }
 
     public ShipEventIdentifier getId() {

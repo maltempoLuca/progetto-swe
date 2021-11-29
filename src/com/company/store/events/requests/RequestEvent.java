@@ -22,6 +22,9 @@ public class RequestEvent implements Loggable {
         this.userId = Constants.UNLOGGED_USER;
     }
 
+    public OperationResult execute() {
+        return id.execute(this);
+    }
 
     @Override
     public String getLogMessage() {
@@ -36,7 +39,7 @@ public class RequestEvent implements Loggable {
             }
         }
 
-        return Utility.timeToString() + logMessageBuilder;
+        return logMessageBuilder.toString();
     }
 
     public RequestEvent addInput(String type, String data) {
@@ -54,7 +57,10 @@ public class RequestEvent implements Loggable {
     }
 
     public String getUserId() {
-        return userId;
+        String result = userId;
+        if(userInput.containsKey(Constants.USER_EMAIL))
+            result = userInput.get(Constants.USER_EMAIL);
+        return result;
     }
 
     public String getUserInput(String inputKey) {

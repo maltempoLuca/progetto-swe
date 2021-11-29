@@ -16,15 +16,22 @@ import java.util.concurrent.Semaphore;
 
 public class Controller implements RequestListener, ShipmentEventListener {
 
+    public Controller() {
+        userViews.put("Couriers", new UserView("COURIERS"));
+    }
+
     @Override
     public void handleRequest(RequestEvent request) {
-        updateLog(request);
         RequestIdentifier requestId = request.getId();
         String email = request.getUserId();
         OperationResult result = null;
+        updateLog(email, request);
+        //result = request.execute();
+
         switch (requestId) {
             case REGISTER_REQUEST: {
                 email = request.getUserInput(Constants.USER_EMAIL);
+                updateLog(email, request);
                 String psw = request.getUserInput(Constants.USER_PSW);
                 result = Store.getInstance().registerUser(email, psw);
                 if (result.isSuccessful()) {
@@ -36,23 +43,29 @@ public class Controller implements RequestListener, ShipmentEventListener {
 
             case LOGIN_REQUEST: {
                 email = request.getUserInput(Constants.USER_EMAIL);
+                updateLog(email, request);
                 String psw = request.getUserInput(Constants.USER_PSW);
                 result = Store.getInstance().loginUser(email, psw);
                 break;
             }
 
+
+
             case LOGOUT_REQUEST: {
+                updateLog(email, request);
                 result = Store.getInstance().logoutUser(request.getUserId());
                 break;
             }
 
             case CANCEL_REQUEST: {
+                updateLog(email, request);
                 result = Store.getInstance().requestCancel(request.getUserId(),
                         request.getUserInput(Constants.ID_SPEDIZIONE));
                 break;
             }
 
             case CHANGE_ADDRESS_REQUEST: {
+                updateLog(email, request);
                 result = Store.getInstance().requestAddressChange(request.getUserId(),
                         request.getUserInput(Constants.ID_SPEDIZIONE),
                         request.getUserInput(Constants.DESTINATION_ADDRESS));
@@ -60,17 +73,20 @@ public class Controller implements RequestListener, ShipmentEventListener {
             }
 
             case RETURN_REQUEST: {
+                updateLog(email, request);
                 result = Store.getInstance().requestReturn(request.getUserId(),
                         request.getUserInput(Constants.ID_SPEDIZIONE));
                 break;
             }
 
             case PURCHASE_REQUEST: {
-                result = Store.getInstance().requestPurchase(request.getUserId());
+                updateLog(email, request);
+                result = Store.getInstance().requestPurchase(request.getUserId()); //servizio, destinazione, destinatario
                 break;
             }
 
             case ADD_TO_CART_REQUEST: {
+                updateLog(email, request);
                 try {
                     result = Store.getInstance().addToCartRequest(request.getUserId(),
                             request.getUserInput(Constants.ITEM_ID),
@@ -84,8 +100,7 @@ public class Controller implements RequestListener, ShipmentEventListener {
                 break;
             }
         }
-        updateView(email, result.getMessage());
-        updateLog(result);
+        updateLog(email, result);
         refreshViews();
     }
 
@@ -105,6 +120,8 @@ public class Controller implements RequestListener, ShipmentEventListener {
             default:
                 break;
          */
+        String email = event.getUserEmail();
+        updateLog("Couriers", event);
         updateView(event);
         refreshViews();
     }
@@ -122,39 +139,32 @@ public class Controller implements RequestListener, ShipmentEventListener {
     }
 
     private void renderViews() {
-        logView.draw();
         for (UserView view : userViews.values()) {
             view.draw();
         }
     }
 
-    private void ensureView(String userEmail) {
+    private void ensureView(String viewId) {
         //check if there is a view corresponding to specified user, if not create it
-        if (!userViews.containsKey(userEmail)) {
-            userViews.put(userEmail, new UserView(userEmail.toUpperCase()));
+        if (!userViews.containsKey(viewId)) {
+            userViews.put(viewId, new UserView(viewId.toUpperCase()));
         }
-    }
-
-    private void updateView(String userEmail, String message) {
-        //adds specified message to user view
-        ensureView(userEmail);
-        UserView viewToUpdate = userViews.get(userEmail);
-        viewToUpdate.addMessage(message);
     }
 
     private void updateView(ShipmentEvent event) {
         //finds user view corresponding to the user who owns the shipment, then updates that view
         Shipment shipment = event.getShipment();
-        String userEmail = event.getUserEmail();
-        ensureView(userEmail);
-        UserView viewToUpdate = userViews.get(userEmail);
+        String viewId = event.getUserEmail();
+        ensureView(viewId);
+        UserView viewToUpdate = userViews.get(viewId);
         viewToUpdate.updateShipment(shipment);
     }
 
-    private void updateLog(Loggable loggable) {
-        logView.addLogEntry(loggable);
+    private void updateLog(String viewId, Loggable loggable) {
+        ensureView(viewId);
+        UserView viewToUpdate = userViews.get(viewId);
+        viewToUpdate.addLogEntry(loggable);
     }
 
-    private final LogView logView = new LogView();
     private final Map<String, UserView> userViews = new LinkedHashMap<>();
 }
