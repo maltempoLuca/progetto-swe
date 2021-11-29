@@ -32,6 +32,7 @@ public class Main {
         buttons.registerUser(luca.getEmail(), "lucaPassword1");
         buttons.logoutUser(luca.getEmail());
         buttons.loginUser(luca.getEmail(), "lucaPassword1");
+        buttons.addToCart(luca.getEmail(), "06060","1");
         buttons.logoutUser(luca.getEmail());
 
         //System.out.println("---------------------");

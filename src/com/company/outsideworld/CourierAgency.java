@@ -23,13 +23,10 @@ public class CourierAgency extends Thread {
             while (!programFinished || !emptyShipments()) {
                 handleCouriers();
             }
-
             waitCouriers();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         System.out.println("Ho spedito " + pacchiGestiti + " pacchi");
     }
 

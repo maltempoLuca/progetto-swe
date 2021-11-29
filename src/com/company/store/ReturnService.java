@@ -6,6 +6,8 @@ public class ReturnService extends ShipmentService {
 
     ReturnService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
+        shipment.setState(Constants.RETURN_CREATED); // prova di luca
+        this.updateBehavior();                       // prova di luca
     }
 
     @Override

@@ -29,11 +29,18 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
+        //updateBehavior();
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
         ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
         ShipmentEventManager.getInstance().notify(shipmentEvent);
+    }
+
+    public void updateBehavior(){
+        changeAddressBehavior();
+        changeCancelBehavior();
+        changeReturnBehavior();
     }
 
     OperationResult changeAddress(String newAddress) {
@@ -42,6 +49,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipmentMutex.acquire();
             operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
         } catch (InterruptedException e) {
+            System.out.println("Eccezione pippo");
             e.printStackTrace();
         } finally {
             shipmentMutex.release();
