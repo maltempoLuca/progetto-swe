@@ -12,7 +12,7 @@ public class StandardServiceTest {
 
     private StandardService service = new StandardService(shipment, "luchino@pippo.com");
 
-    @Test//(expected = NullPointerException.class)
+    @Test
     public void updateStateTest() {
         Assert.assertEquals(Constants.CREATED, shipment.getState());
 

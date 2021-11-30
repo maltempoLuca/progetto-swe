@@ -22,9 +22,9 @@ public class RequestEvent implements Loggable {
         this.userId = Constants.UNLOGGED_USER;
     }
 
-    public OperationResult execute() {
-        return id.execute(this);
-    }
+//    public OperationResult execute() {
+//        return id.execute(this);
+//    }
 
     @Override
     public String getLogMessage() {

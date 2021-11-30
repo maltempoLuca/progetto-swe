@@ -13,7 +13,7 @@ public class PremiumServiceTest {
 
     private PremiumService service = new PremiumService(shipment, "luchino@pippo.com");
 
-    @Test//(expected = NullPointerException.class)
+    @Test
     public void updateStateTest() {
         Assert.assertEquals(Constants.CREATED, shipment.getState());
 

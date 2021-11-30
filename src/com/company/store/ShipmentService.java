@@ -29,7 +29,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
-        //updateBehavior();
+        //updateBehaviors();
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
@@ -37,7 +37,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         ShipmentEventManager.getInstance().notify(shipmentEvent);
     }
 
-    public void updateBehavior(){
+    public void updateBehaviors(){
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
