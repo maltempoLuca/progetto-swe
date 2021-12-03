@@ -13,19 +13,21 @@ public class PremiumService extends ShipmentService {
 
     @Override
     void changeAddressBehavior() {
-        if (getShipment().getState() == Constants.OUT_FOR_DELIVERY)
+        if (getShipment().getState().equals(Constants.OUT_FOR_DELIVERY))
             setAddressBehavior(UserAddressDenier.getInstance());
     }
 
     @Override
     void changeCancelBehavior() {
-        if (getShipment().getState() == Constants.OUT_FOR_DELIVERY)
+        if (getShipment().getState().equals(Constants.OUT_FOR_DELIVERY))
             setCancelBehavior(CancelDenier.getInstance());
     }
 
+    //TODO: change == to equals
+
     @Override
     void changeReturnBehavior() {
-        if (getShipment().getState() == Constants.DELIVERED)
+        if (getShipment().getState().equals(Constants.DELIVERED))
             setReturnBehavior(ReturnAllower.getInstance());
     }
 }

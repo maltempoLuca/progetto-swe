@@ -23,17 +23,24 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipmentMutex.acquire();
             if (shipment.getState().getNextState() != null) {
                 shipment.setState(shipment.getState().getNextState());
+                ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
+                ShipmentEventManager.getInstance().notify(shipmentEvent);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             shipmentMutex.release();
         }
+        //updateBehaviors();
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
-        ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
-        ShipmentEventManager.getInstance().notify(shipmentEvent);
+    }
+
+    public void updateBehaviors(){
+        changeAddressBehavior();
+        changeCancelBehavior();
+        changeReturnBehavior();
     }
 
     OperationResult changeAddress(String newAddress) {
@@ -42,6 +49,7 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
             shipmentMutex.acquire();
             operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
         } catch (InterruptedException e) {
+            System.out.println("Eccezione pippo");
             e.printStackTrace();
         } finally {
             shipmentMutex.release();

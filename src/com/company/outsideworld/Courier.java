@@ -57,7 +57,11 @@ public class Courier implements Runnable {
             Constants.SENT, new timeStruct(2000, 3000),
             Constants.IN_TRANSIT, new timeStruct(3000, 5000),
             Constants.OUT_FOR_DELIVERY, new timeStruct(2000, 3000),
-            Constants.CANCELLED, new timeStruct(100, 500)
+            Constants.CANCELLED, new timeStruct(100, 500),
+
+            Constants.RETURN_CREATED, new timeStruct(1000,3000),
+            Constants.PICKED_UP, new timeStruct(3000,5000),
+            Constants.RETURN_DELIVERED, new timeStruct(100,500)
     );
     private final static Random random = new Random();
 

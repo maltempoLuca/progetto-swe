@@ -6,8 +6,10 @@ import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.controller.Loggable;
 import com.company.store.purchase.PurchasingDepartment;
+import exceptions.MissingInputException;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class RequestEvent implements Loggable {
@@ -22,9 +24,9 @@ public class RequestEvent implements Loggable {
         this.userId = Constants.UNLOGGED_USER;
     }
 
-    public OperationResult execute() {
-        return id.execute(this);
-    }
+//    public OperationResult execute() {
+//        return id.execute(this);
+//    }
 
     @Override
     public String getLogMessage() {
@@ -58,15 +60,21 @@ public class RequestEvent implements Loggable {
 
     public String getUserId() {
         String result = userId;
-        if(userInput.containsKey(Constants.USER_EMAIL))
-            result = userInput.get(Constants.USER_EMAIL);
+        if (userInput.containsKey(Constants.USER_EMAIL))
+            result = userInput.get(Constants.USER_EMAIL).toLowerCase();
         return result;
     }
 
     public String getUserInput(String inputKey) {
-        String result = userInput.get(inputKey);
-        if (result == null) {
-            //TODO: throw exception
+        String result = null;
+
+        try {
+            result = userInput.get(inputKey);
+            if (result == null) {
+                throw new MissingInputException(inputKey, id.name());
+            }
+        } catch (MissingInputException e) {
+            //TODO: method should throw this exception
         }
         return result;
     }

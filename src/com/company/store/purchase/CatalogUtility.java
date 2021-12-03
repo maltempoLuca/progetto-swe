@@ -21,7 +21,15 @@ public final class CatalogUtility {
 
     static final String LAPTOP_ID = "02310";
     static final String LAPTOP_NAME = "Laptop";
-    static final double LAPTOP_PRICE = 799;
+    static final double LAPTOP_PRICE = 799.00;
+
+    static final String LAMPADA_ID = "01998";
+    static final String LAMPADA_NAME = "Lampada";
+    static final double LAMPADA_PRICE = 12.57;
+
+    static final String CYCLETTE_ID = "06060";
+    static final String CYCLETTE_NAME = "Cyclette";
+    static final double CYCLETTE_PRICE = 319.90;
 
 
 }
