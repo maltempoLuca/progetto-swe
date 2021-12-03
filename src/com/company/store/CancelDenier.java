@@ -16,7 +16,7 @@ public class CancelDenier implements CancelBehavior {
 
     @Override
     public OperationResult cancelShipment(Shipment shipment, String userEmail) {
-        String message = "Shipment: " + shipment.getId() + " could not be canceled " + Constants.CANCEL_REASON;
+        String message = "Shipment: " + shipment.getId() + " could not be canceled as state is " + shipment.getState().getCurrentState();
         return new OperationResult(message, false);
     }
 

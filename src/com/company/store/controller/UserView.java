@@ -35,7 +35,7 @@ public class UserView implements View {
         }
         String id = shipment.getId();
         String data = buildShipmentData(shipment);
-        shipmentsData.put(id, data);
+        shipmentsData.put(id, new ViewElement(data));
         mutex.release();
     }
 
@@ -45,7 +45,7 @@ public class UserView implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        optionals.add(optional);
+        optionals.add(new ViewElement(optional));
         mutex.release();
     }
 
@@ -55,7 +55,7 @@ public class UserView implements View {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        log.add(Utility.timeToString() + loggable.getLogMessage() + "\n");
+        log.add(new ViewElement(Utility.timeToString() + loggable.getLogMessage() + "\n"));
         mutex.release();
     }
 
@@ -63,23 +63,29 @@ public class UserView implements View {
         contents.setLength(0);
         readTitle();
         readAll(log);
-        contents.append("\nSHIPMENTS:\n");
         readAndClear(optionals);
+        contents.append("\nSHIPMENTS:\n");
         readAll(shipmentsData.values());
-        contents.append("---------------------");
+        contents.append(Constants.SEPARATOR);
     }
 
     private void readTitle() {
         contents.append(title).append("\n");
     }
 
-    private void readAll(Collection<String> stringCollection) {
-        for (String element : stringCollection) {
-            contents.append(element).append("\n");
+    private void readAll(Collection<ViewElement> stringCollection) {
+        for (ViewElement element : stringCollection) {
+            //element = String.join(("\u0332",  element.split("",-1));
+            if(!element.printed) {
+                contents.append(Constants.ANSI_BLACK_BOLD).append(Constants.ANSI_BLACK_UNDERLINED);
+                element.printed = true;
+            }
+            contents.append(element).append(Constants.ANSI_RESET).append("\n");
+
         }
     }
 
-    private void readAndClear(Collection<String> stringCollection) {
+    private void readAndClear(Collection<ViewElement> stringCollection) {
         readAll(stringCollection);
         stringCollection.clear();
     }
@@ -88,19 +94,32 @@ public class UserView implements View {
         StringBuilder data = new StringBuilder();
         data.append("- ID: ").append(shipment.getId()).append(", ");
         data.append("Sender: ").append(shipment.getSender()).append(", ");
-        data.append("Receiver: ").append(shipment.getReceiver()).append(", ");
-        data.append("Sender Address: ").append(shipment.getSenderAddress()).append(", ");
+        data.append("Receiver: ").append(shipment.getReceiver()).append(",\n");
+        data.append("Sender Address: ").append(shipment.getSenderAddress()).append(",\n");
         data.append("Destination Address: ").append(shipment.getDestinationAddress()).append(", ");
-        data.append("State: ").append(shipment.getState().getCurrentState());
-        data.append("\n");
+        data.append("State: ").append(shipment.getState().getCurrentState()).append("\n");
         data.append("Contents: ").append(shipment.getContents()).append("\n");
         return data.toString();
     }
 
+    private static class ViewElement {
+        private ViewElement(String content) {
+            this.content = content;
+            this.printed = false;
+        }
+
+        public final String toString() {
+            return content;
+        }
+
+        private Boolean printed;
+        private final String content;
+    }
+
     private final String title;
-    private final Map<String, String> shipmentsData = new LinkedHashMap<>();
-    private final List<String> optionals = new ArrayList<>();
-    private final List<String> log = new ArrayList<>();
+    private final Map<String, ViewElement> shipmentsData = new LinkedHashMap<>();
+    private final List<ViewElement> optionals = new ArrayList<>();
+    private final List<ViewElement> log = new ArrayList<>();
     private final StringBuilder contents = new StringBuilder();
     private final Semaphore mutex = new Semaphore(1);
 }

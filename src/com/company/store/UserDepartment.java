@@ -79,8 +79,15 @@ public class UserDepartment {
     }
 
     public boolean isLogged(String email) {
+        boolean logged;
         String lowerCaseEmail = email.toLowerCase();
-        return usrLoginInfo.get(lowerCaseEmail).userIsLogged;
+
+        if(!usrLoginInfo.containsKey(lowerCaseEmail))
+            logged = false;
+        else
+            logged = usrLoginInfo.get(lowerCaseEmail).userIsLogged;
+
+        return logged;
     }
 
     private String checkPasswordValidity(String password) {

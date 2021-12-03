@@ -78,4 +78,7 @@ public class Store {
 
     private static Store instance = null;
 
+    public OperationResult getCatalog(String userEmail) {
+        return PurchasingDepartment.getInstance().getCatalog(userEmail);
+    }
 }

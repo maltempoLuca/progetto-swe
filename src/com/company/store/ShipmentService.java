@@ -1,7 +1,6 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.constants.ShipmentState;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventManager;
@@ -31,20 +30,17 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
-        //updateBehaviors();
-        changeAddressBehavior();
-        changeCancelBehavior();
-        changeReturnBehavior();
+        updateBehaviors();
     }
 
-    public void updateBehaviors(){
+    public void updateBehaviors() {
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
     }
 
     OperationResult changeAddress(String newAddress) {
-        OperationResult operationResult= new OperationResult("Interrupted Exception", false);
+        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
         try {
             shipmentMutex.acquire();
             operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
@@ -54,6 +50,8 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
+        if (operationResult.isSuccessful())
+            updateBehaviors();
         return operationResult;
     }
 
@@ -67,6 +65,8 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
+        if (operationResult.isSuccessful())
+            updateBehaviors();
         return operationResult;
     }
 
@@ -80,13 +80,25 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         } finally {
             shipmentMutex.release();
         }
+        if (operationResult.isSuccessful())
+            updateBehaviors();
         return operationResult;
     }
 
 
-    abstract void changeAddressBehavior();
+    void changeAddressBehavior() {
+        if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED) || getShipment().getState().equals(Constants.CANCELLED))
+            setAddressBehavior(UserAddressDenier.getInstance());
+        else if (getShipment().getState().getCurrentState().equals(Constants.ADDRESS_CHANGED)) {
+            setAddressBehavior(UserAddressChanger.getInstance());
+        }
+    }
 
-    abstract void changeCancelBehavior();
+    void changeCancelBehavior() {
+        if (getShipment().getState().equals(Constants.CANCELLED)) {
+            setCancelBehavior(CancelDenier.getInstance());
+        }
+    }
 
     abstract void changeReturnBehavior();
 

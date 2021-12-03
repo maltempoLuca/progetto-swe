@@ -3,6 +3,9 @@ package com.company.store.purchase;
 import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.ShippingDepartment;
+import com.company.store.events.view.ViewEvent;
+import com.company.store.events.view.ViewEventIdentifier;
+import com.company.store.events.view.ViewEventManager;
 
 import java.util.*;
 
@@ -109,17 +112,18 @@ public final class PurchasingDepartment {
         return CatalogUtility.buildCatalog();
     }
 
-    public Map<String, Product> getCatalog() {
-        //creates deep copy of catalog and returns it
+    public OperationResult getCatalog(String userEmail) {
 
-        //TODO: test this
-        Map<String, Product> catalogCopy = new HashMap<>();
+        StringBuilder catalogBuilder = new StringBuilder();
 
-        for (Map.Entry<String, Product> toCopyEntry : catalog.entrySet()) {
-            catalogCopy.put(toCopyEntry.getKey(), new Product(toCopyEntry.getValue()));
+        for(Product product : catalog.values()) {
+            catalogBuilder.append(product.getId()).append(" ").append(product.getName()).append(" ").append(product.getPrice()).append("\n");
         }
 
-        return catalogCopy;
+        ViewEvent event = new ViewEvent(ViewEventIdentifier.CATALOG, userEmail, catalogBuilder.toString());
+        ViewEventManager.getInstance().notify(event);
+
+        return new OperationResult("Here's the Catalog", true);
     }
 
     private static PurchasingDepartment instance = null;

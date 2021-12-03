@@ -9,12 +9,14 @@ import com.company.store.events.requests.RequestIdentifier;
 import com.company.store.events.requests.RequestListener;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
+import com.company.store.events.view.ViewEvent;
+import com.company.store.events.view.ViewEventListener;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
-public class Controller implements RequestListener, ShipmentEventListener {
+public class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
     public Controller() {
         userViews.put("Couriers", new UserView("COURIERS"));
@@ -45,8 +47,6 @@ public class Controller implements RequestListener, ShipmentEventListener {
             default:
                 break;
          */
-        String email = event.getUserEmail();
-        updateLog("Couriers", event);
         updateView(event);
         refreshViews();
     }
@@ -85,6 +85,13 @@ public class Controller implements RequestListener, ShipmentEventListener {
         viewToUpdate.updateShipment(shipment);
     }
 
+    private void updateView(ViewEvent event) {
+        String userEmail = event.getUserEmail();
+        ensureView(userEmail);
+        UserView viewToUpdate = userViews.get(userEmail);
+        viewToUpdate.addOptional(event.getContent());
+    }
+
     private void updateLog(String viewId, Loggable loggable) {
         ensureView(viewId);
         UserView viewToUpdate = userViews.get(viewId);
@@ -92,4 +99,9 @@ public class Controller implements RequestListener, ShipmentEventListener {
     }
 
     private final Map<String, UserView> userViews = new LinkedHashMap<>();
+
+    @Override
+    public void handleViewEvent(ViewEvent event) {
+        updateView(event);
+    }
 }

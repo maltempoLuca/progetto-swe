@@ -60,17 +60,16 @@ public enum RequestIdentifier {
     RETURN_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) {
-            OperationResult result = Store.getInstance().requestReturn(request.getUserId(),
+            return Store.getInstance().requestReturn(request.getUserId(),
                     request.getUserInput(Constants.ID_SPEDIZIONE));
-            return null;
         }
     },
 
     PURCHASE_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) {
+            String userEmail = request.getUserId();
             String typeOfService = request.getUserInput(Constants.SHIPMENT_SERVICE);
-            String userEmail = request.getUserInput(Constants.USER_EMAIL);
             String destinationAddress = request.getUserInput(Constants.DESTINATION_ADDRESS);
             String receiver = request.getUserInput(Constants.RECEIVER);
 
@@ -92,6 +91,13 @@ public enum RequestIdentifier {
                 result = new OperationResult(Constants.INVALID_QUANTITY, false);
             }
             return result;
+        }
+    },
+
+    VIEW_CATALOGUE_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            return Store.getInstance().getCatalog(request.getUserId());
         }
     };
 

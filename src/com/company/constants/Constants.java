@@ -9,6 +9,7 @@ public class Constants {
 
     //state names
     public static final String REQUEST_RECEIVED = "Request received";
+    public static final String ADDRESS_CHANGED = "Address Changed";
 
     //shipment states
     public static final ShipmentState DELIVERED = new ShipmentState("Delivered", null);
@@ -35,7 +36,7 @@ public class Constants {
 
     //event data
     public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
-    public static final String RETURN_REASON = "perchè è troppo tardi per effettuare il reso";
+    public static final String RETURN_REASON = "perchè è troppo presto per effettuare il reso";
     public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
     public static final String INTERNAL_ADDRESS_REASON = "non è possibile modificare l'indirizzo di un reso.";
 
@@ -43,8 +44,8 @@ public class Constants {
     public static final String LOGIN_SUCCESS = "Login done.";
     public static final String LOGOUT_SUCCESS = "Logout done.";
     public static final String SHORT_PSW = "Password has to be at least 6 characters long.";
-    public static final String ONLY_LETTERS_PSW = "The password must contains letters.";//TODO: change letters to numbers
-    public static final String ONLY_NUMBERS_PSW = "The password must contain numbers.";//TODO: change numbers to letters
+    public static final String ONLY_LETTERS_PSW = "The password must contains numbers.";
+    public static final String ONLY_NUMBERS_PSW = "The password must contain letters.";
     public static final String WRONG_PSW = "Wrong Password, try again.";
     public static final String WRONG_EMAIL = "This email doesn't correspond to any user." + "\n"
             + "Please enter the email address used during registration.";
@@ -77,4 +78,16 @@ public class Constants {
     //store shipment info
     public static final String STORE_NAME = "Java Store";
     public static final String STORE_ADDRESS = "Viale Giovanni Battista Morgagni, 40, Firenze";
+
+    //separator
+    public static final String SEPARATOR = "--------------------------------------------------------------------";
+
+    //ANSI
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK_UNDERLINED = "\033[4;30m";
+    public static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
+    public static final String ANSI_BLACK_BRIGHT = "\033[0;90m";
+    public static final String ANSI_BLACK_BOLD = "\033[1;30m";
+
 }

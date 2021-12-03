@@ -1,4 +1,5 @@
 package com.company.store;
+
 import com.company.constants.Constants;
 
 public class StandardService extends ShipmentService {
@@ -16,17 +17,21 @@ public class StandardService extends ShipmentService {
     void changeAddressBehavior() {
         if (getShipment().getState().equals(Constants.SENT))
             setAddressBehavior(UserAddressDenier.getInstance());
+        super.changeAddressBehavior();
     }
 
     @Override
     void changeCancelBehavior() {
         if (getShipment().getState().equals(Constants.SENT))
             setCancelBehavior(CancelDenier.getInstance());
+
+        super.changeCancelBehavior();
     }
 
     @Override
     void changeReturnBehavior() {
-        if (getShipment().getState().equals(Constants.DELIVERED))
+        if (getShipment().getState().equals(Constants.DELIVERED)) {
             setReturnBehavior(ReturnAllower.getInstance());
+        }
     }
 }

@@ -20,11 +20,10 @@ public class Courier implements Runnable {
     public void run() {
         int tmpPriority = shipmentService.getPriority();
         try {
-            shipmentService.updateShipmentState(); //DIVENTA SENT
             ShipmentState currentState = shipmentService.getShipment().getState();
             while (currentState.getNextState() != null) {
-                Thread.sleep(generateRandom(shipmentTimesMap.get(currentState).minTime,
-                        shipmentTimesMap.get(currentState).maxTime + tmpPriority * 500));
+                Thread.sleep(generateRandom(shipmentTimesMap.get(currentState.getCurrentState()).minTime,
+                        shipmentTimesMap.get(currentState.getCurrentState()).maxTime + tmpPriority * 500));
                 shipmentService.updateShipmentState();
                 currentState = shipmentService.getShipment().getState();
             }
@@ -53,15 +52,20 @@ public class Courier implements Runnable {
 
     private boolean working;
     private ShipmentService shipmentService;
-    private final static Map<ShipmentState, timeStruct> shipmentTimesMap = Map.of(
-            Constants.SENT, new timeStruct(2000, 3000),
-            Constants.IN_TRANSIT, new timeStruct(3000, 5000),
-            Constants.OUT_FOR_DELIVERY, new timeStruct(2000, 3000),
-            Constants.CANCELLED, new timeStruct(100, 500),
+    private final static Map<String, timeStruct> shipmentTimesMap = Map.of(
+            Constants.CREATED.getCurrentState(), new timeStruct(1000, 2000),
+            Constants.SENT.getCurrentState(), new timeStruct(2000, 3000),
+            Constants.IN_TRANSIT.getCurrentState(), new timeStruct(3000, 5000),
+            Constants.OUT_FOR_DELIVERY.getCurrentState(), new timeStruct(2000, 3000),
+            Constants.CANCELLED.getCurrentState(), new timeStruct(100, 500),
 
-            Constants.RETURN_CREATED, new timeStruct(1000,3000),
-            Constants.PICKED_UP, new timeStruct(3000,5000),
-            Constants.RETURN_DELIVERED, new timeStruct(100,500)
+            Constants.RETURN_CREATED.getCurrentState(), new timeStruct(1000, 3000),
+            Constants.PICKED_UP.getCurrentState(), new timeStruct(3000, 5000),
+            Constants.RETURN_DELIVERED.getCurrentState(), new timeStruct(100, 500),
+
+            Constants.REQUEST_RECEIVED, new timeStruct(100, 500),
+            Constants.ADDRESS_CHANGED, new timeStruct(100, 500)
+            //Constants.ADDRESS_CHANGED, new timeStruct(100,500)
     );
     private final static Random random = new Random();
 
