@@ -33,20 +33,6 @@ public class Controller implements RequestListener, ShipmentEventListener, ViewE
 
     @Override
     public void handleEvent(ShipmentEvent event) {
-        //ShipEventIdentifier id = event.getId();
-        /*
-        switch(id) {
-            case UPDATED:
-                break;
-            case CREATED:
-                break;
-            case CANCELED:
-                break;
-            case RETURNED:
-                break;
-            default:
-                break;
-         */
         updateView(event);
         refreshViews();
     }
