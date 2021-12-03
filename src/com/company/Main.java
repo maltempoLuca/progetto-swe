@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.outsideworld.CourierAgency;
+import com.company.outsideworld.StandardCourierAgency;
 import com.company.store.controller.Controller;
 import com.company.store.events.requests.RequestIdentifier;
 import com.company.store.events.requests.RequestManager;
@@ -10,7 +12,7 @@ import com.company.user.User;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        CourierAgency courierAgency = new CourierAgency();
+        StandardCourierAgency courierAgency = new StandardCourierAgency();
         Thread t = new Thread(courierAgency);
         t.start();
         Buttons buttons = Buttons.getInstance();

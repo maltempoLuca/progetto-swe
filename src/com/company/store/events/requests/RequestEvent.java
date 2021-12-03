@@ -6,6 +6,7 @@ import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.controller.Loggable;
 import com.company.store.purchase.PurchasingDepartment;
+import exceptions.MissingInputException;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -65,9 +66,15 @@ public class RequestEvent implements Loggable {
     }
 
     public String getUserInput(String inputKey) {
-        String result = userInput.get(inputKey);
-        if (result == null) {
-            //TODO: throw exception
+        String result = null;
+
+        try {
+            result = userInput.get(inputKey);
+            if (result == null) {
+                throw new MissingInputException(inputKey, id.name());
+            }
+        } catch (MissingInputException e) {
+            //TODO: method should throw this exception
         }
         return result;
     }
