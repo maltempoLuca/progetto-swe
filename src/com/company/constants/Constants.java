@@ -69,6 +69,7 @@ public class Constants {
     public static final String ITEM_ID = "ITEM_ID";
     public static final String QUANTITY = "QUANTITY";
     public static final String INVALID_QUANTITY = "INVALID_QUANTITY";
+    public static final String RECEIVER = "RECEIVER";
 
     //unloged user id
 

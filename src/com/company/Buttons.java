@@ -57,9 +57,9 @@ public class Buttons {
         RequestManager.getInstance().notify(request);
     }
 
-    public void purchaseItemsFromCart(String email) {
+    public void purchaseItemsFromCart(String typeOfService, String email, String destinationAddress, String receiver) {
         RequestEvent request = new RequestEvent(RequestIdentifier.PURCHASE_REQUEST, email);
-        //TODO: request.addInput(COnstants.servizio_chiave, Constants.STANDARD/PREMIUM).addInput(Constants.destinazione_chiave, destinazione).addInput(destinatario);
+        request.addInput(Constants.SHIPMENT_SERVICE, typeOfService).addInput(Constants.DESTINATION_ADDRESS, destinationAddress).addInput(Constants.RECEIVER, receiver);
         RequestManager.getInstance().notify(request);
     }
 

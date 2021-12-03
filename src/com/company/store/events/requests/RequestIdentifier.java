@@ -6,18 +6,94 @@ import com.company.store.Store;
 
 public enum RequestIdentifier {
 
-    LOGIN_REQUEST
-            /*{
+    REGISTER_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) {
             String email = request.getUserInput(Constants.USER_EMAIL);
-            //updateLog(email, request);
             String psw = request.getUserInput(Constants.USER_PSW);
-            return Store.getInstance().loginUser(email, psw);
-        };
-    };*/
+            OperationResult result = Store.getInstance().registerUser(email, psw);
+            if (result.isSuccessful()) {
+                Store.getInstance().addUserCart(email);
+                Store.getInstance().addUserServices(email);
+            }
+            return result;
+        }
+    },
 
-    , REGISTER_REQUEST, LOGOUT_REQUEST, CANCEL_REQUEST, CHANGE_ADDRESS_REQUEST,
-    RETURN_REQUEST, PURCHASE_REQUEST, ADD_TO_CART_REQUEST;
-    //abstract public OperationResult execute(RequestEvent request);
+    LOGIN_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            String email = request.getUserInput(Constants.USER_EMAIL);
+            String psw = request.getUserInput(Constants.USER_PSW);
+            OperationResult result = Store.getInstance().loginUser(email, psw);
+            return result;
+        }
+    },
+
+    LOGOUT_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            OperationResult result = Store.getInstance().logoutUser(request.getUserId());
+            return result;
+        }
+    },
+
+    CANCEL_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            OperationResult result = Store.getInstance().requestCancel(request.getUserId(),
+                    request.getUserInput(Constants.ID_SPEDIZIONE));
+            return result;
+        }
+    },
+
+    CHANGE_ADDRESS_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            OperationResult result = Store.getInstance().requestAddressChange(request.getUserId(),
+                    request.getUserInput(Constants.ID_SPEDIZIONE),
+                    request.getUserInput(Constants.DESTINATION_ADDRESS));
+            return result;
+        }
+    },
+
+    RETURN_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            OperationResult result = Store.getInstance().requestReturn(request.getUserId(),
+                    request.getUserInput(Constants.ID_SPEDIZIONE));
+            return null;
+        }
+    },
+
+    PURCHASE_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            String typeOfService = request.getUserInput(Constants.SHIPMENT_SERVICE);
+            String userEmail = request.getUserInput(Constants.USER_EMAIL);
+            String destinationAddress = request.getUserInput(Constants.DESTINATION_ADDRESS);
+            String receiver = request.getUserInput(Constants.RECEIVER);
+
+            OperationResult result = Store.getInstance().requestPurchase(typeOfService, userEmail,
+                    destinationAddress, receiver);
+            return result;
+        }
+    },
+
+    ADD_TO_CART_REQUEST {
+        @Override
+        public OperationResult execute(RequestEvent request) {
+            OperationResult result;
+            try {
+                result = Store.getInstance().addToCartRequest(request.getUserId(),
+                        request.getUserInput(Constants.ITEM_ID),
+                        request.parseInput(Constants.QUANTITY));
+            } catch (NumberFormatException e) {
+                result = new OperationResult(Constants.INVALID_QUANTITY, false);
+            }
+            return result;
+        }
+    };
+
+    abstract public OperationResult execute(RequestEvent request);
 }

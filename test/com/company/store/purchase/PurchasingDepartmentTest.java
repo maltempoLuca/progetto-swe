@@ -1,12 +1,18 @@
 package com.company.store.purchase;
 
+import com.company.constants.Constants;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.constant.Constable;
 
 public class PurchasingDepartmentTest {
     String userEmail = "test@email.com";
     String userEmailUpperCase = "TEST@EMAIL.COM";
     String userEmail2 = "email@test.com";
+    String destinationAddress = "destination";
+    String receiver = "receiver";
+    String typeOfservice = Constants.STANDARD;
     //PurchaseEventTester eventTester = new PurchaseEventTester();
 
     @Test
@@ -18,7 +24,7 @@ public class PurchasingDepartmentTest {
 
         //double totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
 
-        Assert.assertTrue(PurchasingDepartment.getInstance().purchase(userEmail).isSuccessful());
+        Assert.assertTrue(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
 
         /*
         Assert.assertTrue(eventTester.eventReceived());
@@ -33,10 +39,10 @@ public class PurchasingDepartmentTest {
 
     @Test
     public void absentProductPurchase() {
-        //TODO: shpuld test for exception?
+        //TODO: should test for exception?
         PurchasingDepartment.getInstance().addUserCart(userEmail2);
         Assert.assertFalse(PurchasingDepartment.getInstance().addToCart("non existent id", 2, userEmail2).isSuccessful());
-        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(userEmail2).isSuccessful());
+        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
 
         //Assert.assertFalse(eventTester.eventReceived());
     }
@@ -45,7 +51,7 @@ public class PurchasingDepartmentTest {
     public void absentCartPurchase() {
         //TODO: should test for exception?
         Assert.assertFalse(PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail2).isSuccessful());
-        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(userEmail2).isSuccessful());
+        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
 
         //Assert.assertFalse(eventTester.eventReceived());
     }

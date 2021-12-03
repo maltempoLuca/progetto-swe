@@ -51,10 +51,10 @@ public class Store {
         return operationResult;
     }
 
-    public OperationResult requestPurchase(String email) {
+    public OperationResult requestPurchase(String typeOfService, String email, String destinationAddress, String receiver) {
         OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
         if (UserDepartment.getInstance().isLogged(email))
-            operationResult = PurchasingDepartment.getInstance().purchase(email);
+            operationResult = PurchasingDepartment.getInstance().purchase(typeOfService, email, destinationAddress, receiver);
         return operationResult;
     }
 

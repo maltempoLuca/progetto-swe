@@ -48,7 +48,7 @@ public final class PurchasingDepartment {
         return new OperationResult(operationMessage, successful);
     }
 
-    public OperationResult purchase(String userEmail) {
+    public OperationResult purchase(String typeOfService, String userEmail, String destinationAddress, String receiver) {
         //TODO: add price of selected service?
         //if user cart exists and is not empty generates an event with purchase info
         String userEmailLowerCase = userEmail.toLowerCase();
@@ -62,11 +62,12 @@ public final class PurchasingDepartment {
                 double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                //TODO: passare servizio, indirizzo e destinatario dall'esterno come parametri
-                ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, Constants.STANDARD, "indirizzo", "destinatario", cartContentsString);
+                ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
+                        receiver, cartContentsString);
 
                 userCart.clear();
-                operationMessage = "User " + userEmailLowerCase + " has purchased: " + cartContentsString + "with service: "; //TODO: add service
+                operationMessage = "User " + userEmailLowerCase + " has purchased: " + cartContentsString +
+                        "with service: " + typeOfService;
                 successful = true;
 
             } else {

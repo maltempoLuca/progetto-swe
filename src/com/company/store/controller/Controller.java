@@ -22,80 +22,9 @@ public class Controller implements RequestListener, ShipmentEventListener {
 
     @Override
     public void handleRequest(RequestEvent request) {
-        RequestIdentifier requestId = request.getId();
         String email = request.getUserId();
-        OperationResult result = null;
         updateLog(email, request);
-        //result = request.execute();
-
-        switch (requestId) {
-            case REGISTER_REQUEST: {
-                email = request.getUserInput(Constants.USER_EMAIL);
-                updateLog(email, request);
-                String psw = request.getUserInput(Constants.USER_PSW);
-                result = Store.getInstance().registerUser(email, psw);
-                if (result.isSuccessful()) {
-                    Store.getInstance().addUserCart(email);
-                    Store.getInstance().addUserServices(email);
-                }
-                break;
-            }
-
-            case LOGIN_REQUEST: {
-                email = request.getUserInput(Constants.USER_EMAIL);
-                updateLog(email, request);
-                String psw = request.getUserInput(Constants.USER_PSW);
-                result = Store.getInstance().loginUser(email, psw);
-                break;
-            }
-
-
-
-            case LOGOUT_REQUEST: {
-                updateLog(email, request);
-                result = Store.getInstance().logoutUser(request.getUserId());
-                break;
-            }
-
-            case CANCEL_REQUEST: {
-                updateLog(email, request);
-                result = Store.getInstance().requestCancel(request.getUserId(),
-                        request.getUserInput(Constants.ID_SPEDIZIONE));
-                break;
-            }
-
-            case CHANGE_ADDRESS_REQUEST: {
-                updateLog(email, request);
-                result = Store.getInstance().requestAddressChange(request.getUserId(),
-                        request.getUserInput(Constants.ID_SPEDIZIONE),
-                        request.getUserInput(Constants.DESTINATION_ADDRESS));
-                break;
-            }
-
-            case RETURN_REQUEST: {
-                updateLog(email, request);
-                result = Store.getInstance().requestReturn(request.getUserId(),
-                        request.getUserInput(Constants.ID_SPEDIZIONE));
-                break;
-            }
-
-            case PURCHASE_REQUEST: {
-                updateLog(email, request);
-                result = Store.getInstance().requestPurchase(request.getUserId()); //servizio, destinazione, destinatario
-                break;
-            }
-
-            case ADD_TO_CART_REQUEST: {
-                updateLog(email, request);
-                try {
-                    result = Store.getInstance().addToCartRequest(request.getUserId(),
-                            request.getUserInput(Constants.ITEM_ID),
-                            request.parseInput(Constants.QUANTITY));
-                } catch (NumberFormatException e) {
-                    result = new OperationResult(Constants.INVALID_QUANTITY, false);
-                }
-            }
-        }
+        OperationResult result = request.execute();
         updateLog(email, result);
         refreshViews();
     }
