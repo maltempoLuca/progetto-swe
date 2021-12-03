@@ -95,6 +95,10 @@ public class Controller implements RequestListener, ShipmentEventListener {
                     result = new OperationResult(Constants.INVALID_QUANTITY, false);
                 }
             }
+            case VIEW_CATALOGUE_REQUEST: {
+                userViews.get(request.getUserInput(Constants.USER_EMAIL)).addOptional("catalogo");
+                break;
+            }
         }
         updateLog(email, result);
         refreshViews();

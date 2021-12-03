@@ -45,6 +45,11 @@ public class Buttons {
         RequestManager.getInstance().notify(request);
     }
 
+    public void viewCatalogue(String email) {
+        RequestEvent request = new RequestEvent(RequestIdentifier.VIEW_CATALOGUE_REQUEST, email);
+        RequestManager.getInstance().notify(request);
+    }
+
     public void changeShipmentAddress(String email, String shipmentID, String newAddress) {
         RequestEvent request = new RequestEvent(RequestIdentifier.CHANGE_ADDRESS_REQUEST, email);
         request.addInput(Constants.ID_SPEDIZIONE, shipmentID).addInput(Constants.DESTINATION_ADDRESS, newAddress);
