@@ -75,6 +75,7 @@ public class StandardServiceTest {
 
     @Test
     public void successCreateReturnTest() {
+        ShippingDepartment.getInstance(); //TODO: remove this after debug
         while (shipment.getState() != Constants.DELIVERED) {
             service.updateShipmentState();
         }

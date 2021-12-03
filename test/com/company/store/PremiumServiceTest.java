@@ -54,7 +54,7 @@ public class PremiumServiceTest {
         while (shipment.getState() != Constants.OUT_FOR_DELIVERY) {
             ShipmentState currentState = shipment.getState();
             OperationResult result = service.cancelShipment();
-            Assert.assertTrue(result.isSuccessful());
+            Assert.assertTrue(result.isSuccessful());    //TODO: non funziona
             shipment.setState(currentState);
             service.updateShipmentState();
         }

@@ -123,7 +123,6 @@ public class UserView implements View {
     private final StringBuilder contents = new StringBuilder();
     private final Semaphore mutex = new Semaphore(1);
 }
-
 /*
 Sistema
     Log:
