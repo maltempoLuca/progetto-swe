@@ -1,16 +1,11 @@
 package com.company;
 
-import com.company.outsideworld.CourierAgency;
-import com.company.store.*;
 import com.company.store.controller.Controller;
 import com.company.store.events.requests.RequestIdentifier;
 import com.company.store.events.requests.RequestManager;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEventManager;
 import com.company.user.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
@@ -68,7 +63,7 @@ public class Main {
         //System.out.println("Inizio test thread:");
 
 /*
-        CourierAgency courierAgency = new CourierAgency();
+        StandardCourierAgency courierAgency = new StandardCourierAgency();
         Thread t = new Thread(courierAgency);
         t.start();
         List<String> users = new ArrayList<>();

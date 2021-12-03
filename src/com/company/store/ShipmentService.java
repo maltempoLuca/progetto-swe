@@ -34,8 +34,6 @@ public abstract class ShipmentService { //TODO: costruttore da mettere a package
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
-        ShipmentEvent shipmentEvent= new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
-        ShipmentEventManager.getInstance().notify(shipmentEvent);
     }
 
     OperationResult changeAddress(String newAddress) {

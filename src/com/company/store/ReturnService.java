@@ -4,7 +4,7 @@ import com.company.constants.Constants;
 
 public class ReturnService extends ShipmentService {
 
-    ReturnService(Shipment shipment, String userEmail) {
+    public ReturnService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
         shipment.setState(Constants.RETURN_CREATED);
     }

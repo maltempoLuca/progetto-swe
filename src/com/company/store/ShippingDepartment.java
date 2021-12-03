@@ -6,6 +6,8 @@ import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
 import com.company.store.events.shipments.ShipmentEventManager;
+import com.company.store.factory.ShipmentFactory;
+import exceptions.InvalidParameterException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -43,10 +45,14 @@ public class ShippingDepartment implements ShipmentEventListener {
             activeServices.put(email, new HashMap<>());
     }
 
-    void createService(String typeOfService, Shipment shipment, String userEmail) {
-        ShipmentService newService = ShipmentFactory.getInstance().factoryMethod(typeOfService, userEmail, shipment).copy();
-        requestCourier(newService);
-        activeServices.get(userEmail).put(shipment.getId(), newService);
+    private void createService(String typeOfService, Shipment shipment, String userEmail) {
+        try {
+            ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
+            requestCourier(newService);
+            activeServices.get(userEmail).put(shipment.getId(), newService);
+        } catch (InvalidParameterException e) {
+            //TODO: gestisci;
+        }
 
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
         ShipmentEventManager.getInstance().notify(event);
@@ -81,10 +87,19 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     private void requestCourier(ShipmentService shipmentService) {
-        CourierAgency.getInstance().requestCourier(shipmentService);
+        if (courierAgency != null)
+            courierAgency.requestCourier(shipmentService);
+        else
+            //TODO: throw exception
+            ;
+
     }
 
+    public void setCourierAgency(CourierAgency courierAgency) {
+        this.courierAgency = courierAgency;
+    }
 
+    private CourierAgency courierAgency = null;
     private static ShippingDepartment instance = null;
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
