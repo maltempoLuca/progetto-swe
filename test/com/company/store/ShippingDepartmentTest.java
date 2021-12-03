@@ -1,22 +1,29 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.outsideworld.Courier;
 import com.company.outsideworld.CourierAgency;
+import com.company.outsideworld.StandardCourierAgency;
 import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
 import com.company.store.events.shipments.ShipmentEventManager;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-
-import javax.management.monitor.Monitor;
 
 public class ShippingDepartmentTest {
     final ShipmentEventTester eventTester = new ShipmentEventTester();
+    CourierAgency agency = new HelperCourierAgency();
+
+    @Before
+    public void setAgency() {
+        this.agency = new HelperCourierAgency();
+        ShippingDepartment.getInstance().setCourierAgency(agency);
+    }
 
     @Test
     public void handlePurchaseTest() {
+        ShippingDepartment.getInstance().setCourierAgency(agency);
         String email = "pie@pippo.com";
         String destination = "destination";
         String receiver = "receiver";
@@ -33,46 +40,25 @@ public class ShippingDepartmentTest {
         Assert.assertEquals(Constants.STORE_ADDRESS, testerShipment.getSenderAddress());
     }
 
-   @Test
+    @Test
     public void returnCreationTest() {
-       CourierAgency.getInstance().start();
-       String email = "pie@pippo.com";
-       String destination = "destination";
-       String receiver = "receiver";
-       String contents = "contents";
-       String id = "id";
-       ShippingDepartment.getInstance().addUserServices(email);
-       ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents, id);
-       Shipment testerShipment;
-       synchronized (LockObj.getLock()) {
-           while (!eventTester.getShipment().getState().equals(Constants.DELIVERED)) {
-               try {
-                   LockObj.getLock().wait();
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
-       }
+        String email = "pie@pippo.com";
+        String destination = "destination";
+        String receiver = "receiver";
+        String contents = "contents";
+        String id = "id";
+        ShippingDepartment.getInstance().addUserServices(email);
+        ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents, id);
+        Shipment testerShipment;
+        boolean result = (ShippingDepartment.getInstance().requestReturn(email, id)).isSuccessful();
+        Assert.assertTrue(result);
+        testerShipment = eventTester.getShipment();
 
-       CourierAgency.getInstance().setProgramFinished();
-       Assert.assertTrue((ShippingDepartment.getInstance().requestReturn(email, id)).isSuccessful());
-
-       synchronized (LockObj.getLock()) {
-           while (!eventTester.getShipment().getState().equals(Constants.RETURN_CREATED)) {
-               try {
-                   LockObj.getLock().wait();
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
-
-           testerShipment = eventTester.getShipment();
-       }
-       Assert.assertEquals(contents, testerShipment.getContents());
-       Assert.assertEquals(destination, testerShipment.getSenderAddress());
-       Assert.assertEquals(receiver, testerShipment.getSender());
-       Assert.assertEquals(Constants.STORE_ADDRESS, testerShipment.getDestinationAddress());
-       Assert.assertEquals(Constants.STORE_NAME, testerShipment.getReceiver());
+        Assert.assertEquals(contents, testerShipment.getContents());
+        Assert.assertEquals(destination, testerShipment.getSenderAddress());
+        Assert.assertEquals(receiver, testerShipment.getSender());
+        Assert.assertEquals(Constants.STORE_ADDRESS, testerShipment.getDestinationAddress());
+        Assert.assertEquals(Constants.STORE_NAME, testerShipment.getReceiver());
     }
 
 }
@@ -86,13 +72,8 @@ class ShipmentEventTester implements ShipmentEventListener {
 
     @Override
     public void handleEvent(ShipmentEvent event) {
-        synchronized (LockObj.getLock()) {
-                this.email = event.getUserEmail();
-                this.shipment = new Shipment(event.getShipment());
-                if(event.getId() == ShipEventIdentifier.CREATED)
-                    System.out.println("Created");
-                LockObj.getLock().notifyAll();
-        }
+        this.email = event.getUserEmail();
+        this.shipment = new Shipment(event.getShipment());
     }
 
     public String getEmail() {
@@ -104,14 +85,16 @@ class ShipmentEventTester implements ShipmentEventListener {
     }
 
     private String email;
-    private static final Integer sync = null;
     private Shipment shipment;
 }
 
-enum LockObj {
-    INSTANCE;
-    public static LockObj getLock() {
-        return LockObj.INSTANCE;
+class HelperCourierAgency implements CourierAgency {
+
+    @Override
+    public void requestCourier(ShipmentService shipmentService) {
+        while (shipmentService.getShipment().getState().getNextState() != null) {
+            shipmentService.updateShipmentState();
+        }
     }
 }
 
