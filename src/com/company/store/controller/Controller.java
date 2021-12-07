@@ -13,14 +13,14 @@ import com.company.store.view.UserView;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
+public final class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
     public Controller() {
         userViews.put("Couriers", new UserView("COURIERS"));
     }
 
     @Override
-    public void handleRequest(RequestEvent request) {
+    public final void handleRequest(RequestEvent request) {
         String email = request.getUserId();
         updateLog(email, request);
         OperationResult result = request.execute();
@@ -29,7 +29,7 @@ public class Controller implements RequestListener, ShipmentEventListener, ViewE
     }
 
     @Override
-    public void handleEvent(ShipmentEvent event) {
+    public final void handleEvent(ShipmentEvent event) {
         updateView(event);
         refreshViews();
     }

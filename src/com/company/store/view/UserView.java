@@ -93,7 +93,8 @@ public class UserView implements View {
 
     private String buildShipmentData(Shipment shipment) {
         StringBuilder data = new StringBuilder();
-        data.append("- ID: ").append(shipment.getId()).append(", ");
+        String idText = "- ID: ";
+        data.append(idText).append(shipment.getId()).append(", ");
         data.append("Sender: ").append(shipment.getSender()).append(", ");
         data.append("Receiver: ").append(shipment.getReceiver()).append(",\n");
         data.append("Sender Address: ").append(shipment.getSenderAddress()).append(",\n");
@@ -131,25 +132,3 @@ public class UserView implements View {
     private final StringBuilder contents = new StringBuilder();
     private final Semaphore mutex = new Semaphore(1);
 }
-/*
-Sistema
-    Log:
-        - [10:22] Utente 1 ha provato a registrarsi ma la password non va bene
-        - [10:23] Utente 2 si è registrato con mail: email, password: password
--------
-Utente 2
-    Log:
-        - [10:23] Utente 2 si è registrato
-        - [11:00] Utente 2 ha ordinato un paio di scarpe
-        - [12:00] Utente 2 ha cambiato l'indirizzo di consegna
-    Shipments:
-        - #00001 Indrizzo: indirizzo nuovo, Contenuto: paio di scarpe, Stato: spedita
-
--------
-Utente 3
-
-----
-Corrieri:
-    Log:
-        - Corriere 1 ha aggiornato lo stato sepdizione #00001
-*/

@@ -85,7 +85,6 @@ public class Constants {
     public static final String SEPARATOR = "--------------------------------------------------------------------";
 
     //ANSI
-
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK_UNDERLINED = "\033[4;30m";
     public static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
