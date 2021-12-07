@@ -1,5 +1,7 @@
 package com.company.constants;
 
+import com.company.store.shipping.ShipmentState;
+
 public class Constants {
     //TODO: make class uninstantiable (add private default constructor)
 

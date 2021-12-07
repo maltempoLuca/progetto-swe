@@ -1,17 +1,17 @@
 package com.company;
 
 import com.company.constants.Constants;
-import com.company.outsideworld.CourierAgency;
-import com.company.outsideworld.StandardCourierAgency;
-import com.company.store.ShippingDepartment;
+import com.company.outsideworld.couriers.StandardCourierAgency;
+import com.company.store.Buttons;
+import com.company.store.shipping.ShippingDepartment;
 import com.company.store.controller.Controller;
-import com.company.store.events.requests.RequestIdentifier;
-import com.company.store.events.requests.RequestManager;
-import com.company.store.events.shipments.ShipEventIdentifier;
-import com.company.store.events.shipments.ShipmentEventManager;
-import com.company.store.events.view.ViewEventIdentifier;
-import com.company.store.events.view.ViewEventManager;
-import com.company.user.User;
+import com.company.store.controller.RequestIdentifier;
+import com.company.store.events.requestevents.RequestManager;
+import com.company.store.events.shipmentevents.ShipEventIdentifier;
+import com.company.store.events.shipmentevents.ShipmentEventManager;
+import com.company.store.events.viewevents.ViewEventIdentifier;
+import com.company.store.events.viewevents.ViewEventManager;
+import com.company.outsideworld.users.User;
 
 public class Main {
 

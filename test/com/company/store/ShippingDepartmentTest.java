@@ -1,12 +1,14 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.outsideworld.CourierAgency;
-import com.company.outsideworld.StandardCourierAgency;
-import com.company.store.events.shipments.ShipEventIdentifier;
-import com.company.store.events.shipments.ShipmentEvent;
-import com.company.store.events.shipments.ShipmentEventListener;
-import com.company.store.events.shipments.ShipmentEventManager;
+import com.company.outsideworld.couriers.CourierAgency;
+import com.company.store.events.shipmentevents.ShipEventIdentifier;
+import com.company.store.events.shipmentevents.ShipmentEvent;
+import com.company.store.events.shipmentevents.ShipmentEventListener;
+import com.company.store.events.shipmentevents.ShipmentEventManager;
+import com.company.store.shipping.ShippingDepartment;
+import com.company.store.shipping.Shipment;
+import com.company.store.shipping.ShipmentService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

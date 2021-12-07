@@ -1,14 +1,9 @@
 package com.company.store.factory;
 
-import com.company.factory.Factory;
 import com.company.constants.Constants;
-import com.company.store.*;
-import exceptions.ExceptionMessages;
-import exceptions.InvalidParameterException;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.company.store.shipping.*;
+import com.company.exceptions.ExceptionMessages;
+import com.company.exceptions.InvalidParameterException;
 
 public class ShipmentFactory {
 

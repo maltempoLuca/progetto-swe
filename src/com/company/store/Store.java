@@ -1,9 +1,11 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.events.OperationResult;
 import com.company.store.purchase.PurchasingDepartment;
 
-import com.company.store.purchase.PurchasingDepartment;
+import com.company.store.shipping.ShippingDepartment;
+import com.company.store.user.UserDepartment;
 
 public class Store {
 

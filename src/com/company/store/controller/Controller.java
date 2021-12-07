@@ -1,20 +1,17 @@
 package com.company.store.controller;
 
-import com.company.constants.Constants;
-import com.company.store.OperationResult;
-import com.company.store.Shipment;
-import com.company.store.Store;
-import com.company.store.events.requests.RequestEvent;
-import com.company.store.events.requests.RequestIdentifier;
-import com.company.store.events.requests.RequestListener;
-import com.company.store.events.shipments.ShipmentEvent;
-import com.company.store.events.shipments.ShipmentEventListener;
-import com.company.store.events.view.ViewEvent;
-import com.company.store.events.view.ViewEventListener;
+import com.company.store.events.OperationResult;
+import com.company.store.shipping.Shipment;
+import com.company.store.events.requestevents.RequestEvent;
+import com.company.store.events.requestevents.RequestListener;
+import com.company.store.events.shipmentevents.ShipmentEvent;
+import com.company.store.events.shipmentevents.ShipmentEventListener;
+import com.company.store.events.viewevents.ViewEvent;
+import com.company.store.events.viewevents.ViewEventListener;
+import com.company.store.view.UserView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 
 public class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
