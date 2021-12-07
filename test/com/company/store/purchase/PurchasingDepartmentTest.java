@@ -1,10 +1,10 @@
 package com.company.store.purchase;
 
 import com.company.constants.Constants;
-import com.company.store.ShippingDepartment;
 import com.company.store.Store;
-import com.company.store.UserDepartment;
-import exceptions.UnregisteredUserException;
+import com.company.exceptions.UnregisteredUserException;
+import com.company.store.shipping.ShippingDepartment;
+import com.company.store.user.UserDepartment;
 import org.junit.*;
 
 public class PurchasingDepartmentTest {

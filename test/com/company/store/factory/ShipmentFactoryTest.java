@@ -1,9 +1,9 @@
 package com.company.store.factory;
 
 import com.company.constants.Constants;
-import com.company.store.*;
-import exceptions.ExceptionMessages;
-import exceptions.InvalidParameterException;
+import com.company.store.shipping.*;
+import com.company.exceptions.ExceptionMessages;
+import com.company.exceptions.InvalidParameterException;
 import org.junit.Assert;
 import org.junit.Test;
 

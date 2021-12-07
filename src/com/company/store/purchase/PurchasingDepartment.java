@@ -1,12 +1,10 @@
 package com.company.store.purchase;
 
-import com.company.constants.Constants;
-import com.company.store.OperationResult;
-import com.company.store.ShippingDepartment;
-import com.company.store.events.view.ViewEvent;
-import com.company.store.events.view.ViewEventIdentifier;
-import com.company.store.events.view.ViewEventManager;
-import exceptions.UnregisteredUserException;
+import com.company.store.events.OperationResult;
+import com.company.store.shipping.ShippingDepartment;
+import com.company.store.events.viewevents.ViewEvent;
+import com.company.store.events.viewevents.ViewEventIdentifier;
+import com.company.store.events.viewevents.ViewEventManager;
 
 import java.util.*;
 

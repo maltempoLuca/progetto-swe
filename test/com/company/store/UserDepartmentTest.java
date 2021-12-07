@@ -1,8 +1,11 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.shipping.ShippingDepartment;
 import org.junit.After;
 import org.junit.AfterClass;
+import com.company.store.events.OperationResult;
+import com.company.store.user.UserDepartment;
 import org.junit.Test;
 import org.junit.Assert;
 
