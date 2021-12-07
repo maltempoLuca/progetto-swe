@@ -7,7 +7,7 @@ import com.company.store.events.shipments.ShipmentEventManager;
 
 import java.util.concurrent.Semaphore;
 
-public abstract class ShipmentService { //TODO: costruttore da mettere a package.
+public abstract class ShipmentService {
 
     ShipmentService(int priority, Shipment shipment, String userEmail) {
         this.priority = priority;

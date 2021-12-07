@@ -6,10 +6,11 @@ import com.company.store.ShippingDepartment;
 import com.company.store.events.view.ViewEvent;
 import com.company.store.events.view.ViewEventIdentifier;
 import com.company.store.events.view.ViewEventManager;
+import exceptions.UnregisteredUserException;
 
 import java.util.*;
 
-//TODO: comment and test
+//TODO: comment
 public final class PurchasingDepartment {
 
     private PurchasingDepartment() {
@@ -20,6 +21,10 @@ public final class PurchasingDepartment {
         if (instance == null)
             instance = new PurchasingDepartment();
         return instance;
+    }
+
+    public static void clearInstance() {
+        instance = null;
     }
 
     public void addUserCart(String userEmail) {
@@ -40,12 +45,10 @@ public final class PurchasingDepartment {
                 operationMessage = product.getName() + " x" + quantity + " added to cart";
                 successful = true;
             } else {
-                //TODO: throw exception?
                 operationMessage = "Product does not exist";
             }
         } else {
-            //TODO: throw exception!!
-            operationMessage = "No such user found";
+            operationMessage = userEmailLowerCase + "no such user found";
         }
 
         return new OperationResult(operationMessage, successful);
@@ -74,13 +77,11 @@ public final class PurchasingDepartment {
                 successful = true;
 
             } else {
-                //TODO: decide what to do when cart is empty
                 operationMessage = "Purchase failed, cart is empty";
             }
 
-        }  else {
-            //TODO: throw exception?
-            operationMessage = "Purchase failed, no user corresponding to " + userEmailLowerCase;
+        } else {
+            operationMessage = userEmailLowerCase + "no such user found";
         }
 
         return new OperationResult(operationMessage, successful);
@@ -90,19 +91,10 @@ public final class PurchasingDepartment {
 
         Collection<CartEntry> contents = cart.getContents().values();
         StringBuilder contentsToString = new StringBuilder();
-        //TODO: remove comment?
-        // int lines = 0;
-        // int maxCharactersPerLine = 30;
 
         for (CartEntry entry : contents) {
             contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append(" | ");
 
-            /*
-            if(contentsToString.length() - lines*maxCharactersPerLine >= maxCharactersPerLine) {
-                contentsToString.append("\n");
-                lines++;
-            }
-             */
         }
 
         return contentsToString.toString();
@@ -116,7 +108,7 @@ public final class PurchasingDepartment {
 
         StringBuilder catalogBuilder = new StringBuilder();
 
-        for(Product product : catalog.values()) {
+        for (Product product : catalog.values()) {
             catalogBuilder.append(product.getId()).append(" ").append(product.getName()).append(" ").append(product.getPrice()).append("\n");
         }
 

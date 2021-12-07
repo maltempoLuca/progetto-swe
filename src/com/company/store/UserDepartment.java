@@ -16,6 +16,10 @@ public class UserDepartment {
         return instance;
     }
 
+    public static void clearInstance() {
+        instance = null;
+    }
+
     public OperationResult registerUser(String email, String password) {
         String lowerCaseEmail = email.toLowerCase();
         String emailFailed = checkEmailValidity(lowerCaseEmail);

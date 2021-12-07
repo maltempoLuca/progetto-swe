@@ -8,6 +8,8 @@ import com.company.store.events.shipments.ShipmentEventListener;
 import com.company.store.events.shipments.ShipmentEventManager;
 import com.company.store.factory.ShipmentFactory;
 import exceptions.InvalidParameterException;
+import exceptions.MissingAgencyException;
+import exceptions.UnregisteredUserException;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -40,6 +42,11 @@ public class ShippingDepartment implements ShipmentEventListener {
         return instance;
     }
 
+
+    public static void clearInstance() {
+        instance = null;
+    }
+
     public void addUserServices(String email) {
         if (!activeServices.containsKey(email))
             activeServices.put(email, new HashMap<>());
@@ -48,10 +55,14 @@ public class ShippingDepartment implements ShipmentEventListener {
     private void createService(String typeOfService, Shipment shipment, String userEmail) {
         try {
             ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
-            requestCourier(newService);
+            if (!activeServices.containsKey(userEmail)) {
+                throw new UnregisteredUserException(userEmail);
+            }
             activeServices.get(userEmail).put(shipment.getId(), newService);
-        } catch (InvalidParameterException e) {
-            //TODO: gestisci;
+            requestCourier(newService);
+        } catch (Exception e) {
+            currentId--;
+            System.out.println(Constants.ANSI_RED + e.getMessage() + "shipment not created" + Constants.ANSI_RESET);
         }
 
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
@@ -63,6 +74,7 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult deleteService(String email, String shipmentID) {
+        //TODO: manage null case
         return activeServices.get(email).get(shipmentID).cancelShipment();
     }
 
@@ -73,10 +85,12 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult changeAddress(String email, String shipmentID, String newAddress) {
+        //TODO: manage null case
         return activeServices.get(email).get(shipmentID).changeAddress(newAddress);
     }
 
     public OperationResult requestReturn(String email, String shipmentID) {
+        //TODO: manage null case
         return activeServices.get(email).get(shipmentID).createReturn();
     }
 
@@ -86,12 +100,11 @@ public class ShippingDepartment implements ShipmentEventListener {
         return currentString;
     }
 
-    private void requestCourier(ShipmentService shipmentService) {
+    private void requestCourier(ShipmentService shipmentService) throws MissingAgencyException {
         if (courierAgency != null)
             courierAgency.requestCourier(shipmentService);
         else
-            //TODO: throw exception
-            ;
+           throw new MissingAgencyException();
 
     }
 

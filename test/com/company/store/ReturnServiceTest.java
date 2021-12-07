@@ -2,6 +2,7 @@ package com.company.store;
 
 import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
@@ -53,5 +54,13 @@ public class ReturnServiceTest {
             service.createReturn();
             service.updateShipmentState();
         }
+    }
+
+    @After
+    public void clearInstances() {
+        Store.clearInstance();
+        ShippingDepartment.clearInstance();
+        ShippingDepartment.clearInstance();
+        UserDepartment.clearInstance();
     }
 }

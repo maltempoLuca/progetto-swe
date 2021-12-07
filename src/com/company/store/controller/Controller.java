@@ -11,6 +11,7 @@ import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
 import com.company.store.events.view.ViewEvent;
 import com.company.store.events.view.ViewEventListener;
+import exceptions.UnregisteredUserException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

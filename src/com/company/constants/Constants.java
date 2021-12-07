@@ -89,5 +89,6 @@ public class Constants {
     public static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
     public static final String ANSI_BLACK_BRIGHT = "\033[0;90m";
     public static final String ANSI_BLACK_BOLD = "\033[1;30m";
+    public static final String ANSI_RED = "\u001B[31m";
 
 }

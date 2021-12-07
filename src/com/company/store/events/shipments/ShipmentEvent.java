@@ -22,8 +22,7 @@ public class ShipmentEvent implements Loggable {
     }
 
     public Shipment getShipment() {
-        //TODO: deepcopy
-        return shipment;
+        return new Shipment(shipment);
     }
 
     public String getUserEmail() {

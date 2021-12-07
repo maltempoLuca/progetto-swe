@@ -1,5 +1,9 @@
 package com.company.store.purchase;
 
+import com.company.store.ShippingDepartment;
+import com.company.store.Store;
+import com.company.store.UserDepartment;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 

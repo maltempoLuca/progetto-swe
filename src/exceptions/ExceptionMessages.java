@@ -9,4 +9,10 @@ public class ExceptionMessages {
     //Missing input messages
     public static final String KEY_MISSING_INPUT = "Missing input of type: ";
     public static final String IN_REQUEST_MISSING_INPUT = " in request ";
+
+    //Unregistered user messages
+    public static final String UNREG_USER = "no such user found";
+
+    //Missing agency messages
+    public static final String MISSING_AGENCY = "No agency interface has been set";
 }

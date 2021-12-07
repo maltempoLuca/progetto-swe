@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ShipmentFactoryTest {
-    Shipment testShipment = new Shipment("test", "test", "test", "test", "test", "test");
+    Shipment testShipment = HelperShipment.getShipment();
 
     @Test
     public void standardCreationTest() throws InvalidParameterException {

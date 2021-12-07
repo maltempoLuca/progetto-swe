@@ -4,10 +4,7 @@ import com.company.constants.ShipmentState;
 
 public class Shipment {
 
-    //TODO: costruttore da mettere a package.
-    // aggiungi metodo a shipmentService con semaforo per conoscere stato di shipment
-
-    public Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
+    Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;
         this.receiver = receiver;
         this.senderAddress = senderAddress;
@@ -28,8 +25,6 @@ public class Shipment {
         this.state = toCopy.state;
     }
 
-    //TODO: remove some setters?
-
     public void setState(ShipmentState state) {
         this.state = state;
     }
@@ -38,16 +33,8 @@ public class Shipment {
         this.destinationAddress = destinationAddress;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
     public void setReceiver(String receiver) {
         this.receiver = receiver;
-    }
-
-    public void setSenderAddress(String senderAddress) {
-        this.senderAddress = senderAddress;
     }
 
     public String getSender() {

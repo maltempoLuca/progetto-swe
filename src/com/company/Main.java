@@ -14,6 +14,7 @@ import com.company.store.events.view.ViewEventManager;
 import com.company.user.User;
 
 public class Main {
+    //TODO: metti final in tutte classi e metodi
 
     public static void main(String[] args) throws InterruptedException {
         StandardCourierAgency courierAgency = new StandardCourierAgency();

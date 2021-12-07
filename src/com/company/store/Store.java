@@ -4,18 +4,23 @@ import com.company.constants.Constants;
 import com.company.store.purchase.PurchasingDepartment;
 
 import com.company.store.purchase.PurchasingDepartment;
+import exceptions.UnregisteredUserException;
 
 public class Store {
 
-    //TODO: crea store con getInstance()?
     private Store() {
 
     }
 
     public static Store getInstance() {
+
         if (instance == null)
             instance = new Store();
         return instance;
+    }
+
+    public static void clearInstance() {
+        instance = null;
     }
 
     public OperationResult registerUser(String email, String password) {
@@ -77,6 +82,7 @@ public class Store {
 
 
     private static Store instance = null;
+
 
     public OperationResult getCatalog(String userEmail) {
         return PurchasingDepartment.getInstance().getCatalog(userEmail);

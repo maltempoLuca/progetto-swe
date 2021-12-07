@@ -7,6 +7,8 @@ import com.company.store.events.shipments.ShipEventIdentifier;
 import com.company.store.events.shipments.ShipmentEvent;
 import com.company.store.events.shipments.ShipmentEventListener;
 import com.company.store.events.shipments.ShipmentEventManager;
+import exceptions.MissingAgencyException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,11 @@ import org.junit.Test;
 public class ShippingDepartmentTest {
     final ShipmentEventTester eventTester = new ShipmentEventTester();
     CourierAgency agency = new HelperCourierAgency();
+    String email = "pie@pippo.com";
+    String destination = "destination";
+    String receiver = "receiver";
+    String contents = "contents";
+    String id = "id";
 
     @Before
     public void setAgency() {
@@ -24,10 +31,6 @@ public class ShippingDepartmentTest {
     @Test
     public void handlePurchaseTest() {
         ShippingDepartment.getInstance().setCourierAgency(agency);
-        String email = "pie@pippo.com";
-        String destination = "destination";
-        String receiver = "receiver";
-        String contents = "contents";
         ShippingDepartment.getInstance().addUserServices(email);
         ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents);
         Shipment testerShipment = eventTester.getShipment();
@@ -42,14 +45,10 @@ public class ShippingDepartmentTest {
 
     @Test
     public void returnCreationTest() {
-        String email = "pie@pippo.com";
-        String destination = "destination";
-        String receiver = "receiver";
-        String contents = "contents";
-        String id = "id";
         ShippingDepartment.getInstance().addUserServices(email);
         ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents, id);
         Shipment testerShipment;
+
         boolean result = (ShippingDepartment.getInstance().requestReturn(email, id)).isSuccessful();
         Assert.assertTrue(result);
         testerShipment = eventTester.getShipment();
@@ -59,6 +58,14 @@ public class ShippingDepartmentTest {
         Assert.assertEquals(receiver, testerShipment.getSender());
         Assert.assertEquals(Constants.STORE_ADDRESS, testerShipment.getDestinationAddress());
         Assert.assertEquals(Constants.STORE_NAME, testerShipment.getReceiver());
+    }
+
+    @After
+    public void clearInstances() {
+        Store.clearInstance();
+        ShippingDepartment.clearInstance();
+        ShippingDepartment.clearInstance();
+        UserDepartment.clearInstance();
     }
 
 }

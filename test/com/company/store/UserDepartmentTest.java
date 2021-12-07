@@ -1,6 +1,8 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -97,6 +99,14 @@ public class UserDepartmentTest {
         OperationResult result = userDepartment.logOut("deboranera@prova.com");
         Assert.assertEquals(Constants.WRONG_EMAIL, result.getMessage());
         Assert.assertFalse(result.isSuccessful());
+    }
+
+    @After
+    public void clearInstances() {
+        Store.clearInstance();
+        ShippingDepartment.clearInstance();
+        ShippingDepartment.clearInstance();
+        UserDepartment.clearInstance();
     }
 
 

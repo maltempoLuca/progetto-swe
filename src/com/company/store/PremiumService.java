@@ -26,8 +26,6 @@ public class PremiumService extends ShipmentService {
         super.changeCancelBehavior();
     }
 
-    //TODO: change == to equals
-
     @Override
     void changeReturnBehavior() {
         if (getShipment().getState().equals(Constants.DELIVERED))

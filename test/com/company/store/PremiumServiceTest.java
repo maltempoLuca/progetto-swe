@@ -4,6 +4,7 @@ import com.company.constants.Constants;
 import com.company.constants.ShipmentState;
 import com.company.store.PremiumService;
 import com.company.store.Shipment;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -90,5 +91,13 @@ public class PremiumServiceTest {
             Assert.assertFalse(result.isSuccessful());
             service.updateShipmentState();
         }
+    }
+
+    @After
+    public void clearInstances() {
+        Store.clearInstance();
+        ShippingDepartment.clearInstance();
+        ShippingDepartment.clearInstance();
+        UserDepartment.clearInstance();
     }
 }

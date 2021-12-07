@@ -7,6 +7,7 @@ import com.company.store.OperationResult;
 import com.company.store.controller.Loggable;
 import com.company.store.purchase.PurchasingDepartment;
 import exceptions.MissingInputException;
+import exceptions.UnregisteredUserException;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -25,7 +26,15 @@ public class RequestEvent implements Loggable {
     }
 
  public OperationResult execute() {
-      return id.execute(this);
+        OperationResult result;
+
+        try {
+            result = id.execute(this);
+        } catch(MissingInputException e) {
+            result = new OperationResult(e.getMessage(), false);
+        }
+
+      return result;
   }
 
     @Override
@@ -65,17 +74,13 @@ public class RequestEvent implements Loggable {
         return result;
     }
 
-    public String getUserInput(String inputKey) {
-        String result = null;
+    public String getUserInput(String inputKey) throws MissingInputException {
 
-        try {
-            result = userInput.get(inputKey);
+            String result = userInput.get(inputKey);
             if (result == null) {
                 throw new MissingInputException(inputKey, id.name());
             }
-        } catch (MissingInputException e) {
-            //TODO: method should throw this exception
-        }
+
         return result;
     }
 
