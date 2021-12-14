@@ -1,4 +1,4 @@
-package com.company.store.events;
+package com.company.store;
 
 import com.company.store.controller.Loggable;
 

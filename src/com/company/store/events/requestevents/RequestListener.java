@@ -1,5 +1,5 @@
 package com.company.store.events.requestevents;
 
 public interface RequestListener {
-    void handleRequest(RequestEvent request);
+    void handleRequest(RequestEvent event);
 }

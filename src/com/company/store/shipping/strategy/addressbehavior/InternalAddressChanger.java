@@ -1,7 +1,7 @@
 package com.company.store.shipping.strategy.addressbehavior;
 
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public class InternalAddressChanger implements AddressBehavior {

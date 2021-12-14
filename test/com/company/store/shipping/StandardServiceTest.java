@@ -4,8 +4,7 @@ import com.company.constants.Constants;
 import com.company.store.Store;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
-import org.junit.Before;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import org.junit.Test;
 import org.junit.Assert;
 

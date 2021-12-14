@@ -4,9 +4,8 @@ import com.company.constants.Constants;
 import com.company.store.Store;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PremiumServiceTest {

@@ -1,6 +1,6 @@
 package com.company.store.purchase;
 
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.events.viewevents.ViewEvent;
 import com.company.store.events.viewevents.ViewEventIdentifier;

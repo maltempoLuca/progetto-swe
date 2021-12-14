@@ -2,18 +2,18 @@ package com.company.store.controller;
 
 import com.company.constants.Constants;
 import com.company.exceptions.MissingInputException;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.Store;
 import com.company.store.events.requestevents.RequestEvent;
 
-public enum RequestIdentifier {
+public enum StoreRequest {
 
     REGISTER_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException {
             String email = request.getUserInput(Constants.USER_EMAIL);
             String psw = request.getUserInput(Constants.USER_PSW);
-            OperationResult result = Store.getInstance().registerUser(email, psw);
+            OperationResult result = Store.getInstance().requestRegistration(email, psw);
             if (result.isSuccessful()) {
                 Store.getInstance().addUserCart(email);
                 Store.getInstance().addUserServices(email);
@@ -27,7 +27,7 @@ public enum RequestIdentifier {
         public OperationResult execute(RequestEvent request) throws MissingInputException {
             String email = request.getUserInput(Constants.USER_EMAIL);
             String psw = request.getUserInput(Constants.USER_PSW);
-            OperationResult result = Store.getInstance().loginUser(email, psw);
+            OperationResult result = Store.getInstance().requestLogin(email, psw);
             return result;
         }
     },
@@ -35,7 +35,7 @@ public enum RequestIdentifier {
     LOGOUT_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException {
-            OperationResult result = Store.getInstance().logoutUser(request.getUserId());
+            OperationResult result = Store.getInstance().requestLogout(request.getUserId());
             return result;
         }
     },
@@ -99,7 +99,7 @@ public enum RequestIdentifier {
     VIEW_CATALOGUE_REQUEST {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException {
-            return Store.getInstance().getCatalog(request.getUserId());
+            return Store.getInstance().requestCatalog(request.getUserId());
         }
     };
 

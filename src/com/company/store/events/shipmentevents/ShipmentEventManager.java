@@ -29,7 +29,7 @@ public class ShipmentEventManager {
     public void notify(ShipmentEvent event) {
         Collection<ShipmentEventListener> requestListeners = listenersManager.getSubscribers(event.getId());
         for(ShipmentEventListener listener : requestListeners) {
-            listener.handleEvent(event);
+            listener.handleShipmentEvent(event);
         }
     }
 

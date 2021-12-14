@@ -1,6 +1,6 @@
 package com.company.store.events.requestevents;
 
-import com.company.store.controller.RequestIdentifier;
+import com.company.store.controller.StoreRequest;
 import com.company.store.events.subscription.SubscriptionManager;
 
 import java.util.Collection;
@@ -15,25 +15,25 @@ public class RequestManager {
         return instance;
     }
 
-    public void subscribe(RequestListener listener, RequestIdentifier... requestIds) {
-        for(RequestIdentifier id : requestIds) {
+    public void subscribe(RequestListener listener, StoreRequest... requestIds) {
+        for(StoreRequest id : requestIds) {
             listenersManager.subscribe(listener, id);
         }
     }
 
-    public void unsubscribe(RequestListener listener, RequestIdentifier... requestIds) {
-        for(RequestIdentifier id : requestIds) {
+    public void unsubscribe(RequestListener listener, StoreRequest... requestIds) {
+        for(StoreRequest id : requestIds) {
             listenersManager.unsubscribe(listener, id);
         }
     }
 
     public void notify(RequestEvent request) {
-        Collection<RequestListener> requestListeners = listenersManager.getSubscribers(request.getId());
+        Collection<RequestListener> requestListeners = listenersManager.getSubscribers(request.getRequest());
         for(RequestListener listener : requestListeners) {
             listener.handleRequest(request);
         }
     }
 
     private static RequestManager instance = null;
-    private final SubscriptionManager<RequestIdentifier, RequestListener> listenersManager = new SubscriptionManager<>();
+    private final SubscriptionManager<StoreRequest, RequestListener> listenersManager = new SubscriptionManager<>();
 }

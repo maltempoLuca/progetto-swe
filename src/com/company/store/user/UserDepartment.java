@@ -1,7 +1,7 @@
 package com.company.store.user;
 
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;

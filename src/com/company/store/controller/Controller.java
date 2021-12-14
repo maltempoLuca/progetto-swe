@@ -1,6 +1,6 @@
 package com.company.store.controller;
 
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.requestevents.RequestEvent;
 import com.company.store.events.requestevents.RequestListener;
@@ -20,18 +20,23 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     @Override
-    public final void handleRequest(RequestEvent request) {
-        String email = request.getUserId();
-        updateLog(email, request);
-        OperationResult result = request.execute();
+    public final void handleRequest(RequestEvent event) {
+        String email = event.getUserId();
+        updateLog(email, event);
+        OperationResult result = event.execute();
         updateLog(email, result);
         refreshViews();
     }
 
     @Override
-    public final void handleEvent(ShipmentEvent event) {
+    public final void handleShipmentEvent(ShipmentEvent event) {
         updateView(event);
         refreshViews();
+    }
+
+    @Override
+    public void handleViewEvent(ViewEvent event) {
+        updateView(event);
     }
 
     private void clearViews() {
@@ -83,8 +88,5 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private final Map<String, UserView> userViews = new LinkedHashMap<>();
 
-    @Override
-    public void handleViewEvent(ViewEvent event) {
-        updateView(event);
-    }
+
 }

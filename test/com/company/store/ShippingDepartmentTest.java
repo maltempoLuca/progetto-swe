@@ -80,7 +80,7 @@ class ShipmentEventTester implements ShipmentEventListener {
     }
 
     @Override
-    public void handleEvent(ShipmentEvent event) {
+    public void handleShipmentEvent(ShipmentEvent event) {
         this.email = event.getUserEmail();
         this.shipment = new Shipment(event.getShipment());
     }

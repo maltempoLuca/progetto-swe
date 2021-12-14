@@ -1,7 +1,6 @@
 package com.company.store;
 
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
 import com.company.store.purchase.PurchasingDepartment;
 
 import com.company.store.shipping.ShippingDepartment;
@@ -24,22 +23,22 @@ public class Store {
         instance = null;
     }
 
-    public OperationResult registerUser(String email, String password) {
+    public OperationResult requestRegistration(String email, String password) {
         return UserDepartment.getInstance().registerUser(email, password);
     }
 
-    public OperationResult loginUser(String email, String password) {
+    public OperationResult requestLogin(String email, String password) {
         return UserDepartment.getInstance().loginUser(email, password);
     }
 
-    public OperationResult logoutUser(String email) {
+    public OperationResult requestLogout(String email) {
         return UserDepartment.getInstance().logOut(email);
     }
 
     public OperationResult requestCancel(String email, String shipmentID) {
         OperationResult operationResult = new OperationResult(Constants.LOGGED_OUT, false);
         if (UserDepartment.getInstance().isLogged(email))
-            operationResult = ShippingDepartment.getInstance().deleteService(email, shipmentID);
+            operationResult = ShippingDepartment.getInstance().cancelService(email, shipmentID);
         return operationResult;
     }
 
@@ -81,11 +80,10 @@ public class Store {
     }
 
 
-
     private static Store instance = null;
 
 
-    public OperationResult getCatalog(String userEmail) {
+    public OperationResult requestCatalog(String userEmail) {
         return PurchasingDepartment.getInstance().getCatalog(userEmail);
     }
 }

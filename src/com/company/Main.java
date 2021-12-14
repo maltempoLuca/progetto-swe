@@ -5,7 +5,7 @@ import com.company.outsideworld.couriers.StandardCourierAgency;
 import com.company.store.Buttons;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.controller.Controller;
-import com.company.store.controller.RequestIdentifier;
+import com.company.store.controller.StoreRequest;
 import com.company.store.events.requestevents.RequestManager;
 import com.company.store.events.shipmentevents.ShipEventIdentifier;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
@@ -27,10 +27,10 @@ public class Main {
 
         // creo il controller e gli dico quali eventi deve ascoltare
         Controller controller = new Controller();
-        RequestManager.getInstance().subscribe(controller, RequestIdentifier.REGISTER_REQUEST,
-                RequestIdentifier.LOGIN_REQUEST, RequestIdentifier.LOGOUT_REQUEST,
-                RequestIdentifier.ADD_TO_CART_REQUEST, RequestIdentifier.CANCEL_REQUEST, RequestIdentifier.PURCHASE_REQUEST,
-                RequestIdentifier.CHANGE_ADDRESS_REQUEST, RequestIdentifier.RETURN_REQUEST, RequestIdentifier.VIEW_CATALOGUE_REQUEST);
+        RequestManager.getInstance().subscribe(controller, StoreRequest.REGISTER_REQUEST,
+                StoreRequest.LOGIN_REQUEST, StoreRequest.LOGOUT_REQUEST,
+                StoreRequest.ADD_TO_CART_REQUEST, StoreRequest.CANCEL_REQUEST, StoreRequest.PURCHASE_REQUEST,
+                StoreRequest.CHANGE_ADDRESS_REQUEST, StoreRequest.RETURN_REQUEST, StoreRequest.VIEW_CATALOGUE_REQUEST);
         ShipmentEventManager.getInstance().subscribe(controller, ShipEventIdentifier.CANCELED,
                 ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
         ViewEventManager.getInstance().subscribe(controller, ViewEventIdentifier.CATALOG);

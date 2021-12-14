@@ -2,7 +2,7 @@ package com.company.store.shipping;
 
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.events.shipmentevents.ShipEventIdentifier;
 import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventListener;
@@ -21,7 +21,7 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     @Override
-    public void handleEvent(ShipmentEvent event) {
+    public void handleShipmentEvent(ShipmentEvent event) {
         if (event.getId() == ShipEventIdentifier.RETURNED) {
             createReturn(event.getShipment(), event.getUserEmail());
         }
@@ -73,7 +73,7 @@ public class ShippingDepartment implements ShipmentEventListener {
         return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
-    public OperationResult deleteService(String email, String shipmentID) {
+    public OperationResult cancelService(String email, String shipmentID) {
         //TODO: manage null case
         return activeServices.get(email).get(shipmentID).cancelShipment();
     }
