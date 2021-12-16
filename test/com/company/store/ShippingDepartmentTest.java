@@ -1,6 +1,7 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
 import com.company.outsideworld.couriers.CourierAgency;
@@ -10,14 +11,13 @@ import com.company.store.events.shipmentevents.ShipmentEventListener;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.shipping.Shipment;
-import com.company.store.shipping.ShipmentService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ShippingDepartmentTest {
     final ShipmentEventTester eventTester = new ShipmentEventTester();
-    CourierAgency agency = new HelperCourierAgency();
+    CourierAgency agency = new InstantDeliveryAgency();
     String email = "pie@pippo.com";
     String destination = "destination";
     String receiver = "receiver";
@@ -26,7 +26,7 @@ public class ShippingDepartmentTest {
 
     @Before
     public void setAgency() {
-        this.agency = new HelperCourierAgency();
+        this.agency = new InstantDeliveryAgency();
         ShippingDepartment.getInstance().setCourierAgency(agency);
     }
 
@@ -95,15 +95,5 @@ class ShipmentEventTester implements ShipmentEventListener {
 
     private String email;
     private Shipment shipment;
-}
-
-class HelperCourierAgency implements CourierAgency {
-
-    @Override
-    public void requestCourier(ShipmentService shipmentService) {
-        while (shipmentService.getShipment().getState().getNextState() != null) {
-            shipmentService.updateShipmentState();
-        }
-    }
 }
 

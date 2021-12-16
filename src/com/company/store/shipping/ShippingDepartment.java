@@ -74,8 +74,15 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult cancelService(String email, String shipmentID) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).cancelShipment();
+
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if (result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).cancelShipment();
+        }
+
+        return result;
     }
 
     private void createReturn(Shipment shipment, String userEmail) {
@@ -85,13 +92,39 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult changeAddress(String email, String shipmentID, String newAddress) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).changeAddress(newAddress);
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if(result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).changeAddress(newAddress);
+        }
+
+        return result;
     }
 
     public OperationResult requestReturn(String email, String shipmentID) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).createReturn();
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if(result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).createReturn();
+        }
+        return result;
+    }
+
+    private OperationResult validateServiceCredentials(String email, String shipmentID) {
+        OperationResult result;
+        if(activeServices.containsKey(email)) {
+            if(activeServices.get(email).containsKey(shipmentID)) {
+                result = new OperationResult("Valid credentials", true);
+            } else {
+                result = new OperationResult("No such shipment found, user may not be owner of this shipment", false);
+            }
+        } else {
+            result = new OperationResult("Unregistered user", false);
+        }
+
+        return result;
     }
 
     private String generateId() {
