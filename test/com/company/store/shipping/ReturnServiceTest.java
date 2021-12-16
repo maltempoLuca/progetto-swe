@@ -49,10 +49,11 @@ public class ReturnServiceTest {
         }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void failCreateReturnTest() {
         while (shipment.getState() != Constants.RETURN_DELIVERED) {
-            service.createReturn();
+            OperationResult result = service.createReturn();
+            Assert.assertFalse(result.isSuccessful());
             service.updateShipmentState();
         }
     }

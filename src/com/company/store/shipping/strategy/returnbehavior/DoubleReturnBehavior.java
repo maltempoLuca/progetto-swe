@@ -3,22 +3,22 @@ package com.company.store.shipping.strategy.returnbehavior;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
-public class ReturnError implements ReturnBehavior {
+public class DoubleReturnBehavior implements ReturnBehavior {
 
-    private ReturnError() {
+    private DoubleReturnBehavior() {
 
     }
 
-    public static ReturnError getInstance() {
+    public static DoubleReturnBehavior getInstance() {
         if (instance == null)
-            instance = new ReturnError();
+            instance = new DoubleReturnBehavior();
         return instance;
     }
 
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Impossibile effettuare il reso di un reso");
+        return  new OperationResult("Impossibile effettuare il reso di un reso", false);
     }
 
-    private static ReturnError instance = null;
+    private static DoubleReturnBehavior instance = null;
 }
