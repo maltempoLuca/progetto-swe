@@ -23,20 +23,35 @@ public class PurchasingDepartmentTest {
     }
 
     @Test
-    public void purchaseTest() throws UnregisteredUserException {
-        //double errorDelta = 0.0001;
+    public void purchaseTest() {
+        PurchasingDepartment.getInstance().addUserCart(userEmail);
+        Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail).isSuccessful());
+        Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.LAPTOP_ID, 1, userEmail).isSuccessful());
+
+        Assert.assertTrue(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
+    }
+
+    @Test
+    public void consecutivePurchaseTest() {
+        PurchasingDepartment.getInstance().addUserCart(userEmail);
+        Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail).isSuccessful());
+        Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.LAPTOP_ID, 1, userEmail).isSuccessful());
+
+        Assert.assertTrue(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
+        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
+    }
+
+    @Test
+    public void uppercasePurchaseTest() {
         PurchasingDepartment.getInstance().addUserCart(userEmailUpperCase);
         Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, userEmail).isSuccessful());
         Assert.assertTrue(PurchasingDepartment.getInstance().addToCart(CatalogUtility.LAPTOP_ID, 1, userEmail).isSuccessful());
 
-        //double totalPrice = CatalogUtility.SHOES_PRICE*2 + CatalogUtility.LAPTOP_PRICE;
-
         Assert.assertTrue(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
-
     }
 
     @Test
-    public void absentProductPurchase() throws UnregisteredUserException {
+    public void absentProductTest() {
         PurchasingDepartment.getInstance().addUserCart(anotherUserEmail);
         Assert.assertFalse(PurchasingDepartment.getInstance().addToCart("non existent id", 2, anotherUserEmail).isSuccessful());
         Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
@@ -45,7 +60,12 @@ public class PurchasingDepartmentTest {
     }
 
     @Test
-    public void absentCartPurchase() throws UnregisteredUserException {
+    public void emptyCartTest() {
+        Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
+    }
+
+    @Test
+    public void absentCartTest() {
         Assert.assertFalse(PurchasingDepartment.getInstance().addToCart(CatalogUtility.SHOES_ID, 2, anotherUserEmail).isSuccessful());
         Assert.assertFalse(PurchasingDepartment.getInstance().purchase(typeOfservice, userEmail, destinationAddress, receiver).isSuccessful());
     }
