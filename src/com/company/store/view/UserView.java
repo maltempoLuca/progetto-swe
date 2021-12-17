@@ -65,7 +65,7 @@ public class UserView implements View {
         readTitle();
         readAll(log);
         readAndClear(optionals);
-        contents.append("\nSHIPMENTS:\n");
+        contents.append("\n" + Constants.SHIPMENTS + ":\n");
         readAll(shipmentsData.values());
         contents.append(Constants.SEPARATOR);
     }
@@ -94,13 +94,20 @@ public class UserView implements View {
     private String buildShipmentData(Shipment shipment) {
         StringBuilder data = new StringBuilder();
         String idText = "- ID: ";
+        String senderText = "Sender: ";
+        String receiverText = "Receiver: ";
+        String senderaddressText = "Sender Address: ";
+        String destinationAddressText = "Destination Address: ";
+        String stateText = "State: ";
+        String contentsText = "Contents: ";
+
         data.append(idText).append(shipment.getId()).append(", ");
-        data.append("Sender: ").append(shipment.getSender()).append(", ");
-        data.append("Receiver: ").append(shipment.getReceiver()).append(",\n");
-        data.append("Sender Address: ").append(shipment.getSenderAddress()).append(",\n");
-        data.append("Destination Address: ").append(shipment.getDestinationAddress()).append(", ");
-        data.append("State: ").append(shipment.getState().getCurrentState()).append("\n");
-        data.append("Contents: ").append(shipment.getContents()).append("\n");
+        data.append(senderText).append(shipment.getSender()).append(", ");
+        data.append(receiverText).append(shipment.getReceiver()).append(",\n");
+        data.append(senderaddressText).append(shipment.getSenderAddress()).append(",\n");
+        data.append(destinationAddressText).append(shipment.getDestinationAddress()).append(", ");
+        data.append(stateText).append(shipment.getState().getCurrentState()).append("\n");
+        data.append(contentsText).append(shipment.getContents()).append("\n");
         return data.toString();
     }
 

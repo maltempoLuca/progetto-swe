@@ -21,9 +21,9 @@ public class Main {
         courierAgency.start();
         Buttons buttons = Buttons.getInstance();
         ShippingDepartment.getInstance().setCourierAgency(courierAgency);
-        User luca = new User("Luca", "Maltempo", "luchino@pippo.com");
-        User sam = new User("Samuele", "Ruotolo", "sam@pippo.com");
-        User pie = new User("Pietro", "Siliani", "pie@pippo.com");
+        User luca = new User(Constants.LUCA_NAME, Constants.LUCA_SURNAME, Constants.LUCA_EMAIL);
+        User sam = new User(Constants.SAM_NAME, Constants.SAM_SURNAME, Constants.SAM_EMAIL);
+        User pie = new User(Constants.PIE_NAME, Constants.PIE_SURNAME, Constants.PIE_EMAIL);
 
         // creo il controller e gli dico quali eventi deve ascoltare
         Controller controller = new Controller();
@@ -41,39 +41,39 @@ public class Main {
         // System.out.println("Sessione di Luca: ");
         buttons.logoutUser(luca.getEmail());
         Thread.sleep(3000);
-        buttons.registerUser(luca.getEmail(), "lucaPassword1");
+        buttons.registerUser(luca.getEmail(), Constants.LUCA_PASSWORD);
         Thread.sleep(3000);
-        buttons.loginUser(luca.getEmail(), "lucaPassword1");
+        buttons.loginUser(luca.getEmail(), Constants.LUCA_PASSWORD);
         Thread.sleep(3000);
         buttons.viewCatalogue(luca.getEmail());
-        buttons.addToCart(luca.getEmail(), "06060", "1");
-        buttons.purchaseItemsFromCart(Constants.STANDARD, luca.getEmail(), "Indirizzo di Casa Luca", "Luca Maltempo");
-        buttons.changeShipmentAddress(luca.getEmail(), "#000001", "nuovoIndirizzo");
+        buttons.addToCart(luca.getEmail(), Constants.LUCA_ITEM, Constants.LUCA_QUANTITY);
+        buttons.purchaseItemsFromCart(Constants.STANDARD, luca.getEmail(), Constants.LUCA_ADDRESS, Constants.LUCA_FULL_NAME);
+        buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_1);
         Thread.sleep(8000);
-        buttons.changeShipmentAddress(luca.getEmail(), "#000001", "indirizzoNuovo");
+        buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_2);
         Thread.sleep(3000);
 
         //System.out.println("Sessione di Sam: ");
-        buttons.registerUser(sam.getEmail(), "samPassword1");
+        buttons.registerUser(sam.getEmail(), Constants.SAM_PASSWORD);
         Thread.sleep(3000);
-        buttons.loginUser(sam.getEmail(), "samPassword1");
+        buttons.loginUser(sam.getEmail(), Constants.SAM_PASSWORD);
         Thread.sleep(3000);
-        buttons.addToCart(sam.getEmail(), "01998", "2");
+        buttons.addToCart(sam.getEmail(), Constants.SAM_ITEM, Constants.SAM_QUANTITY);
         Thread.sleep(3000);
-        buttons.purchaseItemsFromCart(Constants.PREMIUM, sam.getEmail(), "Indirizzo di Casa Sam", "Samuele Ruotolo");
-        buttons.cancelShipment(sam.getEmail(), "#000002");
+        buttons.purchaseItemsFromCart(Constants.PREMIUM, sam.getEmail(), Constants.SAM_ADDRESS, Constants.SAM_FULL_NAME);
+        buttons.cancelShipment(sam.getEmail(), Constants.SAM_SHIPMENT);
         Thread.sleep(3000);
 
         //System.out.println("Sessione di Pie: ");
-        buttons.registerUser(pie.getEmail(), "piePassword1");
+        buttons.registerUser(pie.getEmail(), Constants.PIE_PASSWORD);
         Thread.sleep(3000);
-        buttons.loginUser(pie.getEmail(), "piePassword1");
+        buttons.loginUser(pie.getEmail(), Constants.PIE_PASSWORD);
         Thread.sleep(3000);
-        buttons.addToCart(pie.getEmail(), "06060", "1");
+        buttons.addToCart(pie.getEmail(), Constants.PIE_ITEM, Constants.PIE_QUANTITY);
         Thread.sleep(3000);
-        buttons.purchaseItemsFromCart(Constants.STANDARD, pie.getEmail(), "Indirizzo di Casa Pietro", "Pietro Siliani");
+        buttons.purchaseItemsFromCart(Constants.STANDARD, pie.getEmail(), Constants.PIE_ADDRESS, Constants.PIE_FULL_NAME);
         Thread.sleep(14000);
-        buttons.returnShipment(pie.getEmail(), "#000003");
+        buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
         buttons.logoutUser(pie.getEmail());
         Thread.sleep(3000);
         buttons.logoutUser(luca.getEmail());
@@ -83,7 +83,6 @@ public class Main {
         courierAgency.setProgramFinished();
 
         System.out.println(Constants.SEPARATOR);
-        System.out.println("Inizio test thread:");
     }
 }
 

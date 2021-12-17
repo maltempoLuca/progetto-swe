@@ -36,10 +36,13 @@ public class RequestEvent implements Loggable {
     @Override
     public String getLogMessage() {
         StringBuilder logMessageBuilder = new StringBuilder();
-        logMessageBuilder.append(userId).append(" has requested ").append(id.name());
+        String requestedText = " has requested ";
+        String inputText = " with input ";
+
+        logMessageBuilder.append(userId).append(requestedText).append(id.name());
 
         if (!userInput.isEmpty()) {
-            logMessageBuilder.append(" with input ");
+            logMessageBuilder.append(inputText);
 
             for (Map.Entry<String, String> input : userInput.entrySet()) {
                 logMessageBuilder.append("[").append(input.getKey()).append(": ").append(input.getValue()).append("]");

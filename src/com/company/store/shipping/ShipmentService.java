@@ -49,7 +49,7 @@ public abstract class ShipmentService {
     }
 
     OperationResult changeAddress(String newAddress) {
-        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
+        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
         try {
             shipmentMutex.acquire();
             operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
@@ -65,7 +65,7 @@ public abstract class ShipmentService {
     }
 
     OperationResult createReturn() {
-        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
+        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
         try {
             shipmentMutex.acquire();
             operationResult = returnBehavior.createReturn(shipment, userEmail);
@@ -80,7 +80,7 @@ public abstract class ShipmentService {
     }
 
     OperationResult cancelShipment() {
-        OperationResult operationResult = new OperationResult("Interrupted Exception", false);
+        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
         try {
             shipmentMutex.acquire();
             operationResult = cancelBehavior.cancelShipment(shipment, userEmail);

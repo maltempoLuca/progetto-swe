@@ -19,6 +19,9 @@ public class StandardCourierAgency extends Thread implements CourierAgency {
 
     @Override
     public void run() {
+        String sentText = "Ho spedito ";
+        String packsText = " pacchi";
+
         try {
             while (!programFinished || !emptyShipments()) {
                 handleCouriers();
@@ -30,11 +33,13 @@ public class StandardCourierAgency extends Thread implements CourierAgency {
             e.printStackTrace();
         }
 
-        System.out.println("Ho spedito " + pacchiGestiti + " pacchi");
+        System.out.println(sentText + pacchiGestiti + packsText);
     }
 
 
     private void handleCouriers() throws InterruptedException {
+        String assignedText = "assegnato";
+
         try {
             couriersWriters.acquire();
             for (int i = 0; i < couriers.size(); i++) {
@@ -50,7 +55,7 @@ public class StandardCourierAgency extends Thread implements CourierAgency {
                     Thread courierThread = new Thread(currentCourier);
                     couriersThread.set(i, courierThread);
                     courierThread.start();
-                    System.out.println("assegnato");
+                    System.out.println(assignedText);
                     pacchiGestiti++;
                 }
             }

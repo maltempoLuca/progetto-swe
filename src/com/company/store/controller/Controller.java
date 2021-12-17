@@ -1,5 +1,6 @@
 package com.company.store.controller;
 
+import com.company.constants.Constants;
 import com.company.store.events.OperationResult;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.requestevents.RequestEvent;
@@ -16,7 +17,7 @@ import java.util.Map;
 public final class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
     public Controller() {
-        userViews.put("Couriers", new UserView("COURIERS"));
+        userViews.put(Constants.COURIERS.toLowerCase(), new UserView(Constants.COURIERS));
     }
 
     @Override
@@ -37,7 +38,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     private void clearViews() {
         //delete all prints from console
 
-        System.out.print("\033[H\033[2J");
+        System.out.print(Constants.DELETE_ALL);
         System.out.flush();
     }
 
