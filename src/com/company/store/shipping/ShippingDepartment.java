@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class ShippingDepartment implements ShipmentEventListener {
 
-    private ShippingDepartment() {
+    public ShippingDepartment() {
         ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.RETURNED);
     }
 
@@ -34,17 +34,6 @@ public class ShippingDepartment implements ShipmentEventListener {
 
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
         handlePurchase(userEmail, service, destination, receiver, contents, generateId());
-    }
-
-    public static ShippingDepartment getInstance() {
-        if (instance == null)
-            instance = new ShippingDepartment();
-        return instance;
-    }
-
-
-    public static void clearInstance() {
-        instance = null;
     }
 
     public void addUserServices(String email) {
@@ -146,7 +135,6 @@ public class ShippingDepartment implements ShipmentEventListener {
     }
 
     private CourierAgency courierAgency = null;
-    private static ShippingDepartment instance = null;
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
 

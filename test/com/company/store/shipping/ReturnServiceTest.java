@@ -9,10 +9,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ReturnServiceTest {
-    private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
-            "destinationAddress", "contents", "#000001");
-
-    private ReturnService service = new ReturnService(shipment, "luchino@pippo.com");
 
     @Test
     public void updateStateTest() {
@@ -58,11 +54,8 @@ public class ReturnServiceTest {
         }
     }
 
-    @After
-    public void clearInstances() {
-        Store.clearInstance();
-        ShippingDepartment.clearInstance();
-        ShippingDepartment.clearInstance();
-        UserDepartment.clearInstance();
-    }
+    private final Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
+            "destinationAddress", "contents", "#000001");
+
+    private final ReturnService service = new ReturnService(shipment, "luchino@pippo.com");
 }

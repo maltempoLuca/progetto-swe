@@ -1,31 +1,32 @@
 package com.company.store.usecases;
 
 import com.company.constants.Constants;
+import com.company.exceptions.StoreInitializationException;
 import com.company.store.OperationResult;
 import com.company.store.Store;
+import com.company.store.purchase.PurchasingDepartment;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.testagencies.ManualCourier;
 import com.company.store.testagencies.ManualCourierAgency;
+import com.company.store.user.UserDepartment;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public final class ReturnOrderTest {
-    ManualCourier courier = new ManualCourier();
-    InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
-    ManualCourierAgency manualAgency = new ManualCourierAgency(courier);
+
 
     @Before
-    public void registerUser() {
-        UseCaseUtility.registerUser();
+    public void registerUser() throws StoreInitializationException {
+        UseCaseUtility.init(userDepartment, shippingDepartment, purchasingDepartment);
     }
 
     @Test
-    public void returnSuccessTest() {
+    public void returnSuccessTest() throws StoreInitializationException {
         int quantity = 2;
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
 
@@ -33,9 +34,9 @@ public final class ReturnOrderTest {
     }
 
     @Test
-    public void returnFailTest() {
+    public void returnFailTest() throws StoreInitializationException {
         int quantity = 1;
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
 
@@ -43,9 +44,9 @@ public final class ReturnOrderTest {
     }
 
     @Test
-    public void returnCanceledTest() {
+    public void returnCanceledTest() throws StoreInitializationException {
         int quantity = 1;
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
         Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
@@ -55,11 +56,11 @@ public final class ReturnOrderTest {
     }
 
     @Test
-    public void doubleReturnTest() {
+    public void doubleReturnTest() throws StoreInitializationException {
         int quantity = 3;
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.STANDARD);
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         OperationResult firstResult = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
         OperationResult secondResult = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.SECOND_SHIPMENT_ID);
 
@@ -69,9 +70,9 @@ public final class ReturnOrderTest {
     }
 
     @Test
-    public void returnOtherTest() {
+    public void returnOtherTest() throws StoreInitializationException {
         int quantity = 1;
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.STANDARD);
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
 
@@ -79,15 +80,15 @@ public final class ReturnOrderTest {
     }
 
     @Test
-    public void missingShipmentTest() {
+    public void missingShipmentTest() throws StoreInitializationException {
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
         Assert.assertFalse(result.isSuccessful());
     }
 
     @Test
-    public void missingUserTest() {
+    public void missingUserTest() throws StoreInitializationException {
         int quantity = 2;
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
@@ -99,4 +100,11 @@ public final class ReturnOrderTest {
     public void clearInstances() {
         UseCaseUtility.clearInstances();
     }
+
+    ManualCourier courier = new ManualCourier();
+    InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
+    ManualCourierAgency manualAgency = new ManualCourierAgency(courier);
+    UserDepartment userDepartment = new UserDepartment();
+    ShippingDepartment shippingDepartment = new ShippingDepartment();
+    PurchasingDepartment purchasingDepartment = new PurchasingDepartment(shippingDepartment);
 }

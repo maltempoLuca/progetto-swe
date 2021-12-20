@@ -15,4 +15,7 @@ public class ExceptionMessages {
 
     //Missing agency messages
     public static final String MISSING_AGENCY = "No agency interface has been set";
+
+    //Missing department
+    public static final String MISSING_DEPARTMENT = "At least one department is null, Store not properly initialized";
 }

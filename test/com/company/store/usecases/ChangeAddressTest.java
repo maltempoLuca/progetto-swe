@@ -1,32 +1,32 @@
 package com.company.store.usecases;
 
 import com.company.constants.Constants;
+import com.company.exceptions.StoreInitializationException;
 import com.company.store.OperationResult;
 import com.company.store.Store;
+import com.company.store.purchase.PurchasingDepartment;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.testagencies.ManualCourier;
 import com.company.store.testagencies.ManualCourierAgency;
+import com.company.store.user.UserDepartment;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.text.html.StyleSheet;
+
 public final class ChangeAddressTest {
-    String newAddress = "new address";
-    String anotherNewAddress = "another new address";
-    ManualCourier courier = new ManualCourier();
-    InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
-    ManualCourierAgency manualAgency = new ManualCourierAgency(courier);
 
     @Before
-    public void registerUser() {
-        UseCaseUtility.registerUser();
+    public void init() throws StoreInitializationException {
+        UseCaseUtility.init(userDepartment, shippingDepartment, purchasingDepartment);
     }
 
     @Test
-    public void changeAddressSuccessTest() {
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+    public void changeAddressSuccessTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
 
@@ -34,8 +34,8 @@ public final class ChangeAddressTest {
     }
 
     @Test
-    public void doubleAddressChangeTest() {
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+    public void doubleAddressChangeTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         OperationResult firstResult = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
         OperationResult secondResult = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, anotherNewAddress);
@@ -50,8 +50,8 @@ public final class ChangeAddressTest {
     }
 
     @Test
-    public void addressChangeFailTest() {
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+    public void addressChangeFailTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
 
@@ -59,19 +59,19 @@ public final class ChangeAddressTest {
     }
 
     @Test
-    public void changeCanceledAddressTest() {
-        ShippingDepartment.getInstance().setCourierAgency(manualAgency);
+    public void changeCanceledAddressTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
 
         Assert.assertFalse(result.isSuccessful());
-       Assert.assertEquals("Destination address of shipment " + UseCaseConstants.FIRST_SHIPMENT_ID + "cannot be changed as state is " + Constants.CANCELLED.getCurrentState(), result.getMessage());
+        Assert.assertEquals("Destination address of shipment " + UseCaseConstants.FIRST_SHIPMENT_ID + "cannot be changed as state is " + Constants.CANCELLED.getCurrentState(), result.getMessage());
     }
 
     @Test
-    public void changeReturnAddressTest() {
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+    public void changeReturnAddressTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.SECOND_SHIPMENT_ID, newAddress);
@@ -82,8 +82,8 @@ public final class ChangeAddressTest {
     }
 
     @Test
-    public void changeOtherTest() {
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+    public void changeOtherTest() throws StoreInitializationException {
+        shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
 
@@ -91,15 +91,15 @@ public final class ChangeAddressTest {
     }
 
     @Test
-    public void missingShipmentTest() {
+    public void missingShipmentTest() throws StoreInitializationException {
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
         Assert.assertFalse(result.isSuccessful());
     }
 
     @Test
-    public void missingUserTest() {
+    public void missingUserTest() throws StoreInitializationException {
         int quantity = 2;
-        ShippingDepartment.getInstance().setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
@@ -111,4 +111,13 @@ public final class ChangeAddressTest {
     public void clearInstances() {
         UseCaseUtility.clearInstances();
     }
+
+    String newAddress = "new address";
+    String anotherNewAddress = "another new address";
+    ManualCourier courier = new ManualCourier();
+    InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
+    ManualCourierAgency manualAgency = new ManualCourierAgency(courier);
+    UserDepartment userDepartment = new UserDepartment();
+    ShippingDepartment shippingDepartment = new ShippingDepartment();
+    PurchasingDepartment purchasingDepartment = new PurchasingDepartment(shippingDepartment);
 }

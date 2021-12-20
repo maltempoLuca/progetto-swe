@@ -2,6 +2,7 @@ package com.company.store.controller;
 
 import com.company.constants.Constants;
 import com.company.exceptions.MissingInputException;
+import com.company.exceptions.StoreInitializationException;
 import com.company.store.OperationResult;
 import com.company.store.Store;
 import com.company.store.events.requestevents.RequestEvent;
@@ -10,7 +11,7 @@ public enum StoreRequest {
 
     REGISTER_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             String email = request.getUserInput(Constants.USER_EMAIL);
             String psw = request.getUserInput(Constants.USER_PSW);
             OperationResult result = Store.getInstance().requestRegistration(email, psw);
@@ -24,7 +25,7 @@ public enum StoreRequest {
 
     LOGIN_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             String email = request.getUserInput(Constants.USER_EMAIL);
             String psw = request.getUserInput(Constants.USER_PSW);
             OperationResult result = Store.getInstance().requestLogin(email, psw);
@@ -34,7 +35,7 @@ public enum StoreRequest {
 
     LOGOUT_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws StoreInitializationException {
             OperationResult result = Store.getInstance().requestLogout(request.getUserId());
             return result;
         }
@@ -42,7 +43,7 @@ public enum StoreRequest {
 
     CANCEL_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             OperationResult result = Store.getInstance().requestCancel(request.getUserId(),
                     request.getUserInput(Constants.ID_SPEDIZIONE));
             return result;
@@ -51,7 +52,7 @@ public enum StoreRequest {
 
     CHANGE_ADDRESS_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             OperationResult result = Store.getInstance().requestAddressChange(request.getUserId(),
                     request.getUserInput(Constants.ID_SPEDIZIONE),
                     request.getUserInput(Constants.DESTINATION_ADDRESS));
@@ -61,7 +62,7 @@ public enum StoreRequest {
 
     RETURN_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             return Store.getInstance().requestReturn(request.getUserId(),
                     request.getUserInput(Constants.ID_SPEDIZIONE));
         }
@@ -69,7 +70,7 @@ public enum StoreRequest {
 
     PURCHASE_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             String userEmail = request.getUserId();
             String typeOfService = request.getUserInput(Constants.SHIPMENT_SERVICE);
             String destinationAddress = request.getUserInput(Constants.DESTINATION_ADDRESS);
@@ -83,7 +84,7 @@ public enum StoreRequest {
 
     ADD_TO_CART_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             OperationResult result;
             try {
                 result = Store.getInstance().addToCartRequest(request.getUserId(),
@@ -98,10 +99,10 @@ public enum StoreRequest {
 
     VIEW_CATALOGUE_REQUEST {
         @Override
-        public OperationResult execute(RequestEvent request) throws MissingInputException {
+        public OperationResult execute(RequestEvent request) throws StoreInitializationException {
             return Store.getInstance().requestCatalog(request.getUserId());
         }
     };
 
-    abstract public OperationResult execute(RequestEvent request) throws MissingInputException ;
+    abstract public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException;
 }

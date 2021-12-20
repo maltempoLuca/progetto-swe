@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class RequestEventTest {
-    RequestEvent tested = new RequestEvent(StoreRequest.REGISTER_REQUEST);
 
     @Test
     public void missingInputTest() {
@@ -20,4 +19,6 @@ public class RequestEventTest {
                 ExceptionMessages.IN_REQUEST_MISSING_INPUT + StoreRequest.REGISTER_REQUEST.name(),
                 exception.getMessage());
     }
+
+    RequestEvent tested = new RequestEvent(StoreRequest.REGISTER_REQUEST);
 }

@@ -7,18 +7,8 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 public class UserDepartment {
-    private UserDepartment() {
+    public UserDepartment() {
 
-    }
-
-    public static UserDepartment getInstance() {
-        if (instance == null)
-            instance = new UserDepartment();
-        return instance;
-    }
-
-    public static void clearInstance() {
-        instance = null;
     }
 
     public OperationResult registerUser(String email, String password) {
@@ -135,7 +125,6 @@ public class UserDepartment {
 
     private Semaphore usrLoginInfoMutex = new Semaphore(1);
     private final HashMap<String, UserData> usrLoginInfo = new HashMap<>();
-    private static UserDepartment instance = null;
 
     //TODO:: servono i semafori???
    /*

@@ -3,6 +3,8 @@ package com.company;
 import com.company.constants.Constants;
 import com.company.outsideworld.couriers.StandardCourierAgency;
 import com.company.store.Buttons;
+import com.company.store.Store;
+import com.company.store.purchase.PurchasingDepartment;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.controller.Controller;
 import com.company.store.controller.StoreRequest;
@@ -12,6 +14,7 @@ import com.company.store.events.shipmentevents.ShipmentEventManager;
 import com.company.store.events.viewevents.ViewEventIdentifier;
 import com.company.store.events.viewevents.ViewEventManager;
 import com.company.outsideworld.users.User;
+import com.company.store.user.UserDepartment;
 
 public class Main {
     //TODO: metti final in tutte classi e metodi
@@ -19,8 +22,17 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         StandardCourierAgency courierAgency = new StandardCourierAgency();
         courierAgency.start();
+
+        UserDepartment userDepartment = new UserDepartment();
+        ShippingDepartment shippingDepartment = new ShippingDepartment();
+        shippingDepartment.setCourierAgency(courierAgency);
+        PurchasingDepartment purchasingDepartment = new PurchasingDepartment(shippingDepartment);
+        Store.setUserDepartment(userDepartment);
+        Store.setShippingDepartment(shippingDepartment);
+        Store.setPurchasingDepartment(purchasingDepartment);
+
         Buttons buttons = Buttons.getInstance();
-        ShippingDepartment.getInstance().setCourierAgency(courierAgency);
+
         User luca = new User("Luca", "Maltempo", "luchino@pippo.com");
         User sam = new User("Samuele", "Ruotolo", "sam@pippo.com");
         User pie = new User("Pietro", "Siliani", "pie@pippo.com");

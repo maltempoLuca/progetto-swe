@@ -4,13 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class SubscriptionManagerTest {
-    private final SubscriptionManager<String, TargetTest> subManager = new SubscriptionManager<>();
-    private final Integer aThirdSubscriber = 2;
 
     @Test
     public void subscribeTest() {
         String aTarget = "aTarget";
-        String anotherTarget = "anotherTarget";
         TargetTest aSubscriber = new TargetTest(0);
         TargetTest anotherSubscriber = new TargetTest(1);
         subManager.subscribe(aSubscriber, aTarget);
@@ -96,6 +93,8 @@ public class SubscriptionManagerTest {
 
         Assert.assertEquals(3, subManager.getSubscribers(aTarget).get(aSubscriberIndex).getValue());
     }
+
+    private final SubscriptionManager<String, TargetTest> subManager = new SubscriptionManager<>();
 }
 
 class TargetTest {

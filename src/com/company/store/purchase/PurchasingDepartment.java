@@ -11,18 +11,9 @@ import java.util.*;
 //TODO: comment
 public final class PurchasingDepartment {
 
-    private PurchasingDepartment() {
+    public PurchasingDepartment(ShippingDepartment shippingDepartment) {
         this.catalog = initCatalog();
-    }
-
-    public static PurchasingDepartment getInstance() {
-        if (instance == null)
-            instance = new PurchasingDepartment();
-        return instance;
-    }
-
-    public static void clearInstance() {
-        instance = null;
+        this.shippingDepartment = shippingDepartment;
     }
 
     public void addUserCart(String userEmail) {
@@ -66,7 +57,7 @@ public final class PurchasingDepartment {
                 double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
+                shippingDepartment.handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
                         receiver, cartContentsString);
 
                 userCart.clear();
@@ -116,7 +107,7 @@ public final class PurchasingDepartment {
         return new OperationResult("Here's the Catalog", true);
     }
 
-    private static PurchasingDepartment instance = null;
+    private final ShippingDepartment shippingDepartment;
     private final Map<String, Product> catalog;
     private final Map<String, Cart> carts = new HashMap<>();
 }

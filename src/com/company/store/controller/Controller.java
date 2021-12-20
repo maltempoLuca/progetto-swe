@@ -1,5 +1,7 @@
 package com.company.store.controller;
 
+import com.company.constants.Constants;
+import com.company.exceptions.StoreInitializationException;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.requestevents.RequestEvent;
@@ -21,11 +23,15 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     @Override
     public final void handleRequest(RequestEvent event) {
-        String email = event.getUserId();
-        updateLog(email, event);
-        OperationResult result = event.execute();
-        updateLog(email, result);
-        refreshViews();
+        try {
+            String email = event.getUserId();
+            updateLog(email, event);
+            OperationResult result = event.execute();
+            updateLog(email, result);
+            refreshViews();
+        } catch (StoreInitializationException e) {
+            System.out.println(Constants.ANSI_RED + e.getMessage());
+        }
     }
 
     @Override

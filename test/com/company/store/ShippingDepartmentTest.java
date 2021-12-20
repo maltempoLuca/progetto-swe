@@ -1,6 +1,7 @@
 package com.company.store;
 
 import com.company.constants.Constants;
+import com.company.store.purchase.PurchasingDepartment;
 import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
@@ -16,25 +17,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ShippingDepartmentTest {
-    final ShipmentEventTester eventTester = new ShipmentEventTester();
-    CourierAgency agency = new InstantDeliveryAgency();
-    String email = "pie@pippo.com";
-    String destination = "destination";
-    String receiver = "receiver";
-    String contents = "contents";
-    String id = "id";
 
     @Before
     public void setAgency() {
         this.agency = new InstantDeliveryAgency();
-        ShippingDepartment.getInstance().setCourierAgency(agency);
+        shippingDepartment.setCourierAgency(agency);
     }
 
     @Test
     public void handlePurchaseTest() {
-        ShippingDepartment.getInstance().setCourierAgency(agency);
-        ShippingDepartment.getInstance().addUserServices(email);
-        ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents);
+        shippingDepartment.setCourierAgency(agency);
+        shippingDepartment.addUserServices(email);
+        shippingDepartment.handlePurchase(email, Constants.STANDARD, destination, receiver, contents);
         Shipment testerShipment = eventTester.getShipment();
         Assert.assertNotNull(eventTester.getShipment());
         Assert.assertEquals(email, eventTester.getEmail());
@@ -47,11 +41,11 @@ public class ShippingDepartmentTest {
 
     @Test
     public void returnCreationTest() {
-        ShippingDepartment.getInstance().addUserServices(email);
-        ShippingDepartment.getInstance().handlePurchase(email, Constants.STANDARD, destination, receiver, contents, id);
+        shippingDepartment.addUserServices(email);
+        shippingDepartment.handlePurchase(email, Constants.STANDARD, destination, receiver, contents, id);
         Shipment testerShipment;
 
-        boolean result = (ShippingDepartment.getInstance().requestReturn(email, id)).isSuccessful();
+        boolean result = (shippingDepartment.requestReturn(email, id)).isSuccessful();
         Assert.assertTrue(result);
         testerShipment = eventTester.getShipment();
 
@@ -62,14 +56,15 @@ public class ShippingDepartmentTest {
         Assert.assertEquals(Constants.STORE_NAME, testerShipment.getReceiver());
     }
 
-    @After
-    public void clearInstances() {
-        Store.clearInstance();
-        ShippingDepartment.clearInstance();
-        ShippingDepartment.clearInstance();
-        UserDepartment.clearInstance();
-    }
 
+    final ShipmentEventTester eventTester = new ShipmentEventTester();
+    CourierAgency agency = new InstantDeliveryAgency();
+    String email = "pie@pippo.com";
+    String destination = "destination";
+    String receiver = "receiver";
+    String contents = "contents";
+    String id = "id";
+    ShippingDepartment shippingDepartment = new ShippingDepartment();
 }
 
 class ShipmentEventTester implements ShipmentEventListener {

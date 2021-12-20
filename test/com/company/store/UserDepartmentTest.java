@@ -102,16 +102,7 @@ public class UserDepartmentTest {
         Assert.assertFalse(result.isSuccessful());
     }
 
-    @After
-    public void clearInstances() {
-        Store.clearInstance();
-        ShippingDepartment.clearInstance();
-        ShippingDepartment.clearInstance();
-        UserDepartment.clearInstance();
-    }
-
-
-    private final UserDepartment userDepartment = UserDepartment.getInstance();
+    private final UserDepartment userDepartment = new UserDepartment();
 }
 
 /*

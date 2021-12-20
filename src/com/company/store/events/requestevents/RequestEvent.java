@@ -1,6 +1,7 @@
 package com.company.store.events.requestevents;
 
 import com.company.constants.Constants;
+import com.company.exceptions.StoreInitializationException;
 import com.company.store.controller.StoreRequest;
 import com.company.store.OperationResult;
 import com.company.store.controller.Loggable;
@@ -21,7 +22,7 @@ public class RequestEvent implements Loggable {
         this.userId = Constants.UNLOGGED_USER;
     }
 
- public OperationResult execute() {
+ public OperationResult execute() throws StoreInitializationException {
         OperationResult result;
 
         try {
