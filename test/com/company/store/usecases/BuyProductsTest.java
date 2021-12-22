@@ -24,8 +24,10 @@ public final class BuyProductsTest {
 
     @Test
     public void successfulPurchaseTest() throws StoreInitializationException {
-        successfulPurchase(1, Constants.STANDARD);
-        successfulPurchase(3, Constants.PREMIUM);
+        int standardQuantity = 1;
+        int premiumQuantity = 3;
+        successfulPurchase(standardQuantity, Constants.STANDARD);
+        successfulPurchase(premiumQuantity, Constants.PREMIUM);
     }
 
     public static void successfulPurchase(int quantity, String typeOfService) throws StoreInitializationException {
