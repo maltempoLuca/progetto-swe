@@ -15,8 +15,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.swing.text.html.StyleSheet;
-
 public final class ChangeAddressTest {
 
     @Before
@@ -107,9 +105,22 @@ public final class ChangeAddressTest {
         Assert.assertFalse(result.isSuccessful());
     }
 
+    @Test
+    public void unloggedUserTest() throws StoreInitializationException {
+        int quantity = 2;
+        shippingDepartment.setCourierAgency(instantAgency);
+        String typeOfService = Constants.STANDARD;
+        BuyProductsTest.successfulPurchase(quantity, typeOfService);
+        Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
+        OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID, newAddress);
+
+        Assert.assertFalse(result.isSuccessful());
+        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
+    }
+
     @After
     public void clearInstances() {
-        UseCaseUtility.clearInstances();
+        UseCaseUtility.cleanup();
     }
 
     String newAddress = "new address";

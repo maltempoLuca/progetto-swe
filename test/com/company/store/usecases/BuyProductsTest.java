@@ -69,9 +69,23 @@ public final class BuyProductsTest {
         Assert.assertFalse(purchaseResult.isSuccessful());
     }
 
+    @Test
+    public void unloggedUserTest() throws StoreInitializationException {
+        int quantity = 2;
+        String typeOfService= Constants.STANDARD;
+        Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
+        OperationResult addProductResult = Store.getInstance().addToCartRequest(UseCaseConstants.USER_EMAIL, UseCaseConstants.LAMP_ID, quantity);
+        OperationResult purchaseResult = Store.getInstance().requestPurchase(typeOfService, UseCaseConstants.USER_EMAIL, UseCaseConstants.DESTINATION_ADDRESS, UseCaseConstants.USER_NAME);
+
+        Assert.assertFalse(addProductResult.isSuccessful());
+        Assert.assertFalse(purchaseResult.isSuccessful());
+
+        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
+    }
+
     @After
     public void clearInstances() {
-        UseCaseUtility.clearInstances();
+        UseCaseUtility.cleanup();
     }
 
     InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();

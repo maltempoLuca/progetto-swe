@@ -98,9 +98,23 @@ public final class CancelShipmentTest {
         Assert.assertFalse(result.isSuccessful());
     }
 
+    @Test
+    public void unloggedUserTest() throws StoreInitializationException {
+        int quantity = 1;
+        shippingDepartment.setCourierAgency(instantAgency);
+        String typeOfService = Constants.STANDARD;
+        BuyProductsTest.successfulPurchase(quantity, typeOfService);
+        Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+
+        Assert.assertFalse(result.isSuccessful());
+
+        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
+    }
+
     @After
     public void clearInstances() {
-        UseCaseUtility.clearInstances();
+        UseCaseUtility.cleanup();
     }
 
     ManualCourier courier = new ManualCourier();

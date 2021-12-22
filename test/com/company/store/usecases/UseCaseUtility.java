@@ -16,10 +16,10 @@ public final class UseCaseUtility {
         //set store departments
         //then create the singleton instance of Store and register new users
         initStore(userDepartment, shippingDepartment, purchasingDepartment);
-        registerUser();
+        registerUsers();
     }
 
-    public static void clearInstances() {
+    public static void cleanup() {
         //logout registered users and delete Store instance
         Buttons.getInstance().logoutUser(UseCaseConstants.ANOTHER_USER_EMAIL);
         Buttons.getInstance().logoutUser(UseCaseConstants.USER_EMAIL);
@@ -32,7 +32,7 @@ public final class UseCaseUtility {
         Store.setPurchasingDepartment(purchasingDepartment);
     }
 
-    private static void registerUser() throws StoreInitializationException {
+    private static void registerUsers() throws StoreInitializationException {
         //register and login new users, then initialize their carts and service lists
         Store.getInstance().requestRegistration(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
         Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
