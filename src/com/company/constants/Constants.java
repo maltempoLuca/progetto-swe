@@ -20,7 +20,6 @@ public class Constants {
     public static final ShipmentState SENT = new ShipmentState("Sent", IN_TRANSIT);
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
     public static final ShipmentState CANCELLED = new ShipmentState("Cancelled", null);
-//    public static final ShipmentState CHANGE_ADDRESS = new ShipmentState("Changing Address", SENT);
 
 
     //return states
@@ -55,6 +54,7 @@ public class Constants {
     public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
     public static final String LOGGED_OUT = "This User is logged out from the system.";
+    public static final String INTERRUPTED_EXCEPTION = "Interrupted exception";
 
     //info types
     public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
@@ -73,6 +73,7 @@ public class Constants {
     public static final String QUANTITY = "QUANTITY";
     public static final String INVALID_QUANTITY = "INVALID_QUANTITY";
     public static final String RECEIVER = "RECEIVER";
+    public static final String SHIPMENTS = "SHIPMENTS";
 
     //unloged user id
     public static final String UNLOGGED_USER = "unlogged user";
@@ -83,6 +84,43 @@ public class Constants {
 
     //separator
     public static final String SEPARATOR = "--------------------------------------------------------------------";
+
+    //general constants
+    public static final String COURIERS = "COURIERS";
+    public static final String DELETE_ALL = "\033[H\033[2J";
+    public static final String SUCCESSFULL_OPERATION_MESSAGE = "Operation successful with message: ";
+    public static final String FAILED_OPERATION_MESSAGE = "Operation failed with message: ";
+
+    //testing variables for main
+    public static final String LUCA_NAME = "Luca";
+    public static final String LUCA_SURNAME = "Maltempo";
+    public static final String LUCA_FULL_NAME = "Luca Maltempo";
+    public static final String LUCA_EMAIL = "luchino@pippo.com";
+    public static final String LUCA_PASSWORD = "lucaPassowrd1";
+    public static final String LUCA_ITEM = "06060";
+    public static final String LUCA_QUANTITY = "1";
+    public static final String LUCA_ADDRESS = "Indirizzo di Casa Luca";
+    public static final String LUCA_SHIPMENT = "#000001";
+    public static final String LUCA_NEW_ADDRESS_1 = "nuovoIndirizzo";
+    public static final String LUCA_NEW_ADDRESS_2 = "indirizzoNuovo";
+    public static final String SAM_NAME = "Samuele";
+    public static final String SAM_SURNAME = "Ruotolo";
+    public static final String SAM_FULL_NAME = "Samuele Ruotolo";
+    public static final String SAM_EMAIL = "sam@pippo.com";
+    public static final String SAM_PASSWORD = "samPassword1";
+    public static final String SAM_ITEM = "01998";
+    public static final String SAM_QUANTITY = "2";
+    public static final String SAM_ADDRESS = "Indirizzo di Casa Sam";
+    public static final String SAM_SHIPMENT = "#000002";
+    public static final String PIE_NAME = "Pietro";
+    public static final String PIE_SURNAME = "Siliani";
+    public static final String PIE_FULL_NAME = "Pietro Siliani";
+    public static final String PIE_EMAIL = "pie@pippo.com";
+    public static final String PIE_PASSWORD = "piePassword1";
+    public static final String PIE_ITEM = "06060";
+    public static final String PIE_QUANTITY = "1";
+    public static final String PIE_ADDRESS = "Indirizzo di Casa Pietro";
+    public static final String PIE_SHIPMENT = "#000003";
 
     //ANSI
     public static final String ANSI_RESET = "\u001B[0m";

@@ -51,7 +51,8 @@ public class ShippingDepartment implements ShipmentEventListener {
             requestCourier(newService);
         } catch (Exception e) {
             currentId--;
-            System.out.println(Constants.ANSI_RED + e.getMessage() + ", shipment not created" + Constants.ANSI_RESET);
+            String noShipmentText = ", shipment not created";
+            System.out.println(Constants.ANSI_RED + e.getMessage() + noShipmentText + Constants.ANSI_RESET);
         }
 
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);

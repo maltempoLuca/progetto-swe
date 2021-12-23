@@ -1,5 +1,6 @@
 package com.company.store;
 
+import com.company.constants.Constants;
 import com.company.store.controller.Loggable;
 
 public class OperationResult implements Loggable {
@@ -13,9 +14,9 @@ public class OperationResult implements Loggable {
     public String getLogMessage() {
         StringBuilder logMessageBuilder = new StringBuilder();
         if(successful) {
-            logMessageBuilder.append("Operation successful with message: ");
+            logMessageBuilder.append(Constants.SUCCESSFULL_OPERATION_MESSAGE);
         } else {
-            logMessageBuilder.append("Operation failed with message: ");
+            logMessageBuilder.append(Constants.FAILED_OPERATION_MESSAGE);
         }
 
         logMessageBuilder.append("\"").append(message).append("\"");
