@@ -1,6 +1,6 @@
 package com.company.exceptions;
 
-public class ExceptionMessages {
+public final class ExceptionMessages {
     //Invalid parameter messages
     public static final String DEFAULT_INVALID_PARAMETER = "Invalid Parameter";
     public static final String NULL_INVALID_PARAMETER = "Null parameter for ShipmentService creation";

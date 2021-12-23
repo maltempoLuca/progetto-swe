@@ -5,7 +5,7 @@ import com.company.store.events.subscription.SubscriptionManager;
 
 import java.util.Collection;
 
-public class RequestManager {
+public final class RequestManager {
 
     private RequestManager() {}
 

@@ -13,7 +13,7 @@ import com.company.store.events.viewevents.ViewEventIdentifier;
 import com.company.store.events.viewevents.ViewEventManager;
 import com.company.outsideworld.users.User;
 
-public class Main {
+public class Main { // final?
     //TODO: metti final in tutte classi e metodi
 
     public static void main(String[] args) throws InterruptedException {

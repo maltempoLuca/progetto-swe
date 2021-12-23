@@ -1,6 +1,6 @@
 package com.company.outsideworld.users;
 
-public class User {
+public final class User {
     public User(String name, String surname, String email) {
         this.name = name;
         this.surname = surname;

@@ -1,6 +1,6 @@
 package com.company.store.shipping;
 
-public class ShipmentState {
+public final class ShipmentState {
 
     public ShipmentState(String currentState, ShipmentState nextState) {
         this.currentState = currentState;

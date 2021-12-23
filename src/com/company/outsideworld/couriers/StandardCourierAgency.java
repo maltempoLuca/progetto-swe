@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 
-public class StandardCourierAgency extends Thread implements CourierAgency {
+public final class StandardCourierAgency extends Thread implements CourierAgency {
     public StandardCourierAgency() {
         for (int i = 0; i < 10; i++) {
             Courier courier = new Courier();

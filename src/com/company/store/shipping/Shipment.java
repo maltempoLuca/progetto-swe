@@ -1,7 +1,7 @@
 package com.company.store.shipping;
 import com.company.constants.Constants;
 
-public class Shipment {
+public final class Shipment {
 
     Shipment(String sender, String receiver, String senderAddress, String destinationAddress, String contents, String id) {
         this.sender = sender;

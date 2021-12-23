@@ -14,7 +14,7 @@ import com.company.exceptions.UnregisteredUserException;
 import java.util.Map;
 import java.util.HashMap;
 
-public class ShippingDepartment implements ShipmentEventListener {
+public final class ShippingDepartment implements ShipmentEventListener {
 
     private ShippingDepartment() {
         ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.RETURNED);

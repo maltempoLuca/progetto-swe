@@ -4,7 +4,7 @@ import com.company.store.events.subscription.SubscriptionManager;
 
 import java.util.Collection;
 
-public class ShipmentEventManager {
+public final class ShipmentEventManager {
 
     private ShipmentEventManager() {}
 

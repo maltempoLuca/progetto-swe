@@ -6,7 +6,7 @@ import com.company.store.events.OperationResult;
 import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
-public class UserDepartment {
+public final class UserDepartment {
     private UserDepartment() {
 
     }

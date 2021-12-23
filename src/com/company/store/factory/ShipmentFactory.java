@@ -5,7 +5,7 @@ import com.company.store.shipping.*;
 import com.company.exceptions.ExceptionMessages;
 import com.company.exceptions.InvalidParameterException;
 
-public class ShipmentFactory {
+public final class ShipmentFactory {
 
     private ShipmentFactory() {
 

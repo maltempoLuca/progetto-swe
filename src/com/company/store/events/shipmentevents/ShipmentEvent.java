@@ -3,7 +3,7 @@ package com.company.store.events.shipmentevents;
 import com.company.store.shipping.Shipment;
 import com.company.store.controller.Loggable;
 
-public class ShipmentEvent implements Loggable {
+public final class ShipmentEvent implements Loggable {
 
     public ShipmentEvent(ShipEventIdentifier id, Shipment shipment, String userEmail) {
         this.id = id;

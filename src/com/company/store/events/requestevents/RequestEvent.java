@@ -9,7 +9,7 @@ import com.company.exceptions.MissingInputException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestEvent implements Loggable {
+public final class RequestEvent implements Loggable {
 
     public RequestEvent(RequestIdentifier id, String userId) {
         this.id = id;

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SubscriptionManager<Target, Subscriber> {
+public final class SubscriptionManager<Target, Subscriber> {
 
     public void subscribe(Subscriber sub, Target target) {
         //if target is not mapped to a list of subscribers create a new map entry for the target

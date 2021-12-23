@@ -5,7 +5,7 @@ import com.company.store.shipping.strategy.addressbehavior.UserAddressDenier;
 import com.company.store.shipping.strategy.cancelbehavior.CancelDenier;
 import com.company.store.shipping.strategy.returnbehavior.ReturnAllower;
 
-public class StandardService extends ShipmentService {
+public final class StandardService extends ShipmentService {
 
     public StandardService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);

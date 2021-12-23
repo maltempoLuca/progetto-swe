@@ -5,7 +5,7 @@ import com.company.store.events.requestevents.RequestEvent;
 import com.company.store.controller.RequestIdentifier;
 import com.company.store.events.requestevents.RequestManager;
 
-public class Buttons {
+public final class Buttons {
 
     private Buttons() {
     }

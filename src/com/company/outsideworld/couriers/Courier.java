@@ -6,7 +6,7 @@ import com.company.store.shipping.ShipmentService;
 
 import java.util.*;
 
-public class Courier implements Runnable {
+public final class Courier implements Runnable {
     public Courier() {
         working = false;
     }

@@ -5,7 +5,7 @@ import com.company.store.shipping.strategy.addressbehavior.InternalAddressChange
 import com.company.store.shipping.strategy.returnbehavior.ReturnError;
 import com.company.store.shipping.strategy.cancelbehavior.CancelReturn;
 
-public class ReturnService extends ShipmentService {
+public final class ReturnService extends ShipmentService {
 
     public ReturnService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
