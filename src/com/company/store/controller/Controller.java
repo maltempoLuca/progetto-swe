@@ -1,6 +1,8 @@
 package com.company.store.controller;
 
-import com.company.store.events.OperationResult;
+import com.company.constants.Constants;
+import com.company.exceptions.StoreInitializationException;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.requestevents.RequestEvent;
 import com.company.store.events.requestevents.RequestListener;
@@ -16,28 +18,37 @@ import java.util.Map;
 public final class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
     public Controller() {
-        userViews.put("Couriers", new UserView("COURIERS"));
+        userViews.put(Constants.COURIERS.toLowerCase(), new UserView(Constants.COURIERS));
     }
 
     @Override
-    public final void handleRequest(RequestEvent request) {
-        String email = request.getUserId();
-        updateLog(email, request);
-        OperationResult result = request.execute();
-        updateLog(email, result);
-        refreshViews();
+    public final void handleRequest(RequestEvent event) {
+        try {
+            String email = event.getUserId();
+            updateLog(email, event);
+            OperationResult result = event.execute();
+            updateLog(email, result);
+            refreshViews();
+        } catch (StoreInitializationException e) {
+            System.out.println(Constants.ANSI_RED + e.getMessage());
+        }
     }
 
     @Override
-    public final void handleEvent(ShipmentEvent event) {
+    public final void handleShipmentEvent(ShipmentEvent event) {
         updateView(event);
         refreshViews();
+    }
+
+    @Override
+    public void handleViewEvent(ViewEvent event) {
+        updateView(event);
     }
 
     private void clearViews() {
         //delete all prints from console
 
-        System.out.print("\033[H\033[2J");
+        System.out.print(Constants.DELETE_ALL);
         System.out.flush();
     }
 
@@ -83,8 +94,5 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private final Map<String, UserView> userViews = new LinkedHashMap<>();
 
-    @Override
-    public void handleViewEvent(ViewEvent event) {
-        updateView(event);
-    }
+
 }

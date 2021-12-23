@@ -1,6 +1,6 @@
 package com.company.store.shipping.strategy.addressbehavior;
 
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public class UserAddressDenier implements AddressBehavior {
@@ -17,7 +17,9 @@ public class UserAddressDenier implements AddressBehavior {
 
     @Override
     public OperationResult changeAddress(Shipment shipment, String userEmail, String newAddress) {
-        return new OperationResult("Destination address of shipment " + shipment.getId() + "cannot be changed as state is " + shipment.getState().getCurrentState(), false);
+        String message = "Destination address of shipment " + shipment.getId()
+                + "cannot be changed as state is " + shipment.getState().getCurrentState();
+        return new OperationResult(message, false);
     }
 
     private static UserAddressDenier instance = null;

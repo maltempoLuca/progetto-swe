@@ -1,7 +1,7 @@
 package com.company.store.shipping.strategy.returnbehavior;
 
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public class ReturnDenier implements ReturnBehavior {
@@ -18,7 +18,8 @@ public class ReturnDenier implements ReturnBehavior {
 
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) {
-        return new OperationResult("Cannot return shipment: " + shipment.getId() + " " + Constants.RETURN_REASON, false);
+        String message = "Cannot return shipment: " + shipment.getId() + " " + Constants.RETURN_REASON;
+        return new OperationResult(message, false);
     }
 
     private static ReturnDenier instance = null;

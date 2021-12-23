@@ -6,13 +6,6 @@ import org.junit.Test;
 import java.util.HashMap;
 
 public class CartTest {
-    Cart tested = new Cart();
-    String productId = "id";
-    String productId2 = "id2";
-    String productId3 = "id3";
-    Product product = new Product(productId, "name", 100.5);
-    Product product2 = new Product(productId2, "name", 50.99);
-    Product product3 = new Product(productId3, "name", 20);
 
     @Test
     public void addProductTest() {
@@ -97,4 +90,12 @@ public class CartTest {
         Assert.assertNotNull( tested.getContents().get(productId));
         Assert.assertEquals(6, tested.getContents().get(productId2).getQuantity());
     }
+
+    Cart tested = new Cart();
+    String productId = "id";
+    String productId2 = "id2";
+    String productId3 = "id3";
+    Product product = new Product(productId, "name", 100.5);
+    Product product2 = new Product(productId2, "name", 50.99);
+    Product product3 = new Product(productId3, "name", 20);
 }

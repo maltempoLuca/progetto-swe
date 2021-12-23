@@ -2,7 +2,7 @@ package com.company.store.shipping;
 
 import com.company.constants.Constants;
 import com.company.store.shipping.strategy.addressbehavior.InternalAddressChanger;
-import com.company.store.shipping.strategy.returnbehavior.ReturnError;
+import com.company.store.shipping.strategy.returnbehavior.DoubleReturnBehavior;
 import com.company.store.shipping.strategy.cancelbehavior.CancelReturn;
 
 public final class ReturnService extends ShipmentService {
@@ -33,6 +33,6 @@ public final class ReturnService extends ShipmentService {
     @Override
     void changeReturnBehavior() {
         if (getShipment().getState().equals(Constants.RETURN_CREATED))
-            setReturnBehavior(ReturnError.getInstance());
+            setReturnBehavior(DoubleReturnBehavior.getInstance());
     }
 }

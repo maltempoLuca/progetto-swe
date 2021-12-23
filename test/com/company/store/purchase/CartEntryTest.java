@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CartEntryTest {
-    CartEntry tested;
 
     @Test
     public void copyTest() {
@@ -19,4 +18,6 @@ public class CartEntryTest {
         Assert.assertEquals(3, tested.getQuantity());
         Assert.assertEquals(5, deepCopy.getQuantity());
     }
+
+    CartEntry tested;
 }

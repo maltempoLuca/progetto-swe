@@ -1,5 +1,5 @@
 package com.company.store.shipping.strategy.addressbehavior;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public interface AddressBehavior {

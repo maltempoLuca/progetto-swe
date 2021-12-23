@@ -4,16 +4,11 @@ import com.company.constants.Constants;
 import com.company.store.Store;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PremiumServiceTest {
-    private Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
-            "destinationAddress", "contents", "#000001");
-
-    private PremiumService service = new PremiumService(shipment, "luchino@pippo.com");
 
     @Test
     public void updateStateTest() {
@@ -95,11 +90,8 @@ public class PremiumServiceTest {
         }
     }
 
-    @After
-    public void clearInstances() {
-        Store.clearInstance();
-        ShippingDepartment.clearInstance();
-        ShippingDepartment.clearInstance();
-        UserDepartment.clearInstance();
-    }
+    private final Shipment shipment = new Shipment("sender", "receiver", "senderAddress",
+            "destinationAddress", "contents", "#000001");
+
+    private final PremiumService service = new PremiumService(shipment, "luchino@pippo.com");
 }

@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ShipmentFactoryTest {
-    Shipment testShipment = HelperShipment.getShipment();
 
     @Test
     public void standardCreationTest() throws InvalidParameterException {
@@ -46,4 +45,5 @@ public class ShipmentFactoryTest {
         Assert.assertEquals(ExceptionMessages.SERVICE_INVALID_PARAMETER + invalidTypeOfService , exception.getMessage());
     }
 
+    Shipment testShipment = HelperShipment.getShipment();
 }

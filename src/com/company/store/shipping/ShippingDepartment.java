@@ -2,7 +2,7 @@ package com.company.store.shipping;
 
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.constants.Constants;
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.events.shipmentevents.ShipEventIdentifier;
 import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventListener;
@@ -16,12 +16,12 @@ import java.util.HashMap;
 
 public final class ShippingDepartment implements ShipmentEventListener {
 
-    private ShippingDepartment() {
+    public ShippingDepartment() {
         ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.RETURNED);
     }
 
     @Override
-    public void handleEvent(ShipmentEvent event) {
+    public void handleShipmentEvent(ShipmentEvent event) {
         if (event.getId() == ShipEventIdentifier.RETURNED) {
             createReturn(event.getShipment(), event.getUserEmail());
         }
@@ -34,17 +34,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
 
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
         handlePurchase(userEmail, service, destination, receiver, contents, generateId());
-    }
-
-    public static ShippingDepartment getInstance() {
-        if (instance == null)
-            instance = new ShippingDepartment();
-        return instance;
-    }
-
-
-    public static void clearInstance() {
-        instance = null;
     }
 
     public void addUserServices(String email) {
@@ -62,7 +51,8 @@ public final class ShippingDepartment implements ShipmentEventListener {
             requestCourier(newService);
         } catch (Exception e) {
             currentId--;
-            System.out.println(Constants.ANSI_RED + e.getMessage() + ", shipment not created" + Constants.ANSI_RESET);
+            String noShipmentText = ", shipment not created";
+            System.out.println(Constants.ANSI_RED + e.getMessage() + noShipmentText + Constants.ANSI_RESET);
         }
 
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
@@ -73,9 +63,16 @@ public final class ShippingDepartment implements ShipmentEventListener {
         return new Shipment(sender, receiver, senderAddress, destinationAddress, contents, id);
     }
 
-    public OperationResult deleteService(String email, String shipmentID) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).cancelShipment();
+    public OperationResult cancelService(String email, String shipmentID) {
+
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if (result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).cancelShipment();
+        }
+
+        return result;
     }
 
     private void createReturn(Shipment shipment, String userEmail) {
@@ -85,13 +82,39 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult changeAddress(String email, String shipmentID, String newAddress) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).changeAddress(newAddress);
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if(result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).changeAddress(newAddress);
+        }
+
+        return result;
     }
 
     public OperationResult requestReturn(String email, String shipmentID) {
-        //TODO: manage null case
-        return activeServices.get(email).get(shipmentID).createReturn();
+        OperationResult result;
+        result = validateServiceCredentials(email, shipmentID);
+
+        if(result.isSuccessful()) {
+            result = activeServices.get(email).get(shipmentID).createReturn();
+        }
+        return result;
+    }
+
+    private OperationResult validateServiceCredentials(String email, String shipmentID) {
+        OperationResult result;
+        if(activeServices.containsKey(email)) {
+            if(activeServices.get(email).containsKey(shipmentID)) {
+                result = new OperationResult("Valid credentials", true);
+            } else {
+                result = new OperationResult("No such shipment found, user may not be owner of this shipment", false);
+            }
+        } else {
+            result = new OperationResult("Unregistered user", false);
+        }
+
+        return result;
     }
 
     private String generateId() {
@@ -113,7 +136,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     private CourierAgency courierAgency = null;
-    private static ShippingDepartment instance = null;
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
     private int currentId = 0;
 

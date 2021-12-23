@@ -1,6 +1,6 @@
 package com.company.store.purchase;
 
-import com.company.store.events.OperationResult;
+import com.company.store.OperationResult;
 import com.company.store.shipping.ShippingDepartment;
 import com.company.store.events.viewevents.ViewEvent;
 import com.company.store.events.viewevents.ViewEventIdentifier;
@@ -11,18 +11,9 @@ import java.util.*;
 //TODO: comment
 public final class PurchasingDepartment {
 
-    private PurchasingDepartment() {
+    public PurchasingDepartment(ShippingDepartment shippingDepartment) {
         this.catalog = initCatalog();
-    }
-
-    public static PurchasingDepartment getInstance() {
-        if (instance == null)
-            instance = new PurchasingDepartment();
-        return instance;
-    }
-
-    public static void clearInstance() {
-        instance = null;
+        this.shippingDepartment = shippingDepartment;
     }
 
     public void addUserCart(String userEmail) {
@@ -33,6 +24,9 @@ public final class PurchasingDepartment {
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
         String operationMessage;
+        String addToCartText = " added to cart";
+        String noProductText = "Product does not exist";
+        String noUserText = "no such user found";
 
         Cart userCart = carts.get(userEmailLowerCase);
 
@@ -40,13 +34,13 @@ public final class PurchasingDepartment {
             Product product = catalog.get(productId);
             if (product != null) {
                 userCart.increaseProduct(product, quantity);
-                operationMessage = product.getName() + " x" + quantity + " added to cart";
+                operationMessage = product.getName() + " x" + quantity + addToCartText;
                 successful = true;
             } else {
-                operationMessage = "Product does not exist";
+                operationMessage = noProductText;
             }
         } else {
-            operationMessage = userEmailLowerCase + "no such user found";
+            operationMessage = userEmailLowerCase + noUserText;
         }
 
         return new OperationResult(operationMessage, successful);
@@ -58,6 +52,11 @@ public final class PurchasingDepartment {
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
         String operationMessage;
+        String userText = "User ";
+        String purchasedText = " has purchased: ";
+        String serviceText = "with service: ";
+        String failedPurchaseText = "Purchase failed, cart is empty";
+        String noUserText = "no such user found";
 
         Cart userCart = carts.get(userEmailLowerCase);
 
@@ -66,20 +65,20 @@ public final class PurchasingDepartment {
                 double total = userCart.getTotal();
                 String cartContentsString = readCartContents(userCart);
 
-                ShippingDepartment.getInstance().handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
+                shippingDepartment.handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
                         receiver, cartContentsString);
 
                 userCart.clear();
-                operationMessage = "User " + userEmailLowerCase + " has purchased: " + cartContentsString +
-                        "with service: " + typeOfService;
+                operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
+                        serviceText + typeOfService;
                 successful = true;
 
             } else {
-                operationMessage = "Purchase failed, cart is empty";
+                operationMessage = failedPurchaseText;
             }
 
         } else {
-            operationMessage = userEmailLowerCase + "no such user found";
+            operationMessage = userEmailLowerCase + noUserText;
         }
 
         return new OperationResult(operationMessage, successful);
@@ -105,6 +104,7 @@ public final class PurchasingDepartment {
     public OperationResult getCatalog(String userEmail) {
 
         StringBuilder catalogBuilder = new StringBuilder();
+        String catalogText = "Here's the Catalog";
 
         for (Product product : catalog.values()) {
             catalogBuilder.append(product.getId()).append(" ").append(product.getName()).append(" ").append(product.getPrice()).append("\n");
@@ -113,10 +113,10 @@ public final class PurchasingDepartment {
         ViewEvent event = new ViewEvent(ViewEventIdentifier.CATALOG, userEmail, catalogBuilder.toString());
         ViewEventManager.getInstance().notify(event);
 
-        return new OperationResult("Here's the Catalog", true);
+        return new OperationResult(catalogText, true);
     }
 
-    private static PurchasingDepartment instance = null;
+    private final ShippingDepartment shippingDepartment;
     private final Map<String, Product> catalog;
     private final Map<String, Cart> carts = new HashMap<>();
 }
