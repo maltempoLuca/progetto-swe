@@ -2,7 +2,7 @@ package com.company.store.testagencies;
 
 import com.company.store.shipping.ShipmentService;
 
-public class ManualCourier {
+public final class ManualCourier {
 
     public void updateShipment() {
         service.updateShipmentState();

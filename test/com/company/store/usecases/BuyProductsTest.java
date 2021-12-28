@@ -37,27 +37,6 @@ public final class BuyProductsTest {
         Assert.assertTrue(purchaseResult.isSuccessful());
     }
 
-
-    @Test
-    public void absentProductTest() throws StoreInitializationException {
-        int quantity = 1;
-        String typeOfService = Constants.STANDARD;
-        OperationResult addProductResult = Store.getInstance().addToCartRequest(UseCaseConstants.USER_EMAIL, UseCaseConstants.NON_EXISTENT_ID, quantity);
-        OperationResult purchaseResult = Store.getInstance().requestPurchase(typeOfService, UseCaseConstants.USER_EMAIL, UseCaseConstants.DESTINATION_ADDRESS, UseCaseConstants.USER_NAME);
-
-
-        Assert.assertFalse(addProductResult.isSuccessful());
-        Assert.assertFalse(purchaseResult.isSuccessful());
-    }
-
-    @Test
-    public void emptyCartTest() throws StoreInitializationException {
-        String typeOfService = Constants.STANDARD;
-        OperationResult purchaseResult = Store.getInstance().requestPurchase(typeOfService, UseCaseConstants.USER_EMAIL, UseCaseConstants.DESTINATION_ADDRESS, UseCaseConstants.USER_NAME);
-
-        Assert.assertFalse(purchaseResult.isSuccessful());
-    }
-
     @Test
     public void unregisteredUserTest() throws StoreInitializationException {
         int quantity = 1;
@@ -79,12 +58,10 @@ public final class BuyProductsTest {
 
         Assert.assertFalse(addProductResult.isSuccessful());
         Assert.assertFalse(purchaseResult.isSuccessful());
-
-        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
     }
 
     @After
-    public void clearInstances() {
+    public void cleanup() {
         UseCaseUtility.cleanup();
     }
 
