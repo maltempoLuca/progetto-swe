@@ -47,14 +47,17 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     private void createService(String typeOfService, Shipment shipment, String userEmail) throws MissingAgencyException, UnregisteredUserException, InvalidParameterException {
-        //try {
-            ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
-            if (!activeServices.containsKey(userEmail)) {
-                throw new UnregisteredUserException(userEmail);
-           }
-            activeServices.get(userEmail).put(shipment.getId(), newService);
-            requestCourier(newService);
+        //create new ShipmentService and assign it to given shipment
+        //if creation is successful increase currentId and fire an event signaling shipment creation
 
+        ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
+        if (!activeServices.containsKey(userEmail)) {
+            throw new UnregisteredUserException(userEmail);
+        }
+        activeServices.get(userEmail).put(shipment.getId(), newService);
+        requestCourier(newService);
+
+        currentId++;
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
         ShipmentEventManager.getInstance().notify(event);
     }
@@ -89,7 +92,7 @@ public final class ShippingDepartment implements ShipmentEventListener {
         OperationResult result;
         result = validateServiceCredentials(email, shipmentID);
 
-        if(result.isSuccessful()) {
+        if (result.isSuccessful()) {
             result = activeServices.get(email).get(shipmentID).changeAddress(newAddress);
         }
 
@@ -100,7 +103,7 @@ public final class ShippingDepartment implements ShipmentEventListener {
         OperationResult result;
         result = validateServiceCredentials(email, shipmentID);
 
-        if(result.isSuccessful()) {
+        if (result.isSuccessful()) {
             result = activeServices.get(email).get(shipmentID).createReturn();
         }
         return result;
@@ -108,8 +111,8 @@ public final class ShippingDepartment implements ShipmentEventListener {
 
     private OperationResult validateServiceCredentials(String email, String shipmentID) {
         OperationResult result;
-        if(activeServices.containsKey(email)) {
-            if(activeServices.get(email).containsKey(shipmentID)) {
+        if (activeServices.containsKey(email)) {
+            if (activeServices.get(email).containsKey(shipmentID)) {
                 result = new OperationResult("Valid credentials", true);
             } else {
                 result = new OperationResult("No such shipment found, user may not be owner of this shipment", false);
@@ -122,7 +125,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     private String generateId() {
-        currentId++;
         String currentString = "#" + String.format("%06d", currentId);
         return currentString;
     }
@@ -131,13 +133,13 @@ public final class ShippingDepartment implements ShipmentEventListener {
         if (courierAgency != null)
             courierAgency.requestCourier(shipmentService);
         else
-           throw new MissingAgencyException();
+            throw new MissingAgencyException();
 
     }
 
     private void manageServiceCreationException(Exception e) {
+        //decrease currentId, as service has not been created but currentId was incremented during shipment creation
         String noShipmentText = ", shipment not created";
-        currentId--;
         System.out.println(Constants.ANSI_RED + e.getMessage() + noShipmentText + Constants.ANSI_RESET);
     }
 
@@ -147,7 +149,7 @@ public final class ShippingDepartment implements ShipmentEventListener {
 
     private CourierAgency courierAgency = null;
     private final Map<String, Map<String, ShipmentService>> activeServices = new HashMap<>();
-    private int currentId = 0;
+    private int currentId = 1;
 
 
 }
