@@ -1,5 +1,6 @@
 package com.company.store.purchase;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +68,19 @@ public final class Cart {
 
     boolean isEmpty() {
         return contents.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        Collection<CartEntry> contents = this.getContents().values();
+        StringBuilder contentsToString = new StringBuilder();
+
+        for (CartEntry entry : contents) {
+            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append(" | ");
+
+        }
+
+        return contentsToString.toString();
     }
 
     private void removeProduct(String id) {

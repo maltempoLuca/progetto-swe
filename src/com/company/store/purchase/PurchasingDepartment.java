@@ -21,6 +21,7 @@ public final class PurchasingDepartment {
     }
 
     public OperationResult addToCart(String productId, int quantity, String userEmail) {
+        //if user cart and selected product both exist add or increase selected product by specified quantity
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
         String operationMessage;
@@ -47,8 +48,11 @@ public final class PurchasingDepartment {
     }
 
     public OperationResult purchase(String typeOfService, String userEmail, String destinationAddress, String receiver) {
-        //TODO: add price of selected service?
-        //if user cart exists and is not empty generates an event with purchase info
+        //if user cart exists and is not empty:
+        //1. notifies ShippingDepartment of purchase
+        //2. clears user cart
+        //3. generates an event with purchase info
+
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
         String operationMessage;
@@ -57,20 +61,21 @@ public final class PurchasingDepartment {
         String serviceText = "with service: ";
         String failedPurchaseText = "Purchase failed, cart is empty";
         String noUserText = "no such user found";
+        String priceText = "total price: ";
 
         Cart userCart = carts.get(userEmailLowerCase);
 
         if (userCart != null) {
             if (!userCart.isEmpty()) {
                 double total = userCart.getTotal();
-                String cartContentsString = readCartContents(userCart);
+                String cartContentsString = userCart.toString();
 
                 shippingDepartment.handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
                         receiver, cartContentsString);
 
                 userCart.clear();
                 operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
-                        serviceText + typeOfService;
+                        serviceText + typeOfService + ", " + priceText + ": " + total +"€" ;
                 successful = true;
 
             } else {
@@ -82,19 +87,6 @@ public final class PurchasingDepartment {
         }
 
         return new OperationResult(operationMessage, successful);
-    }
-
-    private String readCartContents(Cart cart) {
-
-        Collection<CartEntry> contents = cart.getContents().values();
-        StringBuilder contentsToString = new StringBuilder();
-
-        for (CartEntry entry : contents) {
-            contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append(" | ");
-
-        }
-
-        return contentsToString.toString();
     }
 
     private HashMap<String, Product> initCatalog() {
