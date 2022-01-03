@@ -52,44 +52,44 @@ public class Main { // final?
         //System.out.println("---------------------");
         // System.out.println("Sessione di Luca: ");
         buttons.logoutUser(luca.getEmail());
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.registerUser(luca.getEmail(), Constants.LUCA_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.loginUser(luca.getEmail(), Constants.LUCA_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.viewCatalogue(luca.getEmail());
         buttons.addToCart(luca.getEmail(), Constants.LUCA_ITEM, Constants.LUCA_QUANTITY);
         buttons.purchaseItemsFromCart(Constants.STANDARD, luca.getEmail(), Constants.LUCA_ADDRESS, Constants.LUCA_FULL_NAME);
         buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_1);
-        Thread.sleep(8000);
+        Thread.sleep(changeAddressSleepTime);
         buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_2);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
 
         //System.out.println("Sessione di Sam: ");
         buttons.registerUser(sam.getEmail(), Constants.SAM_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.loginUser(sam.getEmail(), Constants.SAM_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.addToCart(sam.getEmail(), Constants.SAM_ITEM, Constants.SAM_QUANTITY);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.purchaseItemsFromCart(Constants.PREMIUM, sam.getEmail(), Constants.SAM_ADDRESS, Constants.SAM_FULL_NAME);
         buttons.cancelShipment(sam.getEmail(), Constants.SAM_SHIPMENT);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
 
         //System.out.println("Sessione di Pie: ");
         buttons.registerUser(pie.getEmail(), Constants.PIE_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.loginUser(pie.getEmail(), Constants.PIE_PASSWORD);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.addToCart(pie.getEmail(), Constants.PIE_ITEM, Constants.PIE_QUANTITY);
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.purchaseItemsFromCart(Constants.STANDARD, pie.getEmail(), Constants.PIE_ADDRESS, Constants.PIE_FULL_NAME);
-        Thread.sleep(14000);
+        Thread.sleep(returnSleepTime);
         buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
         buttons.logoutUser(pie.getEmail());
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.logoutUser(luca.getEmail());
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         buttons.logoutUser(sam.getEmail());
 
         courierAgency.setProgramFinished();
@@ -97,6 +97,10 @@ public class Main { // final?
         System.out.println(Constants.SEPARATOR);
         System.out.println("Inizio test thread:");
     }
+
+    private static final int sleepTime = 3000;
+    private static final int changeAddressSleepTime = 8000;
+    private static final int returnSleepTime = 14000;
 }
 
 
