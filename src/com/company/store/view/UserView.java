@@ -18,46 +18,22 @@ public class UserView implements View {
 
     @Override
     public void draw() {
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         readContents();
         System.out.println(contents);
-        mutex.release();
     }
 
     public void updateShipment(Shipment shipment) {
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         String id = shipment.getId();
         String data = buildShipmentData(shipment);
         shipmentsData.put(id, new ViewElement(data));
-        mutex.release();
     }
 
     public void addOptional(String optional) {
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         optionals.add(new ViewElement(optional));
-        mutex.release();
     }
 
     public void addLogEntry(Loggable loggable) {
-        try {
-            mutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         log.add(new ViewElement(timeToString() + loggable.getLogMessage() + "\n"));
-        mutex.release();
     }
 
     private void readContents() {
@@ -137,5 +113,4 @@ public class UserView implements View {
     private final List<ViewElement> optionals = new ArrayList<>();
     private final List<ViewElement> log = new ArrayList<>();
     private final StringBuilder contents = new StringBuilder();
-    private final Semaphore mutex = new Semaphore(1);
 }

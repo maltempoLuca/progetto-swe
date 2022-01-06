@@ -28,21 +28,6 @@ public final class CancelShipmentTest {
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, shipmentId);
         Assert.assertTrue(result.isSuccessful());
-
-    }
-
-    @Test
-    public void doubleCancelTest() throws StoreInitializationException {
-        int quantity = 1;
-        String shipmentId = "#000001";
-        shippingDepartment.setCourierAgency(manualAgency);
-        String typeOfService = Constants.STANDARD;
-        BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        OperationResult firstResult = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, shipmentId);
-        OperationResult secondResult = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, shipmentId);
-
-        Assert.assertTrue(firstResult.isSuccessful());
-        Assert.assertFalse(secondResult.isSuccessful());
     }
 
     @Test
@@ -51,23 +36,9 @@ public final class CancelShipmentTest {
         shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
-    }
-
-    @Test
-    public void cancelReturnTest() throws StoreInitializationException {
-        int quantity = 2;
-        shippingDepartment.setCourierAgency(instantAgency);
-        String typeOfService = Constants.STANDARD;
-        BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        shippingDepartment.setCourierAgency(manualAgency);
-        Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.SECOND_SHIPMENT_ID);
-
-        Assert.assertFalse(result.isSuccessful());
-        Assert.assertEquals("Shipment: " + UseCaseConstants.SECOND_SHIPMENT_ID + " could not be canceled because it is a Return!", result.getMessage());
     }
 
     @Test
@@ -76,14 +47,14 @@ public final class CancelShipmentTest {
         shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
     }
 
     @Test
     public void missingShipmentTest() throws StoreInitializationException {
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
         Assert.assertFalse(result.isSuccessful());
     }
 
@@ -93,7 +64,7 @@ public final class CancelShipmentTest {
         shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
     }
@@ -105,15 +76,13 @@ public final class CancelShipmentTest {
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
-        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
-
-        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
     }
 
     @After
-    public void clearInstances() {
+    public void cleanup() {
         UseCaseUtility.cleanup();
     }
 

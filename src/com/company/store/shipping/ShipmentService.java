@@ -26,69 +26,39 @@ public abstract class ShipmentService {
 
     abstract ShipmentService copy();
 
-    public void updateShipmentState() {
-        try {
-            shipmentMutex.acquire();
-            if (shipment.getState().getNextState() != null) {
-                shipment.setState(shipment.getState().getNextState());
-                ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
-                ShipmentEventManager.getInstance().notify(shipmentEvent);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            shipmentMutex.release();
+    public synchronized void updateShipmentState() {
+
+        if (shipment.getState().getNextState() != null) {
+            shipment.setState(shipment.getState().getNextState());
+            ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
+            ShipmentEventManager.getInstance().notify(shipmentEvent);
         }
+
         updateBehaviors();
     }
 
-    public void updateBehaviors() {
+    synchronized void updateBehaviors() {
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
     }
 
-    OperationResult changeAddress(String newAddress) {
-        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
-        try {
-            shipmentMutex.acquire();
-            operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
-        } catch (InterruptedException e) {
-            System.out.println("Eccezione pippo");
-            e.printStackTrace();
-        } finally {
-            shipmentMutex.release();
-        }
+    synchronized OperationResult changeAddress(String newAddress) {
+        OperationResult operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
         if (operationResult.isSuccessful())
             updateBehaviors();
         return operationResult;
     }
 
-    OperationResult createReturn() {
-        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
-        try {
-            shipmentMutex.acquire();
-            operationResult = returnBehavior.createReturn(shipment, userEmail);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            shipmentMutex.release();
-        }
+    synchronized OperationResult createReturn() {
+        OperationResult operationResult = returnBehavior.createReturn(shipment, userEmail);
         if (operationResult.isSuccessful())
             updateBehaviors();
         return operationResult;
     }
 
-    OperationResult cancelShipment() {
-        OperationResult operationResult = new OperationResult(Constants.INTERRUPTED_EXCEPTION, false);
-        try {
-            shipmentMutex.acquire();
-            operationResult = cancelBehavior.cancelShipment(shipment, userEmail);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            shipmentMutex.release();
-        }
+    synchronized OperationResult cancelShipment() {
+        OperationResult operationResult = cancelBehavior.cancelShipment(shipment, userEmail);
         if (operationResult.isSuccessful())
             updateBehaviors();
         return operationResult;
@@ -111,14 +81,7 @@ public abstract class ShipmentService {
 
     abstract void changeReturnBehavior();
 
-    public Shipment getShipment() {
-        try {
-            shipmentMutex.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            shipmentMutex.release();
-        }
+    public synchronized Shipment getShipment() {
         return shipment;
     }
 
@@ -156,7 +119,6 @@ public abstract class ShipmentService {
 
     private final int priority;
     private final Shipment shipment;
-    private Semaphore shipmentMutex = new Semaphore(1);
     private final String userEmail;
     private AddressBehavior addressBehavior = UserAddressChanger.getInstance();
     private CancelBehavior cancelBehavior = CancelAllower.getInstance();

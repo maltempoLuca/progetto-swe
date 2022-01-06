@@ -3,7 +3,7 @@ package com.company.store.testagencies;
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.store.shipping.ShipmentService;
 
-public class ManualCourierAgency implements CourierAgency {
+public final class ManualCourierAgency implements CourierAgency {
 
     public ManualCourierAgency(ManualCourier courier) {
         this.courier = courier;

@@ -19,7 +19,7 @@ public final class ReturnOrderTest {
 
 
     @Before
-    public void registerUser() throws StoreInitializationException {
+    public void init() throws StoreInitializationException {
         UseCaseUtility.init(userDepartment, shippingDepartment, purchasingDepartment);
     }
 
@@ -28,7 +28,7 @@ public final class ReturnOrderTest {
         int quantity = 2;
         shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertTrue(result.isSuccessful());
     }
@@ -38,35 +38,9 @@ public final class ReturnOrderTest {
         int quantity = 1;
         shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
-    }
-
-    @Test
-    public void returnCanceledTest() throws StoreInitializationException {
-        int quantity = 1;
-        shippingDepartment.setCourierAgency(manualAgency);
-        BuyProductsTest.successfulPurchase(quantity, Constants.PREMIUM);
-        Store.getInstance().requestCancel(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
-
-        Assert.assertFalse(result.isSuccessful());
-        Assert.assertEquals("Cannot return shipment: " + UseCaseConstants.FIRST_SHIPMENT_ID + " " + Constants.RETURN_REASON, result.getMessage());
-    }
-
-    @Test
-    public void doubleReturnTest() throws StoreInitializationException {
-        int quantity = 3;
-        shippingDepartment.setCourierAgency(instantAgency);
-        BuyProductsTest.successfulPurchase(quantity, Constants.STANDARD);
-        shippingDepartment.setCourierAgency(manualAgency);
-        OperationResult firstResult = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
-        OperationResult secondResult = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.SECOND_SHIPMENT_ID);
-
-        Assert.assertTrue(firstResult.isSuccessful());
-        Assert.assertFalse(secondResult.isSuccessful());
-        Assert.assertEquals("Impossibile effettuare il reso di un reso", secondResult.getMessage());
     }
 
     @Test
@@ -74,14 +48,14 @@ public final class ReturnOrderTest {
         int quantity = 1;
         shippingDepartment.setCourierAgency(instantAgency);
         BuyProductsTest.successfulPurchase(quantity, Constants.STANDARD);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
     }
 
     @Test
     public void missingShipmentTest() throws StoreInitializationException {
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
         Assert.assertFalse(result.isSuccessful());
     }
 
@@ -91,7 +65,7 @@ public final class ReturnOrderTest {
         shippingDepartment.setCourierAgency(instantAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
 
         Assert.assertFalse(result.isSuccessful());
     }
@@ -103,14 +77,11 @@ public final class ReturnOrderTest {
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
-        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.FIRST_SHIPMENT_ID);
-
-        Assert.assertFalse(result.isSuccessful());
-        Store.getInstance().requestLogin(UseCaseConstants.USER_EMAIL, UseCaseConstants.USER_PASSWORD);
+        OperationResult result = Store.getInstance().requestReturn(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
     }
 
     @After
-    public void clearInstances() {
+    public void cleanup() {
         UseCaseUtility.cleanup();
     }
 

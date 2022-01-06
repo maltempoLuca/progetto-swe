@@ -45,32 +45,32 @@ public final class Controller implements RequestListener, ShipmentEventListener,
         updateView(event);
     }
 
-    private void clearViews() {
+    private synchronized void clearViews() {
         //delete all prints from console
 
         System.out.print(Constants.DELETE_ALL);
         System.out.flush();
     }
 
-    private void refreshViews() {
+    private synchronized void refreshViews() {
         clearViews();
         renderViews();
     }
 
-    private void renderViews() {
+    private synchronized void renderViews() {
         for (UserView view : userViews.values()) {
             view.draw();
         }
     }
 
-    private void ensureView(String viewId) {
+    private synchronized void ensureView(String viewId) {
         //check if there is a view corresponding to specified user, if not create it
         if (!userViews.containsKey(viewId)) {
             userViews.put(viewId, new UserView(viewId.toUpperCase()));
         }
     }
 
-    private void updateView(ShipmentEvent event) {
+    private synchronized void updateView(ShipmentEvent event) {
         //finds user view corresponding to the user who owns the shipment, then updates that view
         Shipment shipment = event.getShipment();
         String viewId = event.getUserEmail();
@@ -79,14 +79,14 @@ public final class Controller implements RequestListener, ShipmentEventListener,
         viewToUpdate.updateShipment(shipment);
     }
 
-    private void updateView(ViewEvent event) {
+    private synchronized void updateView(ViewEvent event) {
         String userEmail = event.getUserEmail();
         ensureView(userEmail);
         UserView viewToUpdate = userViews.get(userEmail);
         viewToUpdate.addOptional(event.getContent());
     }
 
-    private void updateLog(String viewId, Loggable loggable) {
+    private synchronized void updateLog(String viewId, Loggable loggable) {
         ensureView(viewId);
         UserView viewToUpdate = userViews.get(viewId);
         viewToUpdate.addLogEntry(loggable);

@@ -12,7 +12,5 @@ public final class UseCaseConstants {
     public static final String ANOTHER_USER_PASSWORD = "anotherUserPassword2";
     public static final String DESTINATION_ADDRESS = "destination address";
     public static final String LAMP_ID = "01998";
-    public static final String NON_EXISTENT_ID = "non existent id";
-    public static final String FIRST_SHIPMENT_ID = "#000001";
-    public static final String SECOND_SHIPMENT_ID = "#000002";
+    public static final String SHIPMENT_ID = "#000001";
 }

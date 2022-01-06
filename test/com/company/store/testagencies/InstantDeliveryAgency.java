@@ -3,7 +3,7 @@ package com.company.store.testagencies;
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.store.shipping.ShipmentService;
 
-public class InstantDeliveryAgency implements CourierAgency {
+public final class InstantDeliveryAgency implements CourierAgency {
 
     @Override
     public void requestCourier(ShipmentService shipmentService) {

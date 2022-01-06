@@ -19,8 +19,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
 
     @Override
     public void run() {
-        String sentText = "Ho spedito ";
-        String packsText = " pacchi";
 
         try {
             while (!programFinished || !emptyShipments()) {
@@ -32,13 +30,10 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println(sentText + pacchiGestiti + packsText);
     }
 
 
     private void handleCouriers() throws InterruptedException {
-        String assignedText = "assegnato";
 
         try {
             couriersWriters.acquire();
@@ -55,7 +50,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
                     Thread courierThread = new Thread(currentCourier);
                     couriersThread.set(i, courierThread);
                     courierThread.start();
-                    System.out.println(assignedText);
                     pacchiGestiti++;
                 }
             }
@@ -94,28 +88,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
             release_nCouriers();
         }
     }
-
-    /*
-    public Boolean isAnAvailableCourier() throws InterruptedException {
-        boolean courierAvailable = false;
-        try {
-            acquire_nCouriers();
-            try {
-                acquire_nShipmentServiceReaders();
-                for (Courier c : couriers)
-                    if (!c.isWorking())
-                        if (shipmentServices.isEmpty())
-                            courierAvailable = true;
-            } finally {
-                release_nShipmentServiceReaders();
-            }
-        } finally {
-            release_nCouriers();
-        }
-        return courierAvailable;
-    }
-     */
-
 
     private void acquire_nShipmentServiceReaders() throws InterruptedException {
         shipmentServicesReaders.acquire();
@@ -172,6 +144,5 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
 
     private final ArrayList<Courier> couriers = new ArrayList<>();
     private final ArrayList<Thread> couriersThread = new ArrayList<>();
-    private final Queue<ShipmentService> shipmentServices = new LinkedList<>();//TODO: adesso se cancello un ordine devo cancellarlo pure da qui.
-    private final LinkedList<ShipmentService> test = new LinkedList<>();
+    private final Queue<ShipmentService> shipmentServices = new LinkedList<>();
 }
