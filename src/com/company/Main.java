@@ -93,9 +93,6 @@ public class Main { // final?
         buttons.logoutUser(sam.getEmail());
 
         courierAgency.setProgramFinished();
-
-        System.out.println(Constants.SEPARATOR);
-        System.out.println("Inizio test thread:");
     }
 
     private static final int sleepTime = 3000;

@@ -29,11 +29,9 @@ public final class Courier implements Runnable {
             }
             shipmentService = null;
             working = false;
-            // come gestire possibile interruzione del Thread  (caso di interrupt()) ?
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // come si fa a notificare l'avvenuta consegna??? esiste un listener dello stato di shipment service?
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
