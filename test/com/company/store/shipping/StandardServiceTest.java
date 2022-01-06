@@ -8,7 +8,7 @@ import com.company.store.OperationResult;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class StandardServiceTest {
+public final class StandardServiceTest {
 
     @Test
     public void updateStateTest() {

@@ -3,7 +3,7 @@ package com.company.store.shipping.strategy.returnbehavior;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
-public class DoubleReturnBehavior implements ReturnBehavior {
+public final class DoubleReturnBehavior implements ReturnBehavior {
 
     private DoubleReturnBehavior() {
 

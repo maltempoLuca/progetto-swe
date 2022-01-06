@@ -11,7 +11,7 @@ import com.company.store.OperationResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PremiumServiceTest {
+public final class PremiumServiceTest {
 
     @Test
     public void updateStateTest() {

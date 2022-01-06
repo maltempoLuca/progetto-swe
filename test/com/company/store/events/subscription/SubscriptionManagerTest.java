@@ -3,7 +3,7 @@ package com.company.store.events.subscription;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SubscriptionManagerTest {
+public final class SubscriptionManagerTest {
 
     @Test
     public void subscribeTest() {
@@ -97,7 +97,7 @@ public class SubscriptionManagerTest {
     private final SubscriptionManager<String, TargetTest> subManager = new SubscriptionManager<>();
 }
 
-class TargetTest {
+final class TargetTest {
     TargetTest(int value) {
         this.value = value;
     }

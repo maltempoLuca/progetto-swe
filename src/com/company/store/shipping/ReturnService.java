@@ -9,13 +9,8 @@ public final class ReturnService extends ShipmentService {
 
     public ReturnService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
-        shipment.setState(Constants.RETURN_CREATED); // prova di luca
-        this.updateBehaviors();                       // prova di luca
-    }
-
-    @Override
-    ShipmentService copy() {
-        return new ReturnService(new Shipment(getShipment()), getUserEmail());
+        shipment.setState(Constants.RETURN_CREATED);
+        this.updateBehaviors();
     }
 
     @Override

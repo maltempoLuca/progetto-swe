@@ -7,7 +7,7 @@ import com.company.store.user.UserDepartment;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class UserDepartmentTest {
+public final class UserDepartmentTest {
 
     @Test
     public void registerTest() {

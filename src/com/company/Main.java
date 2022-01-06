@@ -95,7 +95,7 @@ public class Main { // final?
         courierAgency.setProgramFinished();
     }
 
-    private static final int sleepTime = 3000;
+    private static final int sleepTime = 5000;
     private static final int changeAddressSleepTime = 8000;
     private static final int returnSleepTime = 14000;
 }

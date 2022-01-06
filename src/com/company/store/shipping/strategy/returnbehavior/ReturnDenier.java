@@ -4,7 +4,7 @@ import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
-public class ReturnDenier implements ReturnBehavior {
+public final class ReturnDenier implements ReturnBehavior {
 
     private ReturnDenier() {
 

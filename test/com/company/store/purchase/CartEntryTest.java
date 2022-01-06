@@ -3,7 +3,7 @@ package com.company.store.purchase;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CartEntryTest {
+public final class CartEntryTest {
 
     @Test
     public void copyTest() {

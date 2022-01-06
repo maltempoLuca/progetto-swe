@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-public class UserView implements View {
+public final class UserView implements View {
 
     public UserView(String title) {
         this.title = title;

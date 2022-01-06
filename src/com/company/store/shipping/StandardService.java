@@ -12,11 +12,6 @@ public final class StandardService extends ShipmentService {
     } //TODO: METTI PACKAGE
 
     @Override
-    ShipmentService copy() {
-        return new StandardService(new Shipment(getShipment()), getUserEmail());
-    }
-
-    @Override
     void changeAddressBehavior() {
         if (getShipment().getState().equals(Constants.SENT))
             setAddressBehavior(UserAddressDenier.getInstance());

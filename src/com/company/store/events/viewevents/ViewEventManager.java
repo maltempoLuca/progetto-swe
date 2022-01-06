@@ -4,7 +4,7 @@ import com.company.store.events.subscription.SubscriptionManager;
 
 import java.util.Collection;
 
-public class ViewEventManager {
+public final class ViewEventManager {
 
     private ViewEventManager() {}
 

@@ -7,7 +7,7 @@ import com.company.store.shipping.ShippingDepartment;
 import com.company.store.user.UserDepartment;
 import org.junit.*;
 
-public class PurchasingDepartmentTest {
+public final class PurchasingDepartmentTest {
 
     @Before
     public void initUserServices() {

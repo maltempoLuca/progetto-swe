@@ -1,6 +1,6 @@
 package com.company.store.events.viewevents;
 
-public class ViewEvent {
+public final class ViewEvent {
 
     public ViewEvent(ViewEventIdentifier id, String userEmail, String content) {
         this.content = content;

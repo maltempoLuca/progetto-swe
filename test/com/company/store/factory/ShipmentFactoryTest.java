@@ -6,7 +6,7 @@ import com.company.exceptions.InvalidParameterException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ShipmentFactoryTest {
+public final class ShipmentFactoryTest {
 
     @Test
     public void standardCreationTest() throws InvalidParameterException {

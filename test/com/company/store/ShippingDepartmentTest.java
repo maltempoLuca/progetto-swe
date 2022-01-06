@@ -16,7 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ShippingDepartmentTest {
+public final class ShippingDepartmentTest {
 
     @Before
     public void setAgency() {
@@ -67,7 +67,7 @@ public class ShippingDepartmentTest {
     ShippingDepartment shippingDepartment = new ShippingDepartment();
 }
 
-class ShipmentEventTester implements ShipmentEventListener {
+final class ShipmentEventTester implements ShipmentEventListener {
 
     ShipmentEventTester() {
         ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.CANCELED,

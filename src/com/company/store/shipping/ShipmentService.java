@@ -14,8 +14,6 @@ import com.company.store.events.shipmentevents.ShipmentEventManager;
 import com.company.store.shipping.strategy.returnbehavior.ReturnBehavior;
 import com.company.store.shipping.strategy.returnbehavior.ReturnDenier;
 
-import java.util.concurrent.Semaphore;
-
 public abstract class ShipmentService {
 
     ShipmentService(int priority, Shipment shipment, String userEmail) {
@@ -24,9 +22,7 @@ public abstract class ShipmentService {
         this.userEmail = userEmail;
     }
 
-    abstract ShipmentService copy();
-
-    public synchronized void updateShipmentState() {
+    public final synchronized void updateShipmentState() {
 
         if (shipment.getState().getNextState() != null) {
             shipment.setState(shipment.getState().getNextState());
@@ -37,27 +33,27 @@ public abstract class ShipmentService {
         updateBehaviors();
     }
 
-    synchronized void updateBehaviors() {
+    synchronized final void updateBehaviors() {
         changeAddressBehavior();
         changeCancelBehavior();
         changeReturnBehavior();
     }
 
-    synchronized OperationResult changeAddress(String newAddress) {
+    synchronized final OperationResult changeAddress(String newAddress) {
         OperationResult operationResult = addressBehavior.changeAddress(shipment, userEmail, newAddress);
         if (operationResult.isSuccessful())
             updateBehaviors();
         return operationResult;
     }
 
-    synchronized OperationResult createReturn() {
+    synchronized final OperationResult createReturn() {
         OperationResult operationResult = returnBehavior.createReturn(shipment, userEmail);
         if (operationResult.isSuccessful())
             updateBehaviors();
         return operationResult;
     }
 
-    synchronized OperationResult cancelShipment() {
+    synchronized final OperationResult cancelShipment() {
         OperationResult operationResult = cancelBehavior.cancelShipment(shipment, userEmail);
         if (operationResult.isSuccessful())
             updateBehaviors();
@@ -81,39 +77,39 @@ public abstract class ShipmentService {
 
     abstract void changeReturnBehavior();
 
-    public synchronized Shipment getShipment() {
+    public synchronized final Shipment getShipment() {
         return shipment;
     }
 
-    public void setAddressBehavior(AddressBehavior addressBehavior) {
+    public final void setAddressBehavior(AddressBehavior addressBehavior) {
         this.addressBehavior = addressBehavior;
     }
 
-    public AddressBehavior getAddressBehavior() {
+    public final AddressBehavior getAddressBehavior() {
         return addressBehavior;
     }
 
-    public void setCancelBehavior(CancelBehavior cancelBehavior) {
+    public final void setCancelBehavior(CancelBehavior cancelBehavior) {
         this.cancelBehavior = cancelBehavior;
     }
 
-    public CancelBehavior getCancelBehavior() {
+    public final CancelBehavior getCancelBehavior() {
         return cancelBehavior;
     }
 
-    public ReturnBehavior getReturnBehavior() {
+    public final ReturnBehavior getReturnBehavior() {
         return returnBehavior;
     }
 
-    public void setReturnBehavior(ReturnBehavior returnBehavior) {
+    public final void setReturnBehavior(ReturnBehavior returnBehavior) {
         this.returnBehavior = returnBehavior;
     }
 
-    public int getPriority() {
+    public final int getPriority() {
         return priority;
     }
 
-    public String getUserEmail() {
+    public final String getUserEmail() {
         return userEmail;
     }
 

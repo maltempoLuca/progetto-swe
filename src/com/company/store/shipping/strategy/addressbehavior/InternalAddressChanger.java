@@ -4,7 +4,7 @@ import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
-public class InternalAddressChanger implements AddressBehavior {
+public final class InternalAddressChanger implements AddressBehavior {
 
     private InternalAddressChanger() {
 

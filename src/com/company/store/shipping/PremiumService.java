@@ -11,11 +11,6 @@ public final class PremiumService extends ShipmentService {
     }
 
     @Override
-    ShipmentService copy() {
-        return new PremiumService(new Shipment(getShipment()), getUserEmail());
-    }
-
-    @Override
     void changeAddressBehavior() {
         if (getShipment().getState().equals(Constants.OUT_FOR_DELIVERY))
             setAddressBehavior(UserAddressDenier.getInstance());

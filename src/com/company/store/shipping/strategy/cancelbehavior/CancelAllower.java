@@ -7,7 +7,7 @@ import com.company.store.events.shipmentevents.ShipEventIdentifier;
 import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
 
-public class CancelAllower implements CancelBehavior {
+public final class CancelAllower implements CancelBehavior {
 
     private CancelAllower() {
 

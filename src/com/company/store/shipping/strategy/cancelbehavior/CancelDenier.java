@@ -3,7 +3,7 @@ package com.company.store.shipping.strategy.cancelbehavior;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
-public class CancelDenier implements CancelBehavior {
+public final class CancelDenier implements CancelBehavior {
 
     private CancelDenier() {
 

@@ -7,7 +7,7 @@ import com.company.store.controller.StoreRequest;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class RequestEventTest {
+public final class RequestEventTest {
 
     @Test
     public void missingInputTest() {
