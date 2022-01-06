@@ -30,7 +30,6 @@ public final class RequestEvent implements Loggable {
         } catch(MissingInputException e) {
             result = new OperationResult(e.getMessage(), false);
         }
-
       return result;
   }
 
@@ -49,7 +48,6 @@ public final class RequestEvent implements Loggable {
                 logMessageBuilder.append("[").append(input.getKey()).append(": ").append(input.getValue()).append("]");
             }
         }
-
         return logMessageBuilder.toString();
     }
 

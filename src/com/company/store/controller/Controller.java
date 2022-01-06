@@ -22,7 +22,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     @Override
-    public final void handleRequest(RequestEvent event) {
+    public void handleRequest(RequestEvent event) {
         try {
             String email = event.getUserId();
             updateLog(email, event);
@@ -35,7 +35,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     @Override
-    public final void handleShipmentEvent(ShipmentEvent event) {
+    public void handleShipmentEvent(ShipmentEvent event) {
         updateView(event);
         refreshViews();
     }
@@ -93,6 +93,4 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     private final Map<String, UserView> userViews = new LinkedHashMap<>();
-
-
 }
