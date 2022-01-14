@@ -9,6 +9,8 @@ import java.util.concurrent.Semaphore;
 
 
 public final class StandardCourierAgency extends Thread implements CourierAgency {
+    //Concrete courier agency
+
     public StandardCourierAgency() {
         for (int i = 0; i < 10; i++) {
             Courier courier = new Courier();
@@ -19,7 +21,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
 
     @Override
     public void run() {
-
         try {
             while (!programFinished || !emptyShipments()) {
                 handleCouriers();
@@ -32,15 +33,15 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
         }
     }
 
-
+    //TODO: remove pacchiGestiti?
     private void handleCouriers() throws InterruptedException {
+        //check if there is a free courier to assign the shipment
 
         try {
             couriersWriters.acquire();
             for (int i = 0; i < couriers.size(); i++) {
                 Courier currentCourier = couriers.get(i);
                 if (!emptyShipments() && !currentCourier.isWorking()) {
-
                     try {
                         acquire_nShipmentServiceReaders();
                         currentCourier.assignShipmentService(shipmentServices.poll());
@@ -59,6 +60,8 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
     }
 
     public void requestCourier(ShipmentService shipmentService) {
+        //if the program isn't finished, add a shipmentService to the list of shipmentService of the agency
+
         try {
             shipmentServicesWriters.acquire();
             if (!programFinished)

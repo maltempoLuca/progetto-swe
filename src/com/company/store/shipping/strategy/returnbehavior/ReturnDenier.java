@@ -5,6 +5,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class ReturnDenier implements ReturnBehavior {
+    //deny returning a shipment because too time is passed from when it is delivered
 
     private ReturnDenier() {
 

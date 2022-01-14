@@ -3,14 +3,13 @@ package com.company.store.view;
 import com.company.constants.Constants;
 import com.company.store.controller.Loggable;
 import com.company.store.shipping.Shipment;
-import com.company.store.view.View;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 public final class UserView implements View {
+    //concrete view for the user
 
     public UserView(String title) {
         this.title = title;
@@ -52,7 +51,6 @@ public final class UserView implements View {
 
     private void readAll(Collection<ViewElement> stringCollection) {
         for (ViewElement element : stringCollection) {
-            //element = String.join(("\u0332",  element.split("",-1));
             if(!element.printed) {
                 contents.append(Constants.ANSI_BLACK_BOLD).append(Constants.ANSI_BLACK_UNDERLINED);
                 element.printed = true;

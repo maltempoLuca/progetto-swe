@@ -1,6 +1,5 @@
 package com.company.store.shipping;
 
-import com.company.exceptions.InvalidParameterException;
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.constants.Constants;
 import com.company.store.OperationResult;
@@ -67,7 +66,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult cancelService(String email, String shipmentID) {
-
         OperationResult result;
         result = validateServiceCredentials(email, shipmentID);
 

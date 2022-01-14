@@ -10,10 +10,10 @@ import com.company.store.user.UserDepartment;
 public final class Store {
 
     private Store() {
+
     }
 
     public static Store getInstance() throws StoreInitializationException {
-
         if (instance == null) {
             validateDepartments();
             instance = new Store();

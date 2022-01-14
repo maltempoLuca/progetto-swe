@@ -21,7 +21,6 @@ public class Constants {
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
     public static final ShipmentState CANCELLED = new ShipmentState("Cancelled", null);
 
-
     //return states
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
     public static final ShipmentState PICKED_UP = new ShipmentState("Picked up", RETURN_DELIVERED);

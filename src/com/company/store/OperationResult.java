@@ -3,6 +3,7 @@ package com.company.store;
 import com.company.constants.Constants;
 import com.company.store.controller.Loggable;
 
+//TODO: comment?
 public final class OperationResult implements Loggable {
 
     public OperationResult(String message, boolean successful) {

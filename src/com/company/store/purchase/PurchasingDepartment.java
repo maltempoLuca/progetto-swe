@@ -8,7 +8,6 @@ import com.company.store.events.viewevents.ViewEventManager;
 
 import java.util.*;
 
-//TODO: comment
 public final class PurchasingDepartment {
 
     public PurchasingDepartment(ShippingDepartment shippingDepartment) {
@@ -22,6 +21,7 @@ public final class PurchasingDepartment {
 
     public OperationResult addToCart(String productId, int quantity, String userEmail) {
         //if user cart and selected product both exist add or increase selected product by specified quantity
+
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
         String operationMessage;

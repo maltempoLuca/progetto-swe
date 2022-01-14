@@ -65,6 +65,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private synchronized void ensureView(String viewId) {
         //check if there is a view corresponding to specified user, if not create it
+
         if (!userViews.containsKey(viewId)) {
             userViews.put(viewId, new UserView(viewId.toUpperCase()));
         }
@@ -72,6 +73,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private synchronized void updateView(ShipmentEvent event) {
         //finds user view corresponding to the user who owns the shipment, then updates that view
+
         Shipment shipment = event.getShipment();
         String viewId = event.getUserEmail();
         ensureView(viewId);

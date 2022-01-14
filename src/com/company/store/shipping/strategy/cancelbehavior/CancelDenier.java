@@ -4,6 +4,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class CancelDenier implements CancelBehavior {
+    //deny canceling a shipment because it's too late in hte delivery process
 
     private CancelDenier() {
 

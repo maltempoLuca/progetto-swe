@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 public final class UserDepartment {
+
     public UserDepartment() {
 
     }
@@ -113,7 +114,7 @@ public final class UserDepartment {
     }
 
 
-    private static class UserData {  //static -> dentro DataPair non hai accesso agli attributi di userDepartment.
+    private static class UserData {
         private UserData(String password) {
             this.password = password;
             this.userIsLogged = false;
@@ -127,9 +128,4 @@ public final class UserDepartment {
     private final HashMap<String, UserData> usrLoginInfo = new HashMap<>();
 
     //TODO:: servono i semafori???
-   /*
-    -controls concurrent access to a shared resource.
-    -access to the resource will be requested from multiple, disparate parts of the system.
-    -there can be only one object.
-    */
 }

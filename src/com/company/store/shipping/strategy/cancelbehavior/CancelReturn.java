@@ -4,7 +4,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class CancelReturn implements CancelBehavior {
-
+    //deny canceling a shipment because it's a return
 
     private CancelReturn() {
 

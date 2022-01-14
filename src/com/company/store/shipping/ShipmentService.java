@@ -23,7 +23,6 @@ public abstract class ShipmentService {
     }
 
     public final synchronized void updateShipmentState() {
-
         if (shipment.getState().getNextState() != null) {
             shipment.setState(shipment.getState().getNextState());
             ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
@@ -60,9 +59,9 @@ public abstract class ShipmentService {
         return operationResult;
     }
 
-
     void changeAddressBehavior() {
-        if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED) || getShipment().getState().equals(Constants.CANCELLED))
+        if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED)
+                || getShipment().getState().equals(Constants.CANCELLED))
             setAddressBehavior(UserAddressDenier.getInstance());
         else if (getShipment().getState().getCurrentState().equals(Constants.ADDRESS_CHANGED)) {
             setAddressBehavior(UserAddressChanger.getInstance());
