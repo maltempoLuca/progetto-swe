@@ -12,10 +12,6 @@ public final class CartEntry {
         this.quantity = toCopy.quantity;
     }
 
-    CartEntry(Product product) {
-        this(product, 1);
-    }
-
     void increase(int quantityDelta) {
         if (quantityDelta > 0) {
             quantity += quantityDelta;

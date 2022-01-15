@@ -23,6 +23,10 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     @Override
     public void handleRequest(RequestEvent event) {
+        //receives RequestEvent, calls execute of encapsulated StoreRequest object
+        //implementation varies based on Strategy
+        //register result in log and then refresh the view
+
         try {
             String email = event.getUserId();
             updateLog(email, event);
@@ -65,6 +69,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private synchronized void ensureView(String viewId) {
         //check if there is a view corresponding to specified user, if not create it
+
         if (!userViews.containsKey(viewId)) {
             userViews.put(viewId, new UserView(viewId.toUpperCase()));
         }
@@ -72,6 +77,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
 
     private synchronized void updateView(ShipmentEvent event) {
         //finds user view corresponding to the user who owns the shipment, then updates that view
+
         Shipment shipment = event.getShipment();
         String viewId = event.getUserEmail();
         ensureView(viewId);
@@ -80,6 +86,9 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     private synchronized void updateView(ViewEvent event) {
+        //finds user view corresponding to the user who owns the shipment, then updates that view
+        //content of event will be registered as optional, it will be printed once and then deleted
+
         String userEmail = event.getUserEmail();
         ensureView(userEmail);
         UserView viewToUpdate = userViews.get(userEmail);
@@ -87,6 +96,8 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     }
 
     private synchronized void updateLog(String viewId, Loggable loggable) {
+        //finds user view corresponding to the user who owns the shipment, then updates its log
+
         ensureView(viewId);
         UserView viewToUpdate = userViews.get(viewId);
         viewToUpdate.addLogEntry(loggable);

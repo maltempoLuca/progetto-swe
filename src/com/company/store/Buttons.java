@@ -35,7 +35,7 @@ public final class Buttons {
 
     public void cancelShipment(String email, String shipmentID) {
         RequestEvent request = new RequestEvent(StoreRequest.CANCEL_REQUEST, email);
-        request.addInput(Constants.ID_SPEDIZIONE, shipmentID);
+        request.addInput(Constants.SHIPMENT_ID, shipmentID);
         RequestManager.getInstance().notify(request);
     }
 
@@ -46,13 +46,13 @@ public final class Buttons {
 
     public void changeShipmentAddress(String email, String shipmentID, String newAddress) {
         RequestEvent request = new RequestEvent(StoreRequest.CHANGE_ADDRESS_REQUEST, email);
-        request.addInput(Constants.ID_SPEDIZIONE, shipmentID).addInput(Constants.DESTINATION_ADDRESS, newAddress);
+        request.addInput(Constants.SHIPMENT_ID, shipmentID).addInput(Constants.DESTINATION_ADDRESS, newAddress);
         RequestManager.getInstance().notify(request);
     }
 
     public void returnShipment(String email, String shipmentID) {
         RequestEvent request = new RequestEvent(StoreRequest.RETURN_REQUEST, email);
-        request.addInput(Constants.ID_SPEDIZIONE, shipmentID);
+        request.addInput(Constants.SHIPMENT_ID, shipmentID);
         RequestManager.getInstance().notify(request);
     }
 

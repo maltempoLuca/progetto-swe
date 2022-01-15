@@ -9,7 +9,7 @@ public final class SubscriptionManager<Target, Subscriber> {
 
     public void subscribe(Subscriber sub, Target target) {
         //if target is not mapped to a list of subscribers create a new map entry for the target
-        //else if subscriber is not yed subscribed to target add it to target's subscribers
+        //else if subscriber is not yet subscribed to target add it to target's subscribers
 
         List<Subscriber> targetSubscribers = subscribers.get(target);
         boolean valid = false;
@@ -40,6 +40,7 @@ public final class SubscriptionManager<Target, Subscriber> {
 
     public List<Subscriber> getSubscribers(Target target) {
         //create shallow copy and return it
+        //copy is shallow because caller will need a reference to stored objects, not to their copies
 
         List<Subscriber> targetSubscribers = new ArrayList<>();
         List<Subscriber> toCopySubscribers = subscribers.get(target);

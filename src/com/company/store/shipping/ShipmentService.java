@@ -23,14 +23,17 @@ public abstract class ShipmentService {
     }
 
     public final synchronized void updateShipmentState() {
+        //if current shipment state has a successor change state to successor
+        //fire an event with UPDATED id and a deep copy of shipment
+        //update service Strategies
 
         if (shipment.getState().getNextState() != null) {
             shipment.setState(shipment.getState().getNextState());
             ShipmentEvent shipmentEvent = new ShipmentEvent(ShipEventIdentifier.UPDATED, new Shipment(shipment), userEmail);
             ShipmentEventManager.getInstance().notify(shipmentEvent);
+            updateBehaviors();
         }
 
-        updateBehaviors();
     }
 
     synchronized final void updateBehaviors() {
@@ -62,6 +65,10 @@ public abstract class ShipmentService {
 
 
     void changeAddressBehavior() {
+        //destination address cannot be changed if another address change request is yet to be notified to the courier
+        //once the courier has been notified of the request a new request may be submitted
+        //destination address cannot be changed if shipment is cancelled
+
         if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED) || getShipment().getState().equals(Constants.CANCELLED))
             setAddressBehavior(UserAddressDenier.getInstance());
         else if (getShipment().getState().getCurrentState().equals(Constants.ADDRESS_CHANGED)) {
@@ -70,11 +77,15 @@ public abstract class ShipmentService {
     }
 
     void changeCancelBehavior() {
+        //cannot cancel an already canceled shipment
+
         if (getShipment().getState().equals(Constants.CANCELLED)) {
             setCancelBehavior(CancelDenier.getInstance());
         }
     }
 
+    //return strategy denies return by default
+    //child classes can enable return through ReturnAllower behavior
     abstract void changeReturnBehavior();
 
     public synchronized final Shipment getShipment() {
