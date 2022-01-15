@@ -18,7 +18,7 @@ public final class ReturnDenier implements ReturnBehavior {
 
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) {
-        String message = "Cannot return shipment: " + shipment.getId() + " " + Constants.RETURN_REASON;
+        String message = "Cannot return shipment: " + shipment.getId() + " as state is " + shipment.getState().getCurrentState();
         return new OperationResult(message, false);
     }
 

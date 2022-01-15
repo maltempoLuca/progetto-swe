@@ -22,7 +22,7 @@ public final class ReturnAllower implements ReturnBehavior {
     public OperationResult createReturn(Shipment shipment, String userEmail) {
         ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.RETURNED, new Shipment(shipment), userEmail));
 
-        String message = "Shipment: " + shipment.getId() + "return accepted";
+        String message = "Shipment: " + shipment.getId() + " return accepted";
         return new OperationResult(message, true);
     }
 

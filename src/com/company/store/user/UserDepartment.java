@@ -12,13 +12,17 @@ public final class UserDepartment {
     }
 
     public OperationResult registerUser(String email, String password) {
+        //validate email and psw, if valid check if email doesn't already exist
+        //if it doesn't create instance of UserData to store password and login state
+        //insert new UserData instance in map of users
+
         String lowerCaseEmail = email.toLowerCase();
-        String emailFailed = checkEmailValidity(lowerCaseEmail);
+        String emailStructureMsg = checkEmailValidity(lowerCaseEmail);
         String message;
         boolean successful = false;
-        if (emailFailed.equals(Constants.SUCCESS)) {
-            String pswFailed = checkPasswordValidity(password);
-            if (pswFailed.equals(Constants.SUCCESS)) {
+        if (emailStructureMsg.equals(Constants.SUCCESS)) {
+            String pswStructureMsg = checkPasswordValidity(password);
+            if (pswStructureMsg.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
                     message = Constants.EMAIL_ALREADY_USED;
                 } else {
@@ -27,16 +31,18 @@ public final class UserDepartment {
                     message = Constants.REGISTRATION_SUCCESS;
                 }
             } else {
-                message = pswFailed;
+                message = pswStructureMsg;
             }
         } else {
-            message = emailFailed;
+            message = emailStructureMsg;
         }
 
         return new OperationResult(message, successful);
     }
 
     public OperationResult loginUser(String email, String password) {
+        //check user exists then recover associated UserData instance and set userIsLogged to true
+
         String lowerCaseEmail = email.toLowerCase();
         String message;
         boolean successful = false;
@@ -55,6 +61,8 @@ public final class UserDepartment {
     }
 
     public OperationResult logOut(String email) {
+        //check if user exists and is not logged out, then log out the user
+
         String lowerCaseEmail = email.toLowerCase();
         String message;
         boolean successful = false;

@@ -18,7 +18,7 @@ public final class UserAddressDenier implements AddressBehavior {
     @Override
     public OperationResult changeAddress(Shipment shipment, String userEmail, String newAddress) {
         String message = "Destination address of shipment " + shipment.getId()
-                + "cannot be changed as state is " + shipment.getState().getCurrentState();
+                + " cannot be changed as state is " + shipment.getState().getCurrentState();
         return new OperationResult(message, false);
     }
 
