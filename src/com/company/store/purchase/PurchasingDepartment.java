@@ -94,7 +94,7 @@ public final class PurchasingDepartment {
     public OperationResult getCatalog(String userEmail) {
 
         StringBuilder catalogBuilder = new StringBuilder();
-        String catalogText = "Here's the Catalog";
+        String catalogText = "Here's the Catalog:";
 
         for (Product product : catalog.values()) {
             catalogBuilder.append(product.getId()).append(" ").append(product.getName()).append(" ").append(product.getPrice()).append("\n");
