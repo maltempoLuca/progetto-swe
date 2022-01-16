@@ -35,11 +35,11 @@ public class Constants {
     public static final String SUCCESS = "SUCCESS";
 
     //event data
-    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
+    public static final String CANCEL_REASON = "because it's too late to cancel";
     public static final String RETURN_REASON = "perchè è troppo presto per effettuare il reso";
-    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
-    public static final String INTERNAL_ADDRESS_REASON = "non è possibile modificare l'indirizzo di un reso.";
-
+    public static final String CHANGE_ADDRESS_REASON = "because it's too late to change the destination address";
+    public static final String INTERNAL_ADDRESS_REASON = "it's not possible to change the destination address " +
+            "of a return";
     public static final String REGISTRATION_SUCCESS = "Signin done.";
     public static final String LOGIN_SUCCESS = "Login done.";
     public static final String LOGOUT_SUCCESS = "Logout done.";
@@ -50,13 +50,14 @@ public class Constants {
     public static final String WRONG_EMAIL = "This email doesn't correspond to any user." + "\n"
             + "Please enter the email address used during registration.";
     public static final String INVALID_EMAIL = "The email must contain '@'.";
-    public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
+    public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, " +
+            "try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
     public static final String LOGGED_OUT = "This User is logged out from the system.";
     public static final String INTERRUPTED_EXCEPTION = "Interrupted exception";
 
     //info types
-    public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
+    public static final String SHIPMENT_ID = "Shipment ID"; //TODO: move to info types?
     public static final String REASON = "Reason"; //TODO: move to info types?
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_PSW = "USER_PSW";

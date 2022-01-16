@@ -45,7 +45,7 @@ public enum StoreRequest {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             OperationResult result = Store.getInstance().requestCancel(request.getUserId(),
-                    request.getUserInput(Constants.ID_SPEDIZIONE));
+                    request.getUserInput(Constants.SHIPMENT_ID));
             return result;
         }
     },
@@ -54,7 +54,7 @@ public enum StoreRequest {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             OperationResult result = Store.getInstance().requestAddressChange(request.getUserId(),
-                    request.getUserInput(Constants.ID_SPEDIZIONE),
+                    request.getUserInput(Constants.SHIPMENT_ID),
                     request.getUserInput(Constants.DESTINATION_ADDRESS));
             return result;
         }
@@ -64,7 +64,7 @@ public enum StoreRequest {
         @Override
         public OperationResult execute(RequestEvent request) throws MissingInputException, StoreInitializationException {
             return Store.getInstance().requestReturn(request.getUserId(),
-                    request.getUserInput(Constants.ID_SPEDIZIONE));
+                    request.getUserInput(Constants.SHIPMENT_ID));
         }
     },
 
