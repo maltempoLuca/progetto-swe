@@ -45,10 +45,7 @@ public final class Courier implements Runnable {
         return random.nextInt(max - min + 1) + min;
     }
 
-    //TODO: delete this?
-    private record timeStruct(int minTime, int maxTime) {
-
-    }
+    private record timeStruct(int minTime, int maxTime) {}
 
     private boolean working;
     private ShipmentService shipmentService;

@@ -33,7 +33,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
         }
     }
 
-    //TODO: remove pacchiGestiti?
     private void handleCouriers() throws InterruptedException {
         //check if there is a free courier to assign the shipment
 
@@ -51,7 +50,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
                     Thread courierThread = new Thread(currentCourier);
                     couriersThread.set(i, courierThread);
                     courierThread.start();
-                    pacchiGestiti++;
                 }
             }
         } finally {
@@ -71,10 +69,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
         } finally {
             shipmentServicesWriters.release();
         }
-    }
-
-    public boolean isProgramFinished() {
-        return programFinished;
     }
 
     public void setProgramFinished() {
@@ -135,7 +129,6 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
     }
 
     private boolean programFinished = false;
-    private static int pacchiGestiti = 0;
 
     private Semaphore shipmentServicesReaders = new Semaphore(1);
     private Semaphore shipmentServicesWriters = new Semaphore(1);

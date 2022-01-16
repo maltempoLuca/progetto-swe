@@ -9,7 +9,7 @@ public final class StandardService extends ShipmentService {
 
     public StandardService(Shipment shipment, String userEmail) {
         super(Constants.LOW_PRIORITY, shipment, userEmail);
-    } //TODO: METTI PACKAGE
+    }
 
     @Override
     void changeAddressBehavior() {

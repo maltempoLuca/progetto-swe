@@ -7,7 +7,7 @@ import java.util.Map;
 public final class Cart {
 
     void increaseProduct(Product product, int quantity) {
-        //adds specified amount of product to cart, if product is not in cart add it
+        //increase specified amount of product in cart, if product is not in cart add it
 
         if (quantity > 0) {
             CartEntry entry;
@@ -23,8 +23,8 @@ public final class Cart {
     }
 
     void decreaseProduct(Product product, int quantity) {
-        //removes specified amount of product from cart
-        //if product quantity goes below 0 removes it from cart
+        //remove specified amount of product from cart
+        //if product quantity goes below 0 remove it from cart
 
         if (quantity > 0) {
             String id = product.getId();

@@ -104,27 +104,3 @@ public final class UserDepartmentTest {
 
     private final UserDepartment userDepartment = new UserDepartment();
 }
-
-/*
-class UserDepartmentEventTester implements EventListener {
-
-    UserDepartmentEventTester() {
-        StoreEventManager.getInstance().subscribe(this, EventIdentifier.OPERATION_COMPLETED);
-    }
-
-    public void handleEvent(Event event) {
-        EventIdentifier eventIdentifier = event.getIdentifier();
-
-        if (eventIdentifier.equals(EventIdentifier.OPERATION_COMPLETED)) {
-            EventMessage message = event.getMessage();
-            this.result = message.getTextInfo(Constants.OPERATION_RESULT);
-        }
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    private String result;
-}
- */

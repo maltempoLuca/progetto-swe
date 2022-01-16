@@ -3,7 +3,8 @@ package com.company.constants;
 import com.company.store.shipping.ShipmentState;
 
 public class Constants {
-    //TODO: make class uninstantiable (add private default constructor)
+
+    private Constants() {}
 
     //shipment priorities
     public static final int HIGH_PRIORITY = 1;
@@ -35,10 +36,7 @@ public class Constants {
     public static final String SUCCESS = "SUCCESS";
 
     //event data
-    public static final String CANCEL_REASON = "perchè è troppo tardi per effettuare la cancellazione";
-    public static final String RETURN_REASON = "perchè è troppo presto per effettuare il reso";
-    public static final String CHANGE_ADDRESS_REASON = "perchè è troppo tardi per effettuare il cambio dell'indirizzo";
-    public static final String INTERNAL_ADDRESS_REASON = "non è possibile modificare l'indirizzo di un reso.";
+    public static final String INTERNAL_ADDRESS_REASON = "as you cannot change a return's destination address";
 
     public static final String REGISTRATION_SUCCESS = "Signin done.";
     public static final String LOGIN_SUCCESS = "Login done.";
@@ -56,8 +54,8 @@ public class Constants {
     public static final String INTERRUPTED_EXCEPTION = "Interrupted exception";
 
     //info types
-    public static final String ID_SPEDIZIONE = "ID spedizione"; //TODO: move to info types?
-    public static final String REASON = "Reason"; //TODO: move to info types?
+    public static final String SHIPMENT_ID = "SHIPMENT_ID";
+    public static final String REASON = "Reason";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_PSW = "USER_PSW";
     public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";

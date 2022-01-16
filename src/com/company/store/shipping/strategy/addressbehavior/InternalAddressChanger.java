@@ -20,7 +20,7 @@ public final class InternalAddressChanger implements AddressBehavior {
     @Override
     public OperationResult changeAddress(Shipment shipment, String userEmail, String newAddress) {
         String message = "Destination address of shipment: " + shipment.getId()
-                + "could not be changed " + Constants.INTERNAL_ADDRESS_REASON;
+                + " could not be changed " + Constants.INTERNAL_ADDRESS_REASON;
         return new OperationResult(message, false);
     }
 

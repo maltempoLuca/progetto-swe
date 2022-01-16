@@ -3,8 +3,8 @@ package com.company.store.purchase;
 import java.util.HashMap;
 
 public final class CatalogUtility {
-    //TODO: which visibility? how to assign catalog to PurchasingDepartment?
     //holds product info and builds catalog
+    //ideally buildCatalog() would read data from database or file
 
     private CatalogUtility() {}
 
