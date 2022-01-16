@@ -17,10 +17,6 @@ import java.util.Map;
 
 public final class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
 
-    public Controller() {
-        userViews.put(Constants.COURIERS.toLowerCase(), new UserView(Constants.COURIERS));
-    }
-
     @Override
     public void handleRequest(RequestEvent event) {
         //receives RequestEvent, calls execute of encapsulated StoreRequest object
@@ -47,6 +43,7 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     @Override
     public void handleViewEvent(ViewEvent event) {
         updateView(event);
+        refreshViews();
     }
 
     private synchronized void clearViews() {
