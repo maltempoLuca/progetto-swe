@@ -17,7 +17,6 @@ import com.company.outsideworld.users.User;
 import com.company.store.user.UserDepartment;
 
 public class Main {
-    //TODO: metti final in tutte classi e metodi
     //TODO: quali commenti rimuovere?
 
     public static void main(String[] args) throws InterruptedException {
