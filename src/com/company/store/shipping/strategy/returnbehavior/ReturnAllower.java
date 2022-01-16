@@ -7,7 +7,7 @@ import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
 
 public final class ReturnAllower implements ReturnBehavior {
-    //how to return a shipment
+    //allows to return a shipment
 
     private ReturnAllower() {
 
@@ -23,7 +23,7 @@ public final class ReturnAllower implements ReturnBehavior {
     public OperationResult createReturn(Shipment shipment, String userEmail) {
         ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.RETURNED, new Shipment(shipment), userEmail));
 
-        String message = "Shipment: " + shipment.getId() + "return accepted";
+        String message = "Shipment: " + shipment.getId() + " return accepted";
         return new OperationResult(message, true);
     }
 

@@ -17,8 +17,6 @@ import com.company.outsideworld.users.User;
 import com.company.store.user.UserDepartment;
 
 public class Main {
-    //TODO: metti final in tutte classi e metodi
-    //TODO: quali commenti rimuovere?
 
     public static void main(String[] args) throws InterruptedException {
         StandardCourierAgency courierAgency = new StandardCourierAgency();
@@ -38,7 +36,6 @@ public class Main {
         User sam = new User(Constants.SAM_NAME, Constants.SAM_SURNAME, Constants.SAM_EMAIL);
         User pie = new User(Constants.PIE_NAME, Constants.PIE_SURNAME, Constants.PIE_EMAIL);
 
-        // creo il controller e gli dico quali eventi deve ascoltare
         Controller controller = new Controller();
         RequestManager.getInstance().subscribe(controller, StoreRequest.REGISTER_REQUEST,
                 StoreRequest.LOGIN_REQUEST, StoreRequest.LOGOUT_REQUEST,
@@ -48,10 +45,6 @@ public class Main {
                 ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
         ViewEventManager.getInstance().subscribe(controller, ViewEventIdentifier.CATALOG);
 
-
-        // provo a vedere se funzionano gli eventi
-        //System.out.println("---------------------");
-        // System.out.println("Sessione di Luca: ");
         buttons.logoutUser(luca.getEmail());
         Thread.sleep(sleepTime);
         buttons.registerUser(luca.getEmail(), Constants.LUCA_PASSWORD);
@@ -66,7 +59,6 @@ public class Main {
         buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_2);
         Thread.sleep(sleepTime);
 
-        //System.out.println("Sessione di Sam: ");
         buttons.registerUser(sam.getEmail(), Constants.SAM_PASSWORD);
         Thread.sleep(sleepTime);
         buttons.loginUser(sam.getEmail(), Constants.SAM_PASSWORD);
@@ -77,7 +69,6 @@ public class Main {
         buttons.cancelShipment(sam.getEmail(), Constants.SAM_SHIPMENT);
         Thread.sleep(sleepTime);
 
-        //System.out.println("Sessione di Pie: ");
         buttons.registerUser(pie.getEmail(), Constants.PIE_PASSWORD);
         Thread.sleep(sleepTime);
         buttons.loginUser(pie.getEmail(), Constants.PIE_PASSWORD);

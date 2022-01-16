@@ -1,5 +1,6 @@
 package com.company.store.shipping;
 
+import com.company.exceptions.InvalidParameterException;
 import com.company.outsideworld.couriers.CourierAgency;
 import com.company.constants.Constants;
 import com.company.store.OperationResult;
@@ -29,7 +30,11 @@ public final class ShippingDepartment implements ShipmentEventListener {
 
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents, String id) {
         Shipment shipment = createShipment(Constants.STORE_NAME, receiver, Constants.STORE_ADDRESS, destination, contents, id);
-        createService(service, shipment, userEmail);
+        try {
+            createService(service, shipment, userEmail);
+        } catch (Exception e) {
+            manageServiceCreationException(e);
+        }
     }
 
     public void handlePurchase(String userEmail, String service, String destination, String receiver, String contents) {
@@ -41,21 +46,20 @@ public final class ShippingDepartment implements ShipmentEventListener {
             activeServices.put(email, new HashMap<>());
     }
 
-    private void createService(String typeOfService, Shipment shipment, String userEmail) {
-        //create new ShipmentService and assign it to given shipment
+    private void createService(String typeOfService, Shipment shipment, String userEmail) throws InvalidParameterException, UnregisteredUserException, MissingAgencyException {
+        //create new ShipmentService and assign it to given Shipment
         //if creation is successful increase currentId and fire an event signaling shipment creation
+        //if requestCourier() doesn't throw exception a courier will maintain a reference to the new instance of ShipmentService
+        //call requestCourier() as last possible method that can throw exception
+        //only add new ShipmentService to activeServices once sure that no exception will be thrown
 
-        try {
-            ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
-            if (!activeServices.containsKey(userEmail)) {
-                throw new UnregisteredUserException(userEmail);
-            }
-            activeServices.get(userEmail).put(shipment.getId(), newService);
-            requestCourier(newService);
-        } catch (Exception e) {
-            manageServiceCreationException(e);
+        ShipmentService newService = ShipmentFactory.getInstance().createService(shipment, typeOfService, userEmail);
+        if (!activeServices.containsKey(userEmail)) {
+            throw new UnregisteredUserException(userEmail);
         }
+        requestCourier(newService);
 
+        activeServices.get(userEmail).put(shipment.getId(), newService);
         currentId++;
         ShipmentEvent event = new ShipmentEvent(ShipEventIdentifier.CREATED, shipment, userEmail);
         ShipmentEventManager.getInstance().notify(event);

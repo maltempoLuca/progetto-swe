@@ -5,7 +5,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class ReturnDenier implements ReturnBehavior {
-    //deny returning a shipment because too time is passed from when it is delivered
+    //deny returning a shipment
 
     private ReturnDenier() {
 
@@ -19,7 +19,7 @@ public final class ReturnDenier implements ReturnBehavior {
 
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) {
-        String message = "Cannot return shipment: " + shipment.getId() + " " + Constants.RETURN_REASON;
+        String message = "Cannot return shipment: " + shipment.getId() + " as state is " + shipment.getState().getCurrentState();
         return new OperationResult(message, false);
     }
 

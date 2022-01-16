@@ -51,7 +51,7 @@ public final class PurchasingDepartment {
         //if user cart exists and is not empty:
         //1. notifies ShippingDepartment of purchase
         //2. clears user cart
-        //3. generates an event with purchase info
+        //3. generates a result message with purchase info
 
         String userEmailLowerCase = userEmail.toLowerCase();
         boolean successful = false;
@@ -69,14 +69,12 @@ public final class PurchasingDepartment {
             if (!userCart.isEmpty()) {
                 double total = userCart.getTotal();
                 String cartContentsString = userCart.toString();
-
                 shippingDepartment.handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
                         receiver, cartContentsString);
-
-                userCart.clear();
-                operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
-                        serviceText + typeOfService + ", " + priceText + ": " + total +"€" ;
-                successful = true;
+                    userCart.clear();
+                    operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
+                            serviceText + typeOfService + ", " + priceText + ": " + total + "€";
+                    successful = true;
 
             } else {
                 operationMessage = failedPurchaseText;

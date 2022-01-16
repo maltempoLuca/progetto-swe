@@ -6,7 +6,4 @@ public final class InvalidParameterException extends Exception {
         super(errorMessage);
     }
 
-    public InvalidParameterException() {
-        this(ExceptionMessages.DEFAULT_INVALID_PARAMETER);
-    }
 }
