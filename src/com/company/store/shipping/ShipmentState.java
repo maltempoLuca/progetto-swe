@@ -1,6 +1,7 @@
 package com.company.store.shipping;
 
 public final class ShipmentState {
+    //used to create a sequence between delivery states
 
     public ShipmentState(String currentState, ShipmentState nextState) {
         this.currentState = currentState;

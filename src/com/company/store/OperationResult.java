@@ -4,6 +4,8 @@ import com.company.constants.Constants;
 import com.company.store.controller.Loggable;
 
 public final class OperationResult implements Loggable {
+    //carries outcome of a request as a boolean value
+    //also carries a message for the user
 
     public OperationResult(String message, boolean successful) {
         this.message = message;

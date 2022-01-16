@@ -6,6 +6,7 @@ import com.company.store.controller.StoreRequest;
 import com.company.store.events.requestevents.RequestManager;
 
 public final class Buttons {
+    //used to simulate the navigation in the store graphic interface
 
     private Buttons() {
     }

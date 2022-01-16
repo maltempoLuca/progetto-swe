@@ -7,6 +7,7 @@ import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
 
 public final class ReturnAllower implements ReturnBehavior {
+    //allows to return a shipment
 
     private ReturnAllower() {
 

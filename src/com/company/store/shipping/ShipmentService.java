@@ -33,7 +33,6 @@ public abstract class ShipmentService {
             ShipmentEventManager.getInstance().notify(shipmentEvent);
             updateBehaviors();
         }
-
     }
 
     synchronized final void updateBehaviors() {
@@ -63,13 +62,13 @@ public abstract class ShipmentService {
         return operationResult;
     }
 
-
     void changeAddressBehavior() {
         //destination address cannot be changed if another address change request is yet to be notified to the courier
         //once the courier has been notified of the request a new request may be submitted
         //destination address cannot be changed if shipment is cancelled
 
-        if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED) || getShipment().getState().equals(Constants.CANCELLED))
+        if (getShipment().getState().getCurrentState().equals(Constants.REQUEST_RECEIVED)
+                || getShipment().getState().equals(Constants.CANCELLED))
             setAddressBehavior(UserAddressDenier.getInstance());
         else if (getShipment().getState().getCurrentState().equals(Constants.ADDRESS_CHANGED)) {
             setAddressBehavior(UserAddressChanger.getInstance());
@@ -96,20 +95,8 @@ public abstract class ShipmentService {
         this.addressBehavior = addressBehavior;
     }
 
-    public final AddressBehavior getAddressBehavior() {
-        return addressBehavior;
-    }
-
     public final void setCancelBehavior(CancelBehavior cancelBehavior) {
         this.cancelBehavior = cancelBehavior;
-    }
-
-    public final CancelBehavior getCancelBehavior() {
-        return cancelBehavior;
-    }
-
-    public final ReturnBehavior getReturnBehavior() {
-        return returnBehavior;
     }
 
     public final void setReturnBehavior(ReturnBehavior returnBehavior) {

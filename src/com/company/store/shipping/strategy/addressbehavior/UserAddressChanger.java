@@ -9,6 +9,7 @@ import com.company.store.events.shipmentevents.ShipmentEvent;
 import com.company.store.events.shipmentevents.ShipmentEventManager;
 
 public final class UserAddressChanger implements AddressBehavior {
+    //allows destination address change
 
     private UserAddressChanger() {
 

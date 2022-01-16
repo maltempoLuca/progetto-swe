@@ -4,6 +4,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class UserAddressDenier implements AddressBehavior {
+    //deny changing destination address because it's too late in the delivery process
 
     private UserAddressDenier() {
 

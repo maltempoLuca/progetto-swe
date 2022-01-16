@@ -6,6 +6,7 @@ import com.company.store.shipping.strategy.returnbehavior.ReturnAllower;
 import com.company.store.shipping.strategy.addressbehavior.UserAddressDenier;
 
 public final class PremiumService extends ShipmentService {
+
     public PremiumService(Shipment shipment, String userEmail) {
         super(Constants.HIGH_PRIORITY, shipment, userEmail);
     }

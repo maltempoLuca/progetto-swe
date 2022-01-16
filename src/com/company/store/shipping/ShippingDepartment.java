@@ -70,7 +70,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
     }
 
     public OperationResult cancelService(String email, String shipmentID) {
-
         OperationResult result;
         result = validateServiceCredentials(email, shipmentID);
 

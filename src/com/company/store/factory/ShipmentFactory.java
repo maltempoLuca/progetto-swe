@@ -37,6 +37,8 @@ public final class ShipmentFactory {
     }
 
     private void checkParameters(Object... parameters) throws InvalidParameterException {
+        //check if the parameters of the request are valid or not
+
         boolean valid = true;
         int index = 0;
 
@@ -48,7 +50,6 @@ public final class ShipmentFactory {
 
         if(!valid)
             throw new InvalidParameterException(ExceptionMessages.NULL_INVALID_PARAMETER);
-
     }
 
     private static ShipmentFactory instance = null;

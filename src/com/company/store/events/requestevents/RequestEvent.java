@@ -82,7 +82,6 @@ public final class RequestEvent implements Loggable {
         return result;
     }
 
-
     private final StoreRequest request;
     private final String userId;
     private final Map<String, String> userInput = new HashMap<>();

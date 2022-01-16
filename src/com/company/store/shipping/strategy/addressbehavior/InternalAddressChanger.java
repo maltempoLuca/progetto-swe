@@ -5,6 +5,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class InternalAddressChanger implements AddressBehavior {
+    //deny changing destination address
 
     private InternalAddressChanger() {
 

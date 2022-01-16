@@ -32,6 +32,4 @@ public final class CatalogUtility {
     static final String CYCLETTE_ID = "06060";
     static final String CYCLETTE_NAME = "Cyclette";
     static final double CYCLETTE_PRICE = 319.90;
-
-
 }

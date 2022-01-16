@@ -22,7 +22,6 @@ public class Constants {
     public static final ShipmentState CREATED = new ShipmentState("Created", SENT);
     public static final ShipmentState CANCELLED = new ShipmentState("Cancelled", null);
 
-
     //return states
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
     public static final ShipmentState PICKED_UP = new ShipmentState("Picked up", RETURN_DELIVERED);
@@ -55,7 +54,7 @@ public class Constants {
     public static final String INTERRUPTED_EXCEPTION = "Interrupted exception";
 
     //info types
-    public static final String SHIPMENT_ID = "ID spedizione";
+    public static final String SHIPMENT_ID = "SHIPMENT_ID";
     public static final String REASON = "Reason";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_PSW = "USER_PSW";

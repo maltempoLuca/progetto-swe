@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.concurrent.Semaphore;
 
 public final class UserDepartment {
+
     public UserDepartment() {
 
     }
@@ -17,12 +18,12 @@ public final class UserDepartment {
         //insert new UserData instance in map of users
 
         String lowerCaseEmail = email.toLowerCase();
-        String emailStructureMsg = checkEmailValidity(lowerCaseEmail);
+        String emailFormatMsg = checkEmailValidity(lowerCaseEmail);
         String message;
         boolean successful = false;
-        if (emailStructureMsg.equals(Constants.SUCCESS)) {
-            String pswStructureMsg = checkPasswordValidity(password);
-            if (pswStructureMsg.equals(Constants.SUCCESS)) {
+        if (emailFormatMsg.equals(Constants.SUCCESS)) {
+            String pswFormatMsg = checkPasswordValidity(password);
+            if (pswFormatMsg.equals(Constants.SUCCESS)) {
                 if (usrLoginInfo.containsKey(lowerCaseEmail)) {
                     message = Constants.EMAIL_ALREADY_USED;
                 } else {
@@ -31,10 +32,10 @@ public final class UserDepartment {
                     message = Constants.REGISTRATION_SUCCESS;
                 }
             } else {
-                message = pswStructureMsg;
+                message = pswFormatMsg;
             }
         } else {
-            message = emailStructureMsg;
+            message = emailFormatMsg;
         }
 
         return new OperationResult(message, successful);

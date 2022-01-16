@@ -4,6 +4,7 @@ import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 
 public final class DoubleReturnBehavior implements ReturnBehavior {
+    //deny returning a shipment cause it's a return
 
     private DoubleReturnBehavior() {
 

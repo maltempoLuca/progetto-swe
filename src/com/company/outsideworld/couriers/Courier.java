@@ -7,6 +7,8 @@ import com.company.store.shipping.ShipmentService;
 import java.util.*;
 
 public final class Courier implements Runnable {
+    //This class is a simulation for the couriers that deliver shipment
+
     public Courier() {
         working = false;
     }
@@ -43,9 +45,7 @@ public final class Courier implements Runnable {
         return random.nextInt(max - min + 1) + min;
     }
 
-    private record timeStruct(int minTime, int maxTime) {
-
-    }
+    private record timeStruct(int minTime, int maxTime) {}
 
     private boolean working;
     private ShipmentService shipmentService;
@@ -64,5 +64,4 @@ public final class Courier implements Runnable {
             Constants.ADDRESS_CHANGED, new timeStruct(100, 500)
     );
     private final static Random random = new Random();
-
 }
