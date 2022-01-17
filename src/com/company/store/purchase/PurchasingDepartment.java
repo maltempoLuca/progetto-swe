@@ -94,10 +94,15 @@ public final class PurchasingDepartment {
     public OperationResult getCatalog(String userEmail) {
 
         StringBuilder catalogBuilder = new StringBuilder();
+        String idText = "Id:";
+        String nameText = " Name:";
+        String priceText = "Price:";
         String catalogText = "Here's the Catalog:";
 
         for (Product product : catalog.values()) {
-            catalogBuilder.append(product.getId()).append(" ").append(product.getName()).append(" ").append(product.getPrice()).append("\n");
+            catalogBuilder.append(idText).append(" ").append(product.getId()).append(" ").append(nameText).append(" ")
+                    .append(product.getName()).append(" ").append(priceText).append(" ").append(product.getPrice())
+                    .append("€").append("\n");
         }
 
         ViewEvent event = new ViewEvent(ViewEventIdentifier.CATALOG, userEmail, catalogBuilder.toString());
