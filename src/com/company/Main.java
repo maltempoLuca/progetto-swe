@@ -52,7 +52,9 @@ public class Main {
         buttons.loginUser(luca.getEmail(), Constants.LUCA_PASSWORD);
         Thread.sleep(sleepTime);
         buttons.viewCatalogue(luca.getEmail());
+        Thread.sleep(sleepTime);
         buttons.addToCart(luca.getEmail(), Constants.LUCA_ITEM, Constants.LUCA_QUANTITY);
+        Thread.sleep(sleepTime);
         buttons.purchaseItemsFromCart(Constants.STANDARD, luca.getEmail(), Constants.LUCA_ADDRESS, Constants.LUCA_FULL_NAME);
         buttons.changeShipmentAddress(luca.getEmail(), Constants.LUCA_SHIPMENT, Constants.LUCA_NEW_ADDRESS_1);
         Thread.sleep(changeAddressSleepTime);

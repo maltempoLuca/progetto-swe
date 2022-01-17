@@ -43,7 +43,6 @@ public final class Controller implements RequestListener, ShipmentEventListener,
     @Override
     public void handleViewEvent(ViewEvent event) {
         updateView(event);
-        refreshViews();
     }
 
     private synchronized void clearViews() {
