@@ -115,15 +115,19 @@ public final class ShippingDepartment implements ShipmentEventListener {
         //verify that a given user has a list of active services,
         //if it does also check existence of specified shipment id in that list
 
+        String validateText = "Valid credentials";
+        String noShipmentText = "No such shipment found, user may not be owner of this shipment";
+        String unsregisteredText = "Unregistered user";
+
         OperationResult result;
         if (activeServices.containsKey(email)) {
             if (activeServices.get(email).containsKey(shipmentID)) {
-                result = new OperationResult("Valid credentials", true);
+                result = new OperationResult(validateText, true);
             } else {
-                result = new OperationResult("No such shipment found, user may not be owner of this shipment", false);
+                result = new OperationResult(noShipmentText, false);
             }
         } else {
-            result = new OperationResult("Unregistered user", false);
+            result = new OperationResult(unsregisteredText, false);
         }
 
         return result;
