@@ -48,7 +48,8 @@ public class Constants {
     public static final String WRONG_EMAIL = "This email doesn't correspond to any user." + "\n"
             + "Please enter the email address used during registration.";
     public static final String INVALID_EMAIL = "The email must contain '@'.";
-    public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, try logging in your account.";
+    public static final String EMAIL_ALREADY_USED = "The email you have entered is already in use, " +
+            "try logging in your account.";
     public static final String ALREADY_LOGGED_OUT = "This User is already logged out from the system.";
     public static final String LOGGED_OUT = "This User is logged out from the system.";
     public static final String INTERRUPTED_EXCEPTION = "Interrupted exception";
