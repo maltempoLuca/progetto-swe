@@ -128,7 +128,7 @@ public final class UserDepartment {
             this.userIsLogged = false;
         }
 
-        private Boolean userIsLogged;
+        private boolean userIsLogged;
         private final String password;
     }
 

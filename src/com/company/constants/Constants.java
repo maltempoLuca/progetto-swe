@@ -56,17 +56,10 @@ public class Constants {
 
     //info types
     public static final String SHIPMENT_ID = "SHIPMENT_ID";
-    public static final String REASON = "Reason";
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_PSW = "USER_PSW";
     public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
     public static final String SHIPMENT_SERVICE = "SHIPMENT_SERVICE";
-    public static final String CONTENTS = "CONTENTS";
-    public static final String PRICE = "PRICE";
-    public static final String REGISTRATION_RESULT = "REGISTRATION_RESULT" ;
-    public static final String LOGIN_RESULT = "LOGIN_RESULT" ;
-    public static final String LOGOUT_RESULT = "LOGOUT_RESULT" ;
-    public static final String OPERATION_RESULT = "OPERATION_RESULT";
     public static final String ITEM_ID = "ITEM_ID";
     public static final String QUANTITY = "QUANTITY";
     public static final String INVALID_QUANTITY = "INVALID_QUANTITY";
@@ -84,7 +77,6 @@ public class Constants {
     public static final String SEPARATOR = "--------------------------------------------------------------------";
 
     //general constants
-    public static final String COURIERS = "COURIERS";
     public static final String DELETE_ALL = "\033[H\033[2J";
     public static final String SUCCESSFULL_OPERATION_MESSAGE = "Operation successful with message: ";
     public static final String FAILED_OPERATION_MESSAGE = "Operation failed with message: ";
@@ -123,8 +115,6 @@ public class Constants {
     //ANSI
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK_UNDERLINED = "\033[4;30m";
-    public static final String ANSI_BLACK_BOLD_BRIGHT = "\033[1;90m";
-    public static final String ANSI_BLACK_BRIGHT = "\033[0;90m";
     public static final String ANSI_BLACK_BOLD = "\033[1;30m";
     public static final String ANSI_RED = "\u001B[31m";
 
