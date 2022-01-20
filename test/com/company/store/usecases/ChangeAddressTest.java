@@ -42,7 +42,7 @@ public final class ChangeAddressTest {
 
     @Test
     public void changeOtherTest() throws StoreInitializationException {
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         BuyProductsTest.successfulPurchase(1, Constants.STANDARD);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.SHIPMENT_ID, newAddress);
 
@@ -58,7 +58,7 @@ public final class ChangeAddressTest {
     @Test
     public void missingUserTest() throws StoreInitializationException {
         int quantity = 2;
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestAddressChange(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.SHIPMENT_ID, newAddress);
@@ -69,7 +69,7 @@ public final class ChangeAddressTest {
     @Test
     public void unloggedUserTest() throws StoreInitializationException {
         int quantity = 2;
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);

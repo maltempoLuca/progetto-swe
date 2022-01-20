@@ -44,7 +44,7 @@ public final class CancelShipmentTest {
     @Test
     public void cancelOtherTest() throws StoreInitializationException {
         int quantity = 2;
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.ANOTHER_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
@@ -61,7 +61,7 @@ public final class CancelShipmentTest {
     @Test
     public void missingUserTest() throws StoreInitializationException {
         int quantity = 2;
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         OperationResult result = Store.getInstance().requestCancel(UseCaseConstants.UNREG_USER_EMAIL, UseCaseConstants.SHIPMENT_ID);
@@ -72,7 +72,7 @@ public final class CancelShipmentTest {
     @Test
     public void unloggedUserTest() throws StoreInitializationException {
         int quantity = 1;
-        shippingDepartment.setCourierAgency(instantAgency);
+        shippingDepartment.setCourierAgency(manualAgency);
         String typeOfService = Constants.STANDARD;
         BuyProductsTest.successfulPurchase(quantity, typeOfService);
         Store.getInstance().requestLogout(UseCaseConstants.USER_EMAIL);
