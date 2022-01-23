@@ -37,13 +37,6 @@ public class Main {
         User pie = new User(Constants.PIE_NAME, Constants.PIE_SURNAME, Constants.PIE_EMAIL);
 
         Controller controller = new Controller();
-        RequestManager.getInstance().subscribe(controller, StoreRequest.REGISTER_REQUEST,
-                StoreRequest.LOGIN_REQUEST, StoreRequest.LOGOUT_REQUEST,
-                StoreRequest.ADD_TO_CART_REQUEST, StoreRequest.CANCEL_REQUEST, StoreRequest.PURCHASE_REQUEST,
-                StoreRequest.CHANGE_ADDRESS_REQUEST, StoreRequest.RETURN_REQUEST, StoreRequest.VIEW_CATALOGUE_REQUEST);
-        ShipmentEventManager.getInstance().subscribe(controller, ShipEventIdentifier.CANCELED,
-                ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
-        ViewEventManager.getInstance().subscribe(controller, ViewEventIdentifier.CATALOG);
 
         buttons.logoutUser(luca.getEmail());
         Thread.sleep(sleepTime);

@@ -3,6 +3,11 @@ package com.company.store.controller;
 import com.company.constants.Constants;
 import com.company.exceptions.StoreInitializationException;
 import com.company.store.OperationResult;
+import com.company.store.events.requestevents.RequestManager;
+import com.company.store.events.shipmentevents.ShipEventIdentifier;
+import com.company.store.events.shipmentevents.ShipmentEventManager;
+import com.company.store.events.viewevents.ViewEventIdentifier;
+import com.company.store.events.viewevents.ViewEventManager;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.requestevents.RequestEvent;
 import com.company.store.events.requestevents.RequestListener;
@@ -16,6 +21,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class Controller implements RequestListener, ShipmentEventListener, ViewEventListener {
+
+    public Controller() {
+        RequestManager.getInstance().subscribe(this, StoreRequest.REGISTER_REQUEST,
+                StoreRequest.LOGIN_REQUEST, StoreRequest.LOGOUT_REQUEST,
+                StoreRequest.ADD_TO_CART_REQUEST, StoreRequest.CANCEL_REQUEST, StoreRequest.PURCHASE_REQUEST,
+                StoreRequest.CHANGE_ADDRESS_REQUEST, StoreRequest.RETURN_REQUEST, StoreRequest.VIEW_CATALOGUE_REQUEST);
+        ShipmentEventManager.getInstance().subscribe(this, ShipEventIdentifier.CANCELED,
+                ShipEventIdentifier.CREATED, ShipEventIdentifier.UPDATED, ShipEventIdentifier.RETURNED);
+        ViewEventManager.getInstance().subscribe(this, ViewEventIdentifier.CATALOG);
+    }
 
     @Override
     public void handleRequest(RequestEvent event) {
