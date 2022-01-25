@@ -75,6 +75,7 @@ public class Main {
         buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
         Thread.sleep(returnSleepTime);
         buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
+        Thread.sleep(sleepTime);
         buttons.logoutUser(pie.getEmail());
         Thread.sleep(sleepTime);
         buttons.logoutUser(luca.getEmail());
