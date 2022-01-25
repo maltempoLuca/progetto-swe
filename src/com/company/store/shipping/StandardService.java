@@ -31,5 +31,6 @@ public final class StandardService extends ShipmentService {
         if (getShipment().getState().equals(Constants.DELIVERED)) {
             setReturnBehavior(ReturnAllower.getInstance());
         }
+        super.changeReturnBehaviorDefault();
     }
 }

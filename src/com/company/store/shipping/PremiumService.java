@@ -29,5 +29,6 @@ public final class PremiumService extends ShipmentService {
     void changeReturnBehavior() {
         if (getShipment().getState().equals(Constants.DELIVERED))
             setReturnBehavior(ReturnAllower.getInstance());
+        super.changeReturnBehaviorDefault();
     }
 }

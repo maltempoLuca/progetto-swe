@@ -26,6 +26,7 @@ public class Constants {
     public static final ShipmentState RETURN_DELIVERED = new ShipmentState("Return delivered", null);
     public static final ShipmentState PICKED_UP = new ShipmentState("Picked up", RETURN_DELIVERED);
     public static final ShipmentState RETURN_CREATED = new ShipmentState("Return created", PICKED_UP);
+    public static final ShipmentState RETURN_CONFIRMED = new ShipmentState("Return confirmed", null);
 
     //type of services
     public static final String STANDARD = "Standard";

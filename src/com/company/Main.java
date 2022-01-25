@@ -73,6 +73,8 @@ public class Main {
         buttons.purchaseItemsFromCart(Constants.STANDARD, pie.getEmail(), Constants.PIE_ADDRESS, Constants.PIE_FULL_NAME);
         Thread.sleep(returnSleepTime);
         buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
+        Thread.sleep(returnSleepTime);
+        buttons.returnShipment(pie.getEmail(), Constants.PIE_SHIPMENT);
         buttons.logoutUser(pie.getEmail());
         Thread.sleep(sleepTime);
         buttons.logoutUser(luca.getEmail());

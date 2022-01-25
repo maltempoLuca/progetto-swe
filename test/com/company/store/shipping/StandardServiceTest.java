@@ -2,6 +2,7 @@ package com.company.store.shipping;
 
 import com.company.constants.Constants;
 import com.company.store.Store;
+import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.user.UserDepartment;
 import org.junit.After;
 import com.company.store.OperationResult;
@@ -114,6 +115,18 @@ public final class StandardServiceTest {
     }
 
     @Test
+    public void doubleReturnTest() {
+        //request return of already returned shipment
+        InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
+        instantAgency.requestCourier(service);
+        OperationResult firstReturnResult = service.createReturn();
+        OperationResult secondReturnResult = service.createReturn();
+
+        Assert.assertTrue(firstReturnResult.isSuccessful());
+        Assert.assertFalse(secondReturnResult.isSuccessful());
+    }
+
+    @Test
     public void changeCanceledAddressTest() {
         //request address change of canceled shipment
         String newAddress = "new address";
@@ -130,10 +143,10 @@ public final class StandardServiceTest {
     public void returnCanceledTest() {
         //request return of canceled shipment
         OperationResult cancelResult = service.cancelShipment();
-        OperationResult returnesult = service.createReturn();
+        OperationResult returnResult = service.createReturn();
 
         Assert.assertTrue(cancelResult.isSuccessful());
-        Assert.assertFalse(returnesult.isSuccessful());
+        Assert.assertFalse(returnResult.isSuccessful());
     }
 
     private final Shipment shipment = new Shipment("sender", "receiver", "senderAddress",

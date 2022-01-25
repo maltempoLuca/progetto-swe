@@ -83,6 +83,14 @@ public abstract class ShipmentService {
         }
     }
 
+    final void changeReturnBehaviorDefault() {
+        //cannot return when return request has already been confirmed
+
+        if (getShipment().getState().equals(Constants.RETURN_CONFIRMED)) {
+            setReturnBehavior(ReturnDenier.getInstance());
+        }
+    }
+
     abstract void changeAddressBehavior();
 
     abstract void changeCancelBehavior();
