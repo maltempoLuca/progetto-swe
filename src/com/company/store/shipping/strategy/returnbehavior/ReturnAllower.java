@@ -1,5 +1,6 @@
 package com.company.store.shipping.strategy.returnbehavior;
 
+import com.company.constants.Constants;
 import com.company.store.OperationResult;
 import com.company.store.shipping.Shipment;
 import com.company.store.events.shipmentevents.ShipEventIdentifier;
@@ -22,7 +23,7 @@ public final class ReturnAllower implements ReturnBehavior {
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) {
         ShipmentEventManager.getInstance().notify(new ShipmentEvent(ShipEventIdentifier.RETURNED, new Shipment(shipment), userEmail));
-
+        shipment.setState(Constants.RETURN_CONFIRMED);
         String message = "Shipment: " + shipment.getId() + " return accepted";
         return new OperationResult(message, true);
     }

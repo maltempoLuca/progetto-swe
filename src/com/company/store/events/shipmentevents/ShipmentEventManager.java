@@ -14,6 +14,12 @@ public final class ShipmentEventManager {
         return instance;
     }
 
+    public static void clearInstance() {
+        if(instance != null) {
+            instance = null;
+        }
+    }
+
     public void subscribe(ShipmentEventListener listener, ShipEventIdentifier... requestIds) {
         for(ShipEventIdentifier id : requestIds) {
             listenersManager.subscribe(listener, id);

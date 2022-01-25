@@ -15,7 +15,7 @@ public final class StandardService extends ShipmentService {
     void changeAddressBehavior() {
         if (getShipment().getState().equals(Constants.SENT))
             setAddressBehavior(UserAddressDenier.getInstance());
-        super.changeAddressBehavior();
+        super.changeAddressBehaviorDefault();
     }
 
     @Override
@@ -23,7 +23,7 @@ public final class StandardService extends ShipmentService {
         if (getShipment().getState().equals(Constants.SENT))
             setCancelBehavior(CancelDenier.getInstance());
 
-        super.changeCancelBehavior();
+        super.changeCancelBehaviorDefault();
     }
 
     @Override
@@ -31,5 +31,6 @@ public final class StandardService extends ShipmentService {
         if (getShipment().getState().equals(Constants.DELIVERED)) {
             setReturnBehavior(ReturnAllower.getInstance());
         }
+        super.changeReturnBehaviorDefault();
     }
 }

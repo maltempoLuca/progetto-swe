@@ -3,6 +3,7 @@ package com.company.store.shipping;
 import com.company.constants.Constants;
 import com.company.exceptions.StoreInitializationException;
 import com.company.store.Store;
+import com.company.store.testagencies.InstantDeliveryAgency;
 import com.company.store.usecases.BuyProductsTest;
 import com.company.store.usecases.UseCaseConstants;
 import com.company.store.user.UserDepartment;
@@ -114,6 +115,18 @@ public final class PremiumServiceTest {
         Assert.assertTrue(firstChangeResult.isSuccessful());
         Assert.assertFalse(secondChangeResult.isSuccessful());
         Assert.assertEquals(newAddress, shipment.getDestinationAddress());
+    }
+
+    @Test
+    public void doubleReturnTest() {
+        //request return of already returned shipment
+        InstantDeliveryAgency instantAgency = new InstantDeliveryAgency();
+        instantAgency.requestCourier(service);
+        OperationResult firstReturnResult = service.createReturn();
+        OperationResult secondReturnResult = service.createReturn();
+
+        Assert.assertTrue(firstReturnResult.isSuccessful());
+        Assert.assertFalse(secondReturnResult.isSuccessful());
     }
 
     @Test

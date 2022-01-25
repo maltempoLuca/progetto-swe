@@ -62,7 +62,7 @@ public abstract class ShipmentService {
         return operationResult;
     }
 
-    void changeAddressBehavior() {
+    final void changeAddressBehaviorDefault() {
         //destination address cannot be changed if another address change request is yet to be notified to the courier
         //once the courier has been notified of the request a new request may be submitted
         //destination address cannot be changed if shipment is cancelled
@@ -75,7 +75,7 @@ public abstract class ShipmentService {
         }
     }
 
-    void changeCancelBehavior() {
+    final void changeCancelBehaviorDefault() {
         //cannot cancel an already canceled shipment
 
         if (getShipment().getState().equals(Constants.CANCELLED)) {
@@ -83,8 +83,18 @@ public abstract class ShipmentService {
         }
     }
 
-    //return strategy denies return by default
-    //child classes can enable return through ReturnAllower behavior
+    final void changeReturnBehaviorDefault() {
+        //cannot return when return request has already been confirmed
+
+        if (getShipment().getState().equals(Constants.RETURN_CONFIRMED)) {
+            setReturnBehavior(ReturnDenier.getInstance());
+        }
+    }
+
+    abstract void changeAddressBehavior();
+
+    abstract void changeCancelBehavior();
+
     abstract void changeReturnBehavior();
 
     public synchronized final Shipment getShipment() {

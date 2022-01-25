@@ -15,6 +15,12 @@ public final class RequestManager {
         return instance;
     }
 
+    public static void clearInstance() {
+        if(instance != null) {
+            instance = null;
+        }
+    }
+
     public void subscribe(RequestListener listener, StoreRequest... requestIds) {
         for(StoreRequest id : requestIds) {
             listenersManager.subscribe(listener, id);

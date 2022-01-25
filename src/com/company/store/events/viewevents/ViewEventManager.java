@@ -14,6 +14,12 @@ public final class ViewEventManager {
         return instance;
     }
 
+    public static void clearInstance() {
+        if(instance != null) {
+            instance = null;
+        }
+    }
+
     public void subscribe(ViewEventListener listener, ViewEventIdentifier... requestIds) {
         for(ViewEventIdentifier id : requestIds) {
             listenersManager.subscribe(listener, id);

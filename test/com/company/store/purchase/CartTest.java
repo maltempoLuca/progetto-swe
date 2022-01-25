@@ -64,6 +64,7 @@ public final class CartTest {
 
     @Test
     public void decreaseAbsentProductTest() {
+        //test that NO exception is thrown
         tested.decreaseProduct(product, 2);
     }
 

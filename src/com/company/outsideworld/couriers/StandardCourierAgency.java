@@ -120,6 +120,7 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
         couriersReaders.release();
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean emptyShipments() throws InterruptedException {
         boolean result;
         acquire_nShipmentServiceReaders();
@@ -130,12 +131,12 @@ public final class StandardCourierAgency extends Thread implements CourierAgency
 
     private boolean programFinished = false;
 
-    private Semaphore shipmentServicesReaders = new Semaphore(1);
-    private Semaphore shipmentServicesWriters = new Semaphore(1);
+    private final Semaphore shipmentServicesReaders = new Semaphore(1);
+    private final Semaphore shipmentServicesWriters = new Semaphore(1);
     private int nShipmentServiceReaders = 0;
 
-    private Semaphore couriersReaders = new Semaphore(1);
-    private Semaphore couriersWriters = new Semaphore(1);
+    private final Semaphore couriersReaders = new Semaphore(1);
+    private final Semaphore couriersWriters = new Semaphore(1);
     private int nCouriersReaders = 0;
 
     private final ArrayList<Courier> couriers = new ArrayList<>();

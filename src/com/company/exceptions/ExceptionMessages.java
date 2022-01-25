@@ -4,7 +4,6 @@ public final class ExceptionMessages {
     //Messages used for some new exceptions
     
     //Invalid parameter messages
-    public static final String DEFAULT_INVALID_PARAMETER = "Invalid Parameter";
     public static final String NULL_INVALID_PARAMETER = "Null parameter for ShipmentService creation";
     public static final String SERVICE_INVALID_PARAMETER = "Invalid type of service for ShipmentService creation: ";
 
