@@ -22,7 +22,7 @@ public final class RequestEvent implements Loggable {
         this.userId = Constants.UNLOGGED_USER;
     }
 
- public OperationResult execute() throws StoreInitializationException {
+    public OperationResult execute() throws StoreInitializationException {
         OperationResult result;
 
         try {
@@ -73,11 +73,10 @@ public final class RequestEvent implements Loggable {
     }
 
     public String getUserInput(String inputKey) throws MissingInputException {
-
-            String result = userInput.get(inputKey);
-            if (result == null) {
-                throw new MissingInputException(inputKey, request.name());
-            }
+        String result = userInput.get(inputKey);
+        if (result == null) {
+            throw new MissingInputException(inputKey, request.name());
+        }
 
         return result;
     }

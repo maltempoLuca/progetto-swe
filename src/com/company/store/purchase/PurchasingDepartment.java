@@ -71,10 +71,10 @@ public final class PurchasingDepartment {
                 String cartContentsString = userCart.toString();
                 shippingDepartment.handlePurchase(userEmailLowerCase, typeOfService, destinationAddress,
                         receiver, cartContentsString);
-                    userCart.clear();
-                    operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
-                            serviceText + typeOfService + ", " + priceText + ": " + total + "€";
-                    successful = true;
+                userCart.clear();
+                operationMessage = userText + userEmailLowerCase + purchasedText + cartContentsString +
+                        serviceText + typeOfService + ", " + priceText + ": " + total + "€";
+                successful = true;
 
             } else {
                 operationMessage = failedPurchaseText;

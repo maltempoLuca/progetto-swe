@@ -77,7 +77,6 @@ public final class Cart {
 
         for (CartEntry entry : contents) {
             contentsToString.append("- ").append(entry.getName()).append(" x").append(entry.getQuantity()).append(" | ");
-
         }
 
         return contentsToString.toString();

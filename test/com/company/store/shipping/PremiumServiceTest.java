@@ -29,7 +29,7 @@ public final class PremiumServiceTest {
         service.updateShipmentState();
         Assert.assertEquals(Constants.DELIVERED, shipment.getState());
 
-        service.updateShipmentState(); // impossibile da testare perche l eccezione viene catturata e gestita dentro al metodo
+        service.updateShipmentState();
     }
 
     @Test

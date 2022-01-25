@@ -8,6 +8,8 @@ public final class CartEntry {
     }
 
     CartEntry(CartEntry toCopy) {
+        //copy constructor
+
         this.product = new Product(toCopy.product);
         this.quantity = toCopy.quantity;
     }

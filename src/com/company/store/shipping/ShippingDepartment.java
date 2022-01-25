@@ -143,7 +143,6 @@ public final class ShippingDepartment implements ShipmentEventListener {
             courierAgency.requestCourier(shipmentService);
         else
             throw new MissingAgencyException();
-
     }
 
     private void manageServiceCreationException(Exception e) {

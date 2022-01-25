@@ -18,7 +18,8 @@ public final class DoubleReturnBehavior implements ReturnBehavior {
 
     @Override
     public OperationResult createReturn(Shipment shipment, String userEmail) throws UnsupportedOperationException {
-        return  new OperationResult("Cannot return a return shipment", false);
+        String message = "Cannot return a return shipment";
+        return  new OperationResult(message, false);
     }
 
     private static DoubleReturnBehavior instance = null;

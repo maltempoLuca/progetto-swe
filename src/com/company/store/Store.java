@@ -82,10 +82,6 @@ public final class Store {
         shippingDepartment.addUserServices(userEmail);
     }
 
-
-    private static Store instance = null;
-
-
     public OperationResult requestCatalog(String userEmail) {
         return purchasingDepartment.getCatalog(userEmail);
     }
@@ -108,6 +104,7 @@ public final class Store {
         purchasingDepartment = pDep;
     }
 
+    private static Store instance = null;
     private static ShippingDepartment shippingDepartment;
     private static UserDepartment userDepartment;
     private static PurchasingDepartment purchasingDepartment;
