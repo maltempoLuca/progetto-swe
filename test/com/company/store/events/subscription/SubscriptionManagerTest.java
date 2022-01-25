@@ -8,8 +8,8 @@ public final class SubscriptionManagerTest {
     @Test
     public void subscribeTest() {
         String aTarget = "aTarget";
-        TargetTest aSubscriber = new TargetTest(0);
-        TargetTest anotherSubscriber = new TargetTest(1);
+        Subscriber aSubscriber = new Subscriber(0);
+        Subscriber anotherSubscriber = new Subscriber(1);
         subManager.subscribe(aSubscriber, aTarget);
         subManager.subscribe(anotherSubscriber, aTarget);
         Assert.assertEquals(2, subManager.getSubscribers(aTarget).size());
@@ -22,9 +22,9 @@ public final class SubscriptionManagerTest {
     public void unsubscribeTest() {
         String aTarget = "aTarget";
         String anotherTarget = "anotherTarget";
-        TargetTest aSubscriber = new TargetTest(0);
-        TargetTest anotherSubscriber = new TargetTest(1);
-        TargetTest aThirdSubscriber = new TargetTest(2);
+        Subscriber aSubscriber = new Subscriber(0);
+        Subscriber anotherSubscriber = new Subscriber(1);
+        Subscriber aThirdSubscriber = new Subscriber(2);
 
         subManager.subscribe(aSubscriber, aTarget);
         subManager.subscribe(anotherSubscriber, aTarget);
@@ -42,7 +42,7 @@ public final class SubscriptionManagerTest {
     @Test
     public void unsubscribeBothMissingTest() {
         //should not throw exception
-        TargetTest aMissingSubscriber = new TargetTest(0);
+        Subscriber aMissingSubscriber = new Subscriber(0);
         String aMissingTarget = "aMissingTarget";
         subManager.unsubscribe(aMissingSubscriber, aMissingTarget);
     }
@@ -50,8 +50,8 @@ public final class SubscriptionManagerTest {
     @Test
     public void unsubscribeMissingSubscriberTest() {
         //should not throw exception
-        TargetTest aSubscriber = new TargetTest(0);
-        TargetTest aMissingSubscriber = new TargetTest(1);
+        Subscriber aSubscriber = new Subscriber(0);
+        Subscriber aMissingSubscriber = new Subscriber(1);
         String aTarget = "aTarget";
         subManager.subscribe(aSubscriber, aTarget);
         subManager.unsubscribe(aMissingSubscriber, aTarget);
@@ -62,7 +62,7 @@ public final class SubscriptionManagerTest {
 
     @Test
     public void unsubscribeFromMissingTarget() {
-        TargetTest aSubscriber = new TargetTest(0);
+        Subscriber aSubscriber = new Subscriber(0);
         String aTarget = "aTarget";
         String aMissingTarget = "aMissingTarget";
         subManager.subscribe(aSubscriber, aTarget);
@@ -74,9 +74,9 @@ public final class SubscriptionManagerTest {
 
     @Test
     public void subscribersShallowCopyTest() {
-        TargetTest aSubscriber = new TargetTest(0);
-        TargetTest anotherSubscriber = new TargetTest(1);
-        TargetTest aThirdSubscriber = new TargetTest(2);
+        Subscriber aSubscriber = new Subscriber(0);
+        Subscriber anotherSubscriber = new Subscriber(1);
+        Subscriber aThirdSubscriber = new Subscriber(2);
         String aTarget = "aTarget";
 
         subManager.subscribe(aSubscriber, aTarget);
@@ -94,11 +94,11 @@ public final class SubscriptionManagerTest {
         Assert.assertEquals(3, subManager.getSubscribers(aTarget).get(aSubscriberIndex).getValue());
     }
 
-    private final SubscriptionManager<String, TargetTest> subManager = new SubscriptionManager<>();
+    private final SubscriptionManager<String, Subscriber> subManager = new SubscriptionManager<>();
 }
 
-final class TargetTest {
-    TargetTest(int value) {
+final class Subscriber {
+    Subscriber(int value) {
         this.value = value;
     }
 

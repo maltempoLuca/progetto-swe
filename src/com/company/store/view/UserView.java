@@ -49,8 +49,8 @@ public final class UserView implements View {
         contents.append(title).append("\n");
     }
 
-    private void readAll(Collection<ViewElement> stringCollection) {
-        for (ViewElement element : stringCollection) {
+    private void readAll(Collection<ViewElement> viewElementCollection) {
+        for (ViewElement element : viewElementCollection) {
             if(!element.printed) {
                 contents.append(Constants.ANSI_BLACK_BOLD).append(Constants.ANSI_BLACK_UNDERLINED);
                 element.printed = true;
